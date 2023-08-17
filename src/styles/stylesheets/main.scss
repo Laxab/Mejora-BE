@@ -1,0 +1,111 @@
+@import './darkMode.scss';
+@import './lightMode.scss';
+@import './lightModev2.scss';
+
+
+
+$backgroundColor: #fff;
+$backgroundColor2:#EEEFEF;
+$borderColor:#dddddd;
+$borderColor2:#dddddd;
+$textColor: #000;
+$color1: #4B0C95;
+$color2: #66148C;
+$color1: #385079;
+$color2: #1e3355;
+$delay:0.2s;
+$paddingLarge:20px;
+$green:#60b246;
+
+/*
+    --- Font Definitions ---
+    Enter definitions for font-weights and font-styles
+    Delete all fonts which are not used, to reduce library payload
+*/
+@font-face {
+  font-family: 'default';
+  src: url('../fonts/roboto/Roboto-Regular.ttf') format('truetype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'default';
+  src: url('../fonts/roboto/Roboto-Bold.ttf') format('truetype'); 
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'default';
+  src: url('../fonts/roboto/Roboto-Italic.ttf') format('truetype'); 
+  font-weight:normal;
+  font-style:italic;
+}
+@font-face {
+  font-family: 'default';
+  src: url('../fonts/roboto/Roboto-BoldItalic.ttf') format('truetype'); 
+  font-weight:bold;
+  font-style:italic;
+}
+// GrandHotel~LOGO
+@font-face {
+  font-family: 'logo';font-weight: normal;font-style: normal;
+  src: url('../fonts/grandHotel/GrandHotel-Regular.ttf') format('truetype'); 
+  }
+
+
+
+
+
+/*
+  Default CSS changes
+*/
+h1 {margin:0px;padding:0px}
+h2 {margin:0px;padding:0px}
+h3 {margin:0px;padding:0px}
+.bizBody {display:flex;justify-content:center;padding: $paddingLarge;border:0px dashed RED;height:auto}
+
+  .footerContents{
+    color:#000;
+    font-size: normal;
+    width:1px dashed RED;
+    line-height: 100px;
+}
+.footerColumn {
+    border: 0px dashed #999999;
+    padding: 0px 0px 10px/2;
+    width: 100%;
+    justify-content: top;
+    align-items: left;
+    display: flex;
+    flex-direction: column;
+    line-height: 25px;
+    letter-spacing: 0.6px;
+}
+
+.scrollbarTypeDefault {  overflow: auto;scrollbar-width: thin;scrollbar-color: transparent transparent}
+.scrollbarTypeDefault:hover {  scrollbar-color: #bbb transparent;}
+.scrollbarTypeDefault::-webkit-scrollbar {width: 10px;}
+.scrollbarTypeDefault::-webkit-scrollbar-track {background: transparent;}
+.scrollbarTypeDefault::-webkit-scrollbar-thumb {background-color: transparent;}
+.scrollbarTypeDefault:hover::-webkit-scrollbar-thumb {background-color: #bbb; }
+
+.stdbox {background: linear-gradient(195deg, #fff, #fff);
+  box-shadow: rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem, rgba(64, 64, 64, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem;
+  padding:10px 20px 10px;border-radius: 10px;color:#fff;
+}
+
+input {width:200px;border-radius:5px;padding:10px;text-decoration: none; font-size: 15px;outline: none;border:0px solid lighten($borderColor2,5);
+  background: lighten($borderColor2,5);color:$textColor;}
+input:focus {text-decoration: none;background: darken($borderColor2,2);}
+
+textarea {width:200px;border-radius:5px;padding:10px;text-decoration: none; font-size: 15px;outline: none;border:0px solid lighten($borderColor2,5);
+  background: lighten($borderColor2,5);color:$textColor;}
+textarea:focus {text-decoration: none;background: darken($borderColor2,2);}
+select {width:220px;border-radius:5px;padding:10px;text-decoration: none; border:0px solid $borderColor2;font-size: 15px;outline: none;background: lighten($borderColor2,5);color:$textColor;}
+select:focus {text-decoration: none;border:0px solid lighten($color2,30);background: darken($borderColor2,2);}
+.error {color:RED;margin: 2px 0px 7px;font-size: small;}
+.fabric {background: linear-gradient(120deg, $color2,$color1)}
+
+
+.stdButtonLogin {border:0px solid #cccccc;width:calc(100% - 30px);padding:15px;background:$green;color:white;cursor:pointer;transition: $delay;text-align: center;}
+.stdButtonLogin:hover {background: lighten($green, 10);transition: $delay;}

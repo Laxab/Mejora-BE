@@ -1,0 +1,71 @@
+.lightMode{
+
+    $backgroundColor: #fff;
+    $backgroundColor2:#EEEFEF;
+    $borderColor:#dddddd;
+    $borderColor2:#dddddd;
+    $textColor: #5B6A71;
+    $gapStd:15px;
+    $delay:0.2s;
+    text-align: center;
+    $color1: #4B0C95;
+    $color2: #66148C;
+
+
+    $delay:0.2s;
+    $paddingLarge:20px;
+    $green:#3AB66B;
+    $red:#B6473A;
+
+
+
+    $enable:$green;
+    $disable:$red;
+    .bg1{background: $green;color:#eee}
+    .bg2{background: $disable;color:#eee}
+    .txt1{color:$green}
+    .txt0{color:$disable}
+    // Sidenav
+    .sidenavBodyMin{background: linear-gradient(0deg, $color1,$color2); color:$backgroundColor;}
+    .sidenavBodyMax{background: linear-gradient(0deg, $color1, $color2);}
+
+    .stdButton {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
+        padding:7px 20px;background:$green;color:white;cursor:pointer;transition: $delay;
+        text-align:'center';justify-content: 'center';border-radius: 5px;
+    }
+    .stdButton:active {border:0px}
+    .stdButton:hover {border:0px;background: lighten($green, 10);transition: $delay;}
+
+    .stdButton0 {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
+        padding:7px 20px;background:$red;color:white;cursor:pointer;transition: $delay;
+        text-align:'center';justify-content: 'center';border-radius: 5px;
+    }
+    .stdButton0:active {border:0px}
+    .stdButton0:hover {border:0px;background: lighten($red, 10);transition: $delay;}
+
+
+    .stdButton2 {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
+        padding:7px 7px;background:#eee;color:$color1;cursor:pointer;transition: $delay;
+        text-align:'center';justify-content: 'center';
+    }
+    .stdButton2:active {border:0px}
+    .stdButton2:hover {border:0px;background: lighten(#eee, 10);transition: $delay;}
+
+
+    .std_box {
+        background: linear-gradient(195deg, #fff, #fff);
+        box-shadow: rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem, rgba(64, 64, 64, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem;
+        padding:10px 20px 10px;border-radius: 10px;color:#fff;
+        color:$textColor;
+    }
+    .std_box_2 {
+        background: linear-gradient(195deg, #fff, #fff);
+        padding:10px 20px 10px;border-radius: 10px;color:#fff;
+        color:$textColor;
+    }
+
+
+
+      
+
+}

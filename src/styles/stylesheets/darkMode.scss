@@ -1,0 +1,118 @@
+.darkMode{
+    /*
+        --- Default style parameters ---
+        Visit below URL for choosing color formats:
+        https://colorhunt.co/palettes/spring
+    */
+    $backgroundColor: #222;
+    $backgroundColor2: #151515;
+    $borderColor:#222222;
+    $borderColor2:#333333;
+    $textColor: #eeeeee;
+    $gapStd:15px;
+    $color1: #0B2546;
+    $color2: #200223;
+    $color3: #602080;
+    $color4: #B030B0;
+    $delay:0.2s;
+    text-align: center;
+    $primary:#2AA82B;
+
+
+    background: $backgroundColor;
+    color: $textColor;
+    font-family: 'default', sans-serif;
+
+    input {width:200px;border-radius:5px;padding:10px;text-decoration: none; font-size: 15px;outline: none;background: darken($borderColor2,2);color:$textColor;display:flex;align-items:center;margin:auto;border:0px solid red;}
+    input:focus {text-decoration: none;border:0px solid lighten($color2,30);background: lighten($borderColor2,5);}
+    select {width:220px;border-radius:5px;padding:10px;text-decoration: none; border:0px solid $borderColor2;font-size: 15px;outline: none;background: darken($borderColor2,2);color:$textColor;}
+    select:focus {text-decoration: none;border:0px solid lighten($color2,30);background: lighten($borderColor2,5);}
+    .error {color:RED;margin: 2px 0px 7px;font-size: small;}
+    .buttonCss {width:100px;border-radius:5px;padding:10px;text-decoration: none; font-size: 15px;outline: none;color:$textColor;transition:$delay;background: darken($borderColor2,2);}
+    .buttonCss:hover {cursor:pointer;background: $primary;transition:$delay;}
+    
+
+    .stdbox {
+        background: linear-gradient(195deg, #222, #333);
+        box-shadow: rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem, rgba(64, 64, 64, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem;
+        padding:10px 20px 10px;border-radius: 10px;color:#fff;
+        color:$textColor;
+      }
+
+    .stdBackground {background: $borderColor;border-radius: 10px;margin: 0px 10px 10px;padding: 15px;}
+    .padTop {padding-top: 15px;}
+    .stdBorder {border:1px solid $borderColor2;}
+    .stdBorderSelected {border:0px solid linear-gradient(#199119,#199119);background: linear-gradient(#2AA82B,#3DC33E);color:#ffffff;}
+
+
+    .sidenavBodyMin {height:100vh;width: 70px; border: 0px dashed RED;transition:$delay;color: $textColor}
+    .sidenavBodyMax {height:100vh;width: 190px; border: 0px dashed RED;transition:$delay;color: $textColor}
+    .mainbodyMax {height:100vh;width: calc(100% - 70px);border: 0px dashed RED;transition:$delay;display: flex;align-items: stretch;}
+    .mainbodyMin {height:100vh;width: calc(100% - 190px);border: 0px dashed RED;transition:$delay;display: flex;align-items: stretch;}
+
+    // Sidenav
+    .sidenavBodyMin{background: linear-gradient(0deg, $color1,$color2); color:$textColor;}
+    .sidenavBodyMax{background: linear-gradient(0deg, $color1,$color2);color:$textColor;}
+    // Sidenav > Buttons
+    .button {border:0px dashed WHITE; display:flex; cursor: pointer;}
+    .button:hover {background: #0000002a;}
+    .buttonhighlight {background: #00000045;display:flex; cursor: pointer;}
+    .buttonIcon {border:0px dashed WHITE;width:68px;height:50px;display: flex;justify-content: center;align-items: center;font-size:28px}
+    .buttonNames {border:0px dashed WHITE;width:130px;height:50px;left:68px;display: flex; justify-content: flex-start;align-items: center;position:absolute;text-align: left;}
+    .buttonName {border:0px solid red;width:130px;height:50px;display: flex; justify-content: flex-start;align-items: center;position:relative;text-align: left;}
+    .sidenavSeparation {margin-top:10px;border-top:0px solid lighten($color1, 10);border-bottom:0px solid lighten($color2, 10);height:calc(100vh - 100px);overflow-Y:auto;}
+    
+    // Mainbody
+    $listingsWidth: 250px;
+    .mainbody {background: $backgroundColor2;width: calc(100% - $listingsWidth);transition: $delay;box-shadow: 0 0px 10px 0 $borderColor, 0 1px 12px 0 $borderColor;display:'flex';align-items: 'center';margin:'auto 0px auto'}
+    .mainbodyToggle {background: $backgroundColor2;width: calc(100% - 0px);transition: $delay;display:'flex';align-items: 'center';margin:'auto 0px auto'}
+    // Mainbody > Listings
+    .listingBodyOn {width:$listingsWidth;height:100vh;background:$backgroundColor;transition: $delay;}
+    .listingBodyOff {width:0px;height:100vh;background:$backgroundColor;transition: $delay;}
+    // Mainbody > Title
+    .mainTitle {height:60px;background: $backgroundColor;}
+    .mainTitleIcons {border:0px dashed #ccc;width:fit-content;display:flex;align-items:center;margin:auto 0px auto;height:60px;}
+    .mainTitleButtons {border:0px dashed #ccc;border-bottom:5px solid $backgroundColor;width:fit-content;display:flex;align-items:center;margin:auto 0px auto;height:50px;margin-left:0px;transition: $delay;padding:5px 10px 0px;color:lighten($textColor,40)}
+    .mainTitleButtons:hover {border-bottom:5px solid $borderColor;cursor: pointer;transition: $delay;}
+    .mainTitleButtonsSelected {border:0px dashed #ccc;border-bottom:5px solid lighten($color2,20);width:fit-content;display:flex;align-items:center;margin:auto 0px auto;height:50px;margin-left:0px;transition: $delay;padding:5px 10px 0px;cursor: pointer;}
+    .mainTitleIconsHolder {margin: 0px 7px 0px 15px;width:25px;height:25px;border-radius: 5px;
+        background: linear-gradient(195deg, rgb(102, 187, 106), rgb(67, 160, 71));
+        box-shadow: rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem, rgba(76, 175, 79, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem;
+        color:WHITE;padding:6px;display:flex;justify-content: center;}
+    .mainTitleExtention {width:150px; height:auto;background: $backgroundColor;border: 1px solid $borderColor;position:absolute;top:58px;display: block;}
+    .mainTitleExtentionDisable {display: none;}
+    .mainTitleExtentionButtons {padding: $gapStd calc(1*$gapStd) $gapStd;text-align: left;}
+    .mainTitleExtentionButtons:hover {color:$textColor}
+
+
+
+    /* Hide the scrollbar by default */
+    .scrollbarType1 {
+        overflow: auto;
+        transition: $delay;
+    }
+    
+    /* Styling for the scrollbar */
+    .scrollbarType1::-webkit-scrollbar {
+        width: 10px;
+        background-color: transparent; /* Set the background color to transparent */
+        transition: $delay;
+    }
+    
+    .scrollbarType1::-webkit-scrollbar-thumb {
+        background-color: #ffffff2a;
+        border-radius: 4px;
+        transition: $delay;
+    }
+    
+    /* Show the scrollbar on hover */
+    .scrollbarType1:hover::-webkit-scrollbar-thumb {
+        background-color: #ffffff6f;
+        transition: $delay;
+    }
+    
+    .scrollbarType1:hover {
+        overflow: auto;
+        transition: $delay;
+    }
+}
