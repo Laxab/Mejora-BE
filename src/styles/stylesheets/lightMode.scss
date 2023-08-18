@@ -182,10 +182,10 @@
     .stdclose{color:lighten($textColor,30)}
     .stdclose:hover{color:lighten($textColor,20);cursor: pointer;}
     .logo {font-family: "logo";font-size: 100px;border-radius: 30px;
-      background: linear-gradient(195deg, $color2, $color1);
-      box-shadow: rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem, rgba(64, 64, 64, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem;
-      display: flex;justify-content: center;text-align: center;margin: auto;padding:20px 20px 10px 10px;width:180px;height:150px;
-      font-size: 180px; color:#fff
+        background:linear-gradient(195deg, rgb(248, 248, 248), rgb(255, 255, 255));
+        box-shadow: rgba(81, 1, 73, 0.14) 0rem 0.25rem 1.25rem 0rem, rgba(61, 3, 57, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem;
+        display: flex;justify-content: center;text-align: center;margin: auto;padding:20px 20px 10px 10px;width:180px;height:150px;
+        font-size: 180px; color:$textColor;
     }
     .bgTheme {
         background: darken($color1,15);
