@@ -34,7 +34,7 @@ const BusinessLogic = () =>{
             contents.map((item,index)=>(
                 <div onClick={()=>clicked(item,index)} key={index} 
                     className={ stdbgHighlight===index?"stdbgHighlight  stdbgList":" stdbgList"} style={{height:'60px',display:'flex',justifyContent:'flex-start'}}>
-                    <div style={{display:'flex',margin:"auto 5px auto 20px",borderRadius:'5px',background:`${color(item.name.slice(0,2))}`,color:'#fff',height:'40px',width:'40px'}}>
+                    <div style={{display:'flex',margin:"auto 5px auto 20px",borderRadius:'5px',background:`${color(item.name)[0]}`,color:'#fff',height:'40px',width:'40px'}}>
                         <div style={{display:'flex',margin:'auto'}}><b>{item.name.slice(0,2)}</b></div>
                     </div>
                     <div style={{display:'flex',margin:"auto auto auto 5px",border:'0px solid red',textAlign:'left',flexDirection:'column',width:'80%'}}>

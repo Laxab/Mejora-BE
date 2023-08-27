@@ -2,6 +2,7 @@
 // Import Components
 import { useSelector } from "react-redux"
 import BodyBusinessLogic from "./subbody/body_businessLogic"
+import BodyPatientRecord from "./subbody/body_patientRecord"
 
 
 const BizBody = () =>{
@@ -14,6 +15,8 @@ const BizBody = () =>{
         
         if(state.selectedMenu.name==="Business Logic")
             return <BodyBusinessLogic/>
+        else if((state.selectedMenu.name==="Assessments") && (state.listings==="Patient Record"))
+            return <BodyPatientRecord/>
     }
 
     return <div className="bizBody" style={{padding:'0px',height:'500px'}}>

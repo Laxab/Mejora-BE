@@ -3,7 +3,7 @@ import fetchData from "../others/fetchData";
 
 
 
-const DBA_Select = async (session,table,select,pageNumber,pageSize,condition,conditionType,orderBy,order) =>{
+const FireQuery = async (uri, request, session, table, select, pageNumber, pageSize, condition, conditionType, orderBy, order) =>{
     /**
      * LEVEL 0
      * API call with the requests given by "LoadContents"
@@ -15,10 +15,10 @@ const DBA_Select = async (session,table,select,pageNumber,pageSize,condition,con
 
     var buName = session?.identity?.buName ?? ""
 
-    const uri = 'api/be/standard/select'
+    const setUri = uri
     const body = {
         "sid": session.sid,
-        "request": "DBA_Select",
+        "request": request,
         "bu": buName,
         "type": table,
         "select": select,
@@ -31,32 +31,31 @@ const DBA_Select = async (session,table,select,pageNumber,pageSize,condition,con
         "pageNumber": pageNumber,
         "pageSize": pageSize
     }
-    const response = await fetchData(uri, body)
+    const response = await fetchData(setUri, body)
     return response
 }
 
 
-const LoadContentsAPI = async (session,table,pageNumber,type,cond) =>{
+const LoadContentsAPI = async (uri, request, session, table, pageNumber, type, cond,order) =>{
     /**
      * LEVEL 1
      * Take refresh/ammend requests from INIT, SCROLL, SEARCH 
      */
     var response    = [],
         condition   = [{ "id": "%" }],
-        orderBy     = "id",
-        order       = "ASC"
+        orderBy     = "id"
     
     if(cond!==""){
         condition = cond
     }
     if(type==="ASYNC") {
-        response = await DBA_Select(session,table,["*"],pageNumber,50,condition,"OR",orderBy,order)
+        response = await FireQuery(uri, request, session, table, ["*"], pageNumber, 50, condition, "OR", orderBy, order)
     }
     else if (type==="INIT"){
-        response = await DBA_Select(session,table,["*"],1,50,condition,"OR",orderBy,order)
+        response = await FireQuery(uri, request, session, table, ["*"], 1, 50, condition, "OR", orderBy, order)
     }
     else if (type==="SEARCH"){
-        response = await DBA_Select(session,table,["*"],1,50,condition,"OR",orderBy,order)
+        response = await FireQuery(uri, request, session, table, ["*"], 1, 50, condition, "OR", orderBy, order)
     }
     if (response?.status === "success") {
         const resp = (prevData => {
@@ -70,7 +69,7 @@ const LoadContentsAPI = async (session,table,pageNumber,type,cond) =>{
 
 }
 
-export{DBA_Select,LoadContentsAPI}
+export{FireQuery,LoadContentsAPI}
 
 const BodyApiCall = () =>{
 

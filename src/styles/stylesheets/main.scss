@@ -102,6 +102,7 @@ textarea {width:200px;border-radius:5px;padding:10px;text-decoration: none; font
 textarea:focus {text-decoration: none;background: darken($borderColor2,2);}
 select {width:220px;border-radius:5px;padding:10px;text-decoration: none; border:0px solid $borderColor2;font-size: 15px;outline: none;background: lighten($borderColor2,5);color:$textColor;}
 select:focus {text-decoration: none;border:0px solid lighten($color2,30);background: darken($borderColor2,2);}
+
 .error {color:RED;margin: 2px 0px 7px;font-size: small;}
 .fabric {background: linear-gradient(120deg, $color2,$color1)}
 

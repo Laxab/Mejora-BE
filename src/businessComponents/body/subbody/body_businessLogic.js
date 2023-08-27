@@ -40,11 +40,14 @@ const BodyBusinessLogic = () => {
             setcontents([])
             dispatch({type:'LISTINGS_LOADING_ON'})
             const response = await LoadContentsAPI(
+                'api/be/standard/select',
+                "DBA_Select",
                 state.loginData,
                 state.bodyContents.table,
                 50,
                 "INIT",
-                ""
+                "",
+                "ASC"
             )
             console.log(response)
             setcontents(response)
@@ -69,11 +72,14 @@ const BodyBusinessLogic = () => {
                 dispatch({type:'LISTINGS_LOADING_ON'})
                 if(bugFix===0){
                     const response = await LoadContentsAPI(
+                        'api/be/standard/select',
+                        "DBA_Select",
                         state.loginData,
                         state.bodyContents.table,
                         newpageNumber,
                         "ASYNC",
-                        ""
+                        "",
+                        "ASC"
                     )
                     setcontents(response)
                 }
@@ -113,6 +119,8 @@ const BodyBusinessLogic = () => {
         setcontents([]);
         dispatch({type:'LISTINGS_LOADING_ON'})
         const response = await LoadContentsAPI(
+                'api/be/standard/select',
+                "DBA_Select",
                 state.loginData,
                 state.bodyContents.table,
                 pageNumber,
@@ -121,7 +129,8 @@ const BodyBusinessLogic = () => {
                     { [state.bodyContents.s1] : inputValue + "%" },
                     { [state.bodyContents.s2]: inputValue + "%" },
                     { [state.bodyContents.s3]: "%" + inputValue + "%" }
-                ]
+                ],
+                "ASC"
             )
         setcontents(response)
         dispatch({type:'LISTINGS_LOADING_OFF'})

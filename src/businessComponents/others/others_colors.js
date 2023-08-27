@@ -5,20 +5,24 @@
 
 export const color = (word) =>{
     const min = 0;
-    const gradients = ["#9A1572","#15729A","#159A5E","#869A15","#BB830B","#32BAB4","#5932BA","#BA3232"]
+    const gradients = ["#4B8197","#15729A","#32BAB4","#C9844E","#9A1572","#E56868","#5932BA","#159A5E"]
     const max = gradients.length - 1;
     let hash = 0;
   
-    for (let i = 0; i < word.length; i++) {
-        hash += word.charCodeAt(i);
-    }
-    
     const range = max - min + 1;
-    const scaledHash = hash % range;
+
+    for (let i = 0; i < word.length; i++) {
+        hash += (word.charCodeAt(i));
+    }
+    hash=hash % range ;
+    hash=hash + word.length ;
+    hash=hash % range ;
+    
+    const scaledHash = hash % range ;
 
     const val =  min + scaledHash;
     
-    return gradients[val]
+    return [gradients[val],val]
 
 }
 
@@ -28,7 +32,7 @@ const Box = (props) =>{
     const style={
         width:dim,
         height:dim,
-        background:color(txt),
+        background:color(txt)[0],
         color:"#fff",
         display:"flex",
         borderRadius:'5px',
