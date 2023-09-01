@@ -41,7 +41,7 @@ const BodyPatientRecord = () =>{
 
     return <div style={{width:'90%'}}>
         {
-            results?.status==="success" &&
+            results?.status==="success" ?
             <div >
 
                 <div style={{height:'80px',border:'0px dashed red',display:'flex'}}>
@@ -71,7 +71,7 @@ const BodyPatientRecord = () =>{
                     <div  className="scrollbarTypeDefault"   style={{height:'calc(100vh - 300px)',overflow:'auto',margin:'0px 0px 0px'}}>
 
 
-                        <div style={{width:'95%',textAlign:'right',display:'flex',justifyContent:'flex-end',height:'60px',margin:'10px auto 0 auto'}}>
+                        <div style={{width:'90%',textAlign:'right',display:'flex',justifyContent:'flex-end',height:'60px',margin:'10px auto 0 auto'}}>
                             <div style={{margin:'auto 5px auto 0px'}}>
                                 <div><b>Assessment</b></div>
                                 <div style={{fontSize:'small'}}>{results.data.userinfo[0].Date}</div>
@@ -79,16 +79,18 @@ const BodyPatientRecord = () =>{
                             <MdAssessment style={{fontSize:'50px',lineHeight:'0px',margin:'auto 0px auto 0px'}}/> 
                         </div>
 
+                        <div className="stdbox" style={{margin:'10px auto auto auto',padding:'0px',width:'calc(100% - 40px)',boxSizing:'border-box'}}>
                         {
                             results.data.results.map((item,i)=>(
-                                <div key={i} className="stdbox" style={{margin:'10px auto auto auto',padding:'20px',width:'calc(100% - 40px)',boxSizing:'border-box'}}>
-                                    <div>{item.question}</div>
-                                    <div style={{textAlign:'right',paddingTop:'10px'}}><b>{item.answer}</b></div>
+                                <div key={i} className='stdBorderBottomDashed'>
+                                    <div style={{padding:'10px 0 0 10px'}}>{item.question}</div>
+                                    <div style={{textAlign:'right',padding:'0px 10px 10px 0'}}><b>{item.answer}</b></div>
                                 </div>
                             ))
                         }
+                        </div>
 
-                        <div style={{width:'95%',textAlign:'right',display:'flex',justifyContent:'flex-end',height:'60px',margin:'10px auto 0 auto'}}>
+                        <div style={{width:'90%',textAlign:'right',display:'flex',justifyContent:'flex-end',height:'60px',margin:'50px auto 0 auto'}}>
                             <div style={{margin:'auto 5px auto 0px'}}>
                                 <div><b>About: {results.data.userinfo[0].fname} {results.data.userinfo[0].lname}</b></div>
                                 <div style={{fontSize:'small'}}>{results.data.userinfo[0].gender}, {results.data.userinfo[0].married}</div>
@@ -119,7 +121,7 @@ const BodyPatientRecord = () =>{
                         </div>
 
 
-                        <div style={{width:'95%',textAlign:'right',display:'flex',justifyContent:'flex-end',height:'60px',margin:'10px auto 0 auto'}}>
+                        <div style={{width:'90%',textAlign:'right',display:'flex',justifyContent:'flex-end',height:'60px',margin:'50px auto 0 auto'}}>
                             <div style={{margin:'auto 5px auto 0px'}}>
                                 <div><b>Occupation Details</b></div>
                                 <div style={{fontSize:'small'}}>{results.data.userinfo[0].occupation}</div>
@@ -171,6 +173,8 @@ const BodyPatientRecord = () =>{
                 
 
             </div>
+            :
+            <div style={{marginTop:'20px'}}>Please select an item</div>
         }
     </div>
 }

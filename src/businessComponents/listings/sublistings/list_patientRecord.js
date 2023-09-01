@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { LoadContentsAPI } from "../../body/body_apiCall"
 import { useDispatch, useSelector } from "react-redux"
 import { Box } from "../../others/others_colors"
+import ListTitle from "../list_title"
 
 const ListPatientRecord = () =>{
 
@@ -82,9 +83,7 @@ const ListPatientRecord = () =>{
 
     // JSX Return
     return <div>
-        <div style={{display:'flex',height:'60px'}}>
-            <div style={{margin:'auto auto auto 10px'}}>Search here</div>
-        </div>
+        <ListTitle title="Assessment Results"/>
         <div ref={contentRef} onScroll={handleScroll} className="scrollbarTypeDefault" 
             style={{height:'calc(100vh - 60px)',overflow:'auto',margin:'0px 0px 0px'}}>
             {

@@ -15,6 +15,8 @@ const Login = () =>{
     const tdstyle1={width:'150px',padding:'5px 10px 5px'}
     const tdstyle2={width:'150px',padding:'5px 10px 5px'}
     const [a,seta] = useState("")
+    const [b,setb] = useState([])
+    const [reset,setreset] = useState(0)
 
 
     const onSubmit = (data) => {
@@ -27,6 +29,7 @@ const Login = () =>{
         }
         dispatch({type:'BACKDROP_ON'})
         const loginNow = async (request) => {
+            setreset(0)
             var uri = 'api/be/v1.0/a3/authenticate';
             var body = request;
             //const [sidkey,sidvalue] = document.cookie.split("=");
@@ -37,8 +40,13 @@ const Login = () =>{
 
                 if(data.status === "success"){
                     seta("");
-                    cookies.set('sid', data.data, { path: '/', expires: new Date(Date.now() + 30 * 60 * 1000)});
-                    dispatch({type:'LOGIN_TRUE',payload:data.data})
+                    if(data.data.account==="reset"){
+                        setreset(1)
+                    }
+                    else if(data.data.account==="active"){
+                        cookies.set('sid', data.data.sid, { path: '/', expires: new Date(Date.now() + 30 * 60 * 1000)});
+                        dispatch({type:'LOGIN_TRUE',payload:data.data})
+                    }
                 }
                 else {
                     if(data.message)
@@ -57,6 +65,10 @@ const Login = () =>{
         loginNow(request);
     };
 
+    const onConfirmSubmit =(data) =>{
+        setb(data)
+    }
+
     const handleChange = async (event) => {
         await trigger(event.target.name);
     };
@@ -73,53 +85,105 @@ const Login = () =>{
                 }}>
                         be
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <table>
-                        <tr>
-                            <td style={tdstyle1}>Username</td>
-                            <td style={tdstyle2}>
-                                <input 
-                                    type="text" 
-                                    name="username" 
-                                    {...register(
-                                            'username', 
-                                            { 
-                                                required:"Please Enter Username"
-                                            }
-                                        )
-                                    } 
-                                    onKeyUp={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style={tdstyle1}>Password</td>
-                            
-                            <td style={tdstyle2}>
-                                <input 
-                                    type="password" 
-                                    name="password" 
-                                    {...register(
-                                            'password', 
-                                            { 
-                                                required:"Please Enter Password"
-                                            }
-                                        )
-                                    } 
-                                    onKeyUp={handleChange}
-                                />
-                            </td>
-                        </tr>
-                    </table>
-                    <div className="stdButtonLogin" style={{margin:'20px 0px 10px'}}
-                        onClick={handleSubmit(onSubmit)}
-                    >
-                        Login
-                    </div>
-                    {errors.username && <div className="error" style={{textAlign:'center'}}>{errors.username.message}</div>}
-                    {errors.password && <div className="error" style={{textAlign:'center'}}>{errors.password.message}</div>}
-                    {a!=="" && <div className="error" style={{textAlign:'center'}}>{a}</div>}
-                </form>
+
+                {
+                    reset===0?
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <table>
+                            <tr>
+                                <td style={tdstyle1}>Username</td>
+                                <td style={tdstyle2}>
+                                    <input 
+                                        type="text" 
+                                        name="username" 
+                                        {...register(
+                                                'username', 
+                                                { 
+                                                    required:"Please Enter Username"
+                                                }
+                                            )
+                                        } 
+                                        onKeyUp={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={tdstyle1}>Password</td>
+                                
+                                <td style={tdstyle2}>
+                                    <input 
+                                        type="password" 
+                                        name="password" 
+                                        {...register(
+                                                'password', 
+                                                { 
+                                                    required:"Please Enter Password"
+                                                }
+                                            )
+                                        } 
+                                        onKeyUp={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                        <div className="stdButtonLogin" style={{margin:'20px 0px 10px'}}
+                            onClick={handleSubmit(onSubmit)}
+                        >
+                            Login
+                        </div>
+                        {errors.username && <div className="error" style={{textAlign:'center'}}>{errors.username.message}</div>}
+                        {errors.password && <div className="error" style={{textAlign:'center'}}>{errors.password.message}</div>}
+                        {a!=="" && <div className="error" style={{textAlign:'center'}}>{a}</div>}
+                    </form>
+                    :
+                    <form onSubmit={handleSubmit(onConfirmSubmit)}>
+                        <table>
+                            <tr>
+                                <td style={tdstyle1}>Enter New Password</td>
+                                <td style={tdstyle2}>
+                                    <input 
+                                        type="password1" 
+                                        name="password1" 
+                                        {...register(
+                                                'password1', 
+                                                { 
+                                                    required:"Enter Password"
+                                                }
+                                            )
+                                        } 
+                                        onKeyUp={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={tdstyle1}>Confirm Password</td>
+                                <td style={tdstyle2}>
+                                    <input 
+                                        type="password2" 
+                                        name="password2" 
+                                        {...register(
+                                                'password2', 
+                                                { 
+                                                    required:"Confirm Password"
+                                                }
+                                            )
+                                        } 
+                                        onKeyUp={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                        <div className="stdButtonLogin" style={{margin:'20px 0px 10px'}}
+                            onClick={handleSubmit(onConfirmSubmit)}
+                        >
+                            Reset Password
+                        </div>
+                        {errors.username && <div className="error" style={{textAlign:'center'}}>{errors.username.message}</div>}
+                        {errors.password && <div className="error" style={{textAlign:'center'}}>{errors.password.message}</div>}
+                        {a!=="" && <div className="error" style={{textAlign:'center'}}>{a}</div>}
+                    </form>
+                }
+                <pre>{/*JSON.stringify(b,2,2)*/}</pre>
 
             </div>
         </div>

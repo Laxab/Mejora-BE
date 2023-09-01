@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux"
 import ListPatientRecord from "./sublistings/list_patientRecord"
 import BusinessLogic from "./sublistings/list_businessLogic"
+import BusinessCodes from "./sublistings/list_businessCodes"
 
 const BizListings = () =>{
 
@@ -13,6 +14,7 @@ const BizListings = () =>{
     const listSelector = (list) =>{
         if(state.selectedMenu.name === "Assessments") return <ListPatientRecord/>
         else if(state.selectedMenu.name === "Business Logic") return <BusinessLogic/>
+        else if(state.selectedMenu.name === "Business Codes") return <BusinessCodes/>
     }
 
     return <div >

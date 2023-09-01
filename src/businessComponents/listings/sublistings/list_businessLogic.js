@@ -11,7 +11,6 @@ const BusinessLogic = () =>{
     const dispatch = useDispatch();
 
     const contents = [
-        {name:"Code", desc:"Business Names", table:'code',s1:'code',s2:'codedesc',s3:'codedesc',col:[{name:'id',disp:'ID',dim:'10%'},{name:'code',disp:'Code',dim:'20%'},{name:'codedesc',disp:'Business Unit',dim:'50%'},{name:'status',disp:'Status',dim:'20%'}]},
         {name:"Forms", desc:"Test Plan", table:'forms',s1:'form',s2:'formdesc',s3:'formdesc',col:[{name:'id',disp:'ID',dim:'10%'},{name:'form',disp:'Form Name',dim:'20%'},{name:'formdesc',disp:'Description',dim:'50%'},{name:'status',disp:'Status',dim:'10%'},{name:'formLang',disp:'Language',dim:'10%'}]},
         {name:"CoI", desc:"Category of Interpretation", table:'coi',s1:'form',s2:'description',s3:'comments',col:[{name:'id',disp:'ID',dim:'10%'}, {name:'form',disp:'Form',dim:'20%'}, {name:'start',disp:'ST',dim:'5%'}, {name:'end',disp:'EN',dim:'5%'}, {name:'description',disp:'Description',dim:'20%'}, {name:'comments',disp:'Comments',dim:'20%'}, {name:'status',disp:'Status',dim:'10%'}, {name:'language',disp:'Language',dim:'10%'}]},
         {name:"Quiz", desc:"Patient Assessmnt Questions", table:'quiz',s1:'form',s2:'question',s3:'question',col:[{name:'id',disp:'ID',dim:'10%'}, {name:'form',disp:'Form',dim:'20%'}, {name:'question',disp:'Question',dim:'50%'}, {name:'status',disp:'Status',dim:'10%'}, {name:'language',disp:'Language',dim:'10%'}]},
@@ -28,7 +27,7 @@ const BusinessLogic = () =>{
 
     return <div>
         <SessionValidation/>
-        <ListTitle title="Forms"/>
+        <ListTitle title="Select Logic"/>
 
         {
             contents.map((item,index)=>(

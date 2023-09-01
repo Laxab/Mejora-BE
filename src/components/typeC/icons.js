@@ -8,15 +8,15 @@ export const icon = (data) => {
   switch (data) {
     case "Dashboard":
       return <MdDashboard />;
-    case "Inventory":
+    case "Assessments":
       return <MdOutlineInventory />;
     case "Settings":
       return <LuSettings />;
     case "Account":
       return <MdAccountCircle />;
-    case "Business":
+    case "Business Logic":
       return <FaBusinessTime />;
-    case "Orders":
+    case "Business Codes":
       return <RiBillFill />;
     case "Discounts":
       return <MdDiscount />;
