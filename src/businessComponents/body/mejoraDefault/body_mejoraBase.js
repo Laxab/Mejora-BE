@@ -99,7 +99,7 @@ const BodyMejoraBase = () =>{
                     sortType
                 )
             setcontents(response)
-        }
+        } 
         asynccall()
         dispatch({type:'LISTINGS_LOADING_OFF'})
 
