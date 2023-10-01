@@ -24,7 +24,7 @@ const fetchData = async (uri, body, cookie) => {
         myHeaders.append("sid", cookie);
 
     var url = 'http://localhost:1111/'+uri;
-    //var url = 'https://api.greyinsights.laxab.com/'+uri;
+    //var url = 'https://api.78e.laxab.com/'+uri;
 
     var raw = JSON.stringify(body);
 
@@ -44,6 +44,7 @@ const fetchData = async (uri, body, cookie) => {
         const response = await fetch(url, requestOptions);
 
         const data = await response.json();
+
         
         return data;
     } 

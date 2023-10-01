@@ -36,14 +36,14 @@ const FireQuery = async (uri, request, session, table, select, pageNumber, pageS
 }
 
 
-const LoadContentsAPI = async (uri, request, session, table, pageNumber, type, cond,order) =>{
+const LoadContentsAPI = async (uri, request, session, table, pageNumber, type, cond,orderBy,order) =>{
     /**
      * LEVEL 1
      * Take refresh/ammend requests from INIT, SCROLL, SEARCH 
      */
     var response    = [],
-        condition   = [{ "id": "%" }],
-        orderBy     = "id"
+        condition   = [{ "id": "%" }]
+        //orderBy     = "id"
     
     if(cond!==""){
         condition = cond

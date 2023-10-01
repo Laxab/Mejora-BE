@@ -7,9 +7,10 @@ import { useForm } from 'react-hook-form';
 import { RiCloseCircleFill,RiSearchLine } from 'react-icons/ri';
 import SessionValidation from "../../others/sessionValidation";
 import {Box} from "../../others/others_colors"
+import fetchData from "../../others/fetchData";
 
 
-const BodyBusinessLogic = () => {
+const BodyGenTable1 = () => {
 
     const state = useSelector (state => state)
     const dispatch = useDispatch()
@@ -24,14 +25,79 @@ const BodyBusinessLogic = () => {
     const [selectedKey,setselectedKey] = useState(999);
     const [bugFix,setbugFix] = useState(0)
     const dynamicBorderStyle = {
-        margin: '0px auto',
         textAlign: 'left',
         padding: '20px 0px 10px',
         borderBottom: state.listingsLoading ? '5px solid #63C859' : '5px solid #ffffff',
         background:'#ffffff',
         borderTopLeftRadius:'0px',borderTopRightRadius:'0px'
     };
-    
+
+    const struct = {
+        name:'code',
+        dispName:"Code", 
+        description:"Business Names", 
+        s1:'code',s2:'codedesc',s3:'codedesc',
+        col:[
+            {name:'id',disp:'ID',dim:'10%',visible:true},
+            {name:'code',disp:'Code',dim:'20%',visible:true},
+            {name:'codedesc',disp:'Business Unit',dim:'50%',visible:true},
+            {name:'status',disp:'Status',dim:'20%',visible:true}
+        ]
+    }
+    /*
+    create table struct (
+        id int not null auto-increment,
+        name varchar(50),
+        desc varchar(100),
+        table varchar(50),
+        s1 varchar(50),
+        s2 varchar(50),
+        s3 varchar(50),
+        col varchar(5000)
+    )
+
+    col:[{"name":id,disp:ID,dim:10%,visible:true},{name:'code',disp:'Code',dim:'20%',visible:true},{name:'codedesc',disp:'Business Unit',dim:'50%',visible:true},{name:'status',disp:'Status',dim:'20%',visible:true]
+    */
+
+    const [dbStruct,setDbStruct] = useState([])
+    const [dbName,setDbName] = useState([])
+
+    useEffect(()=>{
+        const structApi = async() =>{
+            //---> Begin the call
+            setcontents([])
+            dispatch({type:'LISTINGS_LOADING_ON'})
+            const uri='api/be/standard/select';
+            const body={
+                "sid": state.loginData.sid,
+                "request": "DBA_Select",
+                "bu":"GreyInsights",
+                "type":"struct",
+                "select":["*"],
+                "condition":[{"id":"%"}],
+                "conditionType":"OR",
+                "order":{
+                    "orderBy":"id",
+                    "order":"DESC"
+                },
+                "pageNumber":1,
+                "pageSize":10
+            }
+            const resp = await fetchData(uri,body)
+            try{
+                setDbStruct(JSON.parse(resp.data.response.dbData[0].col))
+                setDbName(resp.data.response.dbData[0])
+                dispatch({type:'LISTINGS_LOADING_OFF'})
+
+            }
+            catch(e){
+
+            }
+
+        }
+        structApi()
+    },[])
+     
 
     useEffect(()=>{
         setpageNumber(1)
@@ -64,7 +130,6 @@ const BodyBusinessLogic = () => {
          * Detect instance when scrollbar of listings hits bottom, which should trigger to load more contents in 'useEffect' by changing
          * pageNumber parameter
         */
-         
         if (contentRef.current) {
             const { scrollTop, clientHeight, scrollHeight } = contentRef.current;
             if (scrollTop + clientHeight >= scrollHeight) {
@@ -152,68 +217,71 @@ const BodyBusinessLogic = () => {
 
     const getJSX = (item) =>{
 
-
         return (<div>
             {
-                item && item.name ?
+                item && item.dispName ?
                 <div>
-                    <div style={{height:'80px',border:'0px dashed red',display:'flex'}}>
+                    <div style={{width:'90%',height:'80px',border:'0px dashed red',display:'flex',margin:'auto'}}>
 
-                        <div style={{margin:'auto 10px auto 0px'}}> <Box dim={'45px'} txt={item.name.slice(0,2)}/></div>
+                        <div style={{margin:'auto 10px auto 0px'}}> <Box dim={'45px'} txt={item.dispName.slice(0,2)}/></div>
 
                         <div style={{display:'flex',flexDirection:'column',margin:'auto auto auto 0px',textAlign:'left'}}>
-                            <div style={{fontSize:'large',color:'#5B6A71'}}><b>{item.name}</b></div>
+                            <div style={{fontSize:'large',color:'#5B6A71'}}><b>{item.dispName}</b></div>
                             <div style={{fontSize:'small'}}>{state.bodyContents.desc}</div>
                         </div>
+                    
+                        
 
-                        <div onClick={()=>addItem(item.name)} className="stdButton" style={{display:'flex',margin:'auto 0px auto auto'}}>Add new Item</div>
-                    </div>
-
-                    <div className="std_box_2" style={{height:'30px',border:'0px dashed #ddd',margin:'10px 0px 0px',borderBottomLeftRadius:'0px',borderBottomRightRadius:'0px',display:'flex'}}>
-                        <div style={{display:'flex',margin:'auto auto auto 0px',paddingTop:'20px',textAlign:'left'}}>
-                            Search anything in {state.bodyContents.name}
-                        </div>
-                        <div style={{display:'flex',marginLeft:'0px',paddingTop:'10px',textAlign:'left'}}>
+                        <div style={{display:'flex',margin:'auto 0px auto auto',paddingTop:'0px',textAlign:'left'}}>
                             <form onSubmit={handleSubmit(onSubmit)} style={{display:'flex',width:'100%'}}>
                                 <input 
-                                    style={{margin:'0px',borderTopLeftRadius:'10px',borderBottomLeftRadius:'10px',width:'280px',height:'20px',display:'flex',borderTopRightRadius:'0px',borderBottomRightRadius:'0px'}}
+                                    style={{background:'#ddd',margin:'0px',borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',width:'200px',height:'15px',display:'flex',borderTopRightRadius:'0px',borderBottomRightRadius:'0px'}}
                                     type='text'
                                     value={inputValue} onChange={handleInputChange} placeholder={"Type and hit enter to search"}
                                 />
                                 {
                                     close===1 ?
-                                    <div className="bg2" onClick={clearSearch} style={{height:'40px',width:'60px',borderTopRightRadius:'10px',borderBottomRightRadius:'10px',display:'flex',margin:'auto 0px auto 0px',fontSize:'25px',lineHeight:'0px'}}><RiCloseCircleFill style={{display:'flex',margin:'auto'}}/></div>
+                                    <div className="bg2" onClick={clearSearch} style={{height:'35px',width:'45px',borderTopRightRadius:'5px',borderBottomRightRadius:'5px',display:'flex',margin:'auto 0px auto 0px',fontSize:'20px',lineHeight:'0px'}}><RiCloseCircleFill style={{display:'flex',margin:'auto'}}/></div>
                                     :
-                                    <div className="bg1" style={{background:"#c2c2c2",height:'40px',width:'60px',borderTopRightRadius:'10px',borderBottomRightRadius:'10px',display:'flex',margin:'auto 0px auto 0px',fontSize:'25px',lineHeight:'0px'}}><RiSearchLine style={{display:'flex',margin:'auto'}}/></div>
+                                    <div className="bg1" style={{background:"#c2c2c2",height:'35px',width:'45px',borderTopRightRadius:'5px',borderBottomRightRadius:'5px',display:'flex',margin:'auto 0px auto 0px',fontSize:'20px',lineHeight:'0px'}}><RiSearchLine style={{display:'flex',margin:'auto'}}/></div>
                                 }
                             </form>
                         </div>
+
+                        <div onClick={()=>addItem(item.dispName)} className="stdButton" style={{display:'flex',margin:'auto 0px auto 10px'}}>Add</div>
+
                     </div>
+
                     
-                    <div className="std_box_2" style={dynamicBorderStyle}>
-                        <div style={{display:'flex',borderBottom:'0px solid #eee',boxShadow:'0px 15px 15px -10px #eee'}}>
+                    <div style={{width:'100%'}}>
+                        <div style={{display:'flex',background:'#fff',borderBottom:'0px solid #eee',boxShadow:'0px 15px 15px -10px #aaa'}}>
                             {
-                                item.col.map((col,i)=>(
-                                    <div key={i} style={{width:col.dim,display:'flex',padding:'0px 20px 15px'}}>
-                                        <b>{col.disp}</b>
-                                    </div>
-                                ))
+                                dbStruct.map((col,i)=>{
+                                    if(col.visible===true){
+                                        return  <div key={i} style={{width:col.dim,display:'flex',padding:'5px 20px 5px'}}>
+                                            <b>{col.disp}</b>
+                                        </div>
+                                    }
+                                })
                             }
                         </div>
-                        <div ref={contentRef} onScroll={handleScroll} className="scrollbarTypeDefault"   style={{height:'calc(100vh - 300px)',overflow:'auto',margin:'0px 0px 0px'}}>
+                        <div ref={contentRef} onScroll={handleScroll} className="scrollbarTypeDefault"   style={{height:'calc(100vh - 180px)',overflow:'auto',margin:'0px 0px 0px'}}>
                             
                             {
                                 contents && contents.map((content,index)=>(
-                                    <div className="stdBorderBottomDashed" onClick={()=>editItem(item.name,content)} key={index} style={{display:'flex',cursor:'pointer'}}>
+                                    <div className="stdBorderBottomDashed" onClick={()=>editItem(item.dispName,content)} key={index} style={{display:'flex',cursor:'pointer'}}>
                                         {
-                                            item.col.map((col,i)=>(
-                                                <div key={i} style={{width:col.dim,display:'flex',padding:'7px 20px 7px'}}>
-                                                    {
-                                                        (col.name==="status" || col.name==="Status")?(content[col.name]===1?<div className="txt1" style={{display:'flex',margin:'auto auto auto 0px'}}>Enabled</div>:<div className="txt0" style={{display:'flex',margin:'auto auto auto 0px'}}>Disabled</div>):
-                                                        (content[col.name] && content[col.name].length>40 ? content[col.name].slice(0,40)+"..." : <div style={{display:'flex',margin:'auto auto auto 0px'}}>{content[col.name]}</div>)
-                                                    }
-                                                </div>
-                                            ))
+                                            dbStruct.map((col,i)=>{
+                                                if(col.visible){
+                                                    return <div key={i} style={{width:col.dim,display:'flex',padding:'7px 20px 7px'}}>
+                                                                {
+                                                                    (col.name==="status" || col.name==="Status")?(content[col.name]===1?<div className="txt1" style={{display:'flex',margin:'auto auto auto 0px'}}>Enabled</div>:<div className="txt0" style={{display:'flex',margin:'auto auto auto 0px'}}>Disabled</div>):
+                                                                    (content[col.name] && content[col.name].length>40 ? content[col.name].slice(0,40)+"..." : <div style={{display:'flex',margin:'auto auto auto 0px'}}>{content[col.name]}</div>)
+                                                                }
+                                                            </div>
+                                                }
+                                                
+                                            })
                                         }
                                     </div>
                                 ))
@@ -227,13 +295,18 @@ const BodyBusinessLogic = () => {
         </div>)
     }
 
-    return <div style={{width:'90%',justifyContent:'center'}}>
+    return <div style={{width:'100%',justifyContent:'center'}}>
     <SessionValidation/>
+        <pre style={{textAlign:'left'}}>
+            {JSON.stringify(dbName,2,2)}
+            item.col
+            {JSON.stringify(struct,2,2)}
+        </pre>
         {
-            state.bodyContents && getJSX(state.bodyContents)
+            state.bodyContents && getJSX(dbName)
         }
 
     </div>
 }
 
-export default BodyBusinessLogic
+export default BodyGenTable1

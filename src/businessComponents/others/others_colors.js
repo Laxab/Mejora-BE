@@ -39,7 +39,7 @@ const Box = (props) =>{
         fontSize:`calc(${dim}/2)`
     }
     return <div style={style}>
-        <div style={{display:'flex', margin:'auto'}}><b>{txt}</b></div>
+        <div style={{display:'flex', margin:'auto'}}><b>{txt.slice(0,2)}</b></div>
     </div>
 }
 

@@ -5,6 +5,9 @@ import BodyBusinessLogic from "./subbody/body_businessLogic"
 import BodyPatientRecord from "./subbody/body_patientRecord"
 import BodyMedicalRecords from "./subbody/body_medicalRecords"
 import BodyBusinessCodes from "./subbody/body_businessCodes"
+import BodyGenTable1 from "./subbody/body_genTable1"
+//import Logout from "./subbody/logout"
+import BodyMejoraBase from "./mejoraDefault/body_mejoraBase"
 
 
 const BizBody = () =>{
@@ -23,6 +26,12 @@ const BizBody = () =>{
             return <BodyMedicalRecords/>
         else if((state.selectedMenu.name==="Business Codes"))
             return <BodyBusinessCodes/>
+        else if (state.selectedMenu.name==="Business Accounts")
+            return <BodyMejoraBase/>
+        else {
+            return null
+        } 
+            
     }
 
     return <div className="bizBody" style={{padding:'0px',height:'500px'}}>

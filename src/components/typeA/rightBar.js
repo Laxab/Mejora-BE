@@ -31,7 +31,7 @@ const RightBar = () =>{
                     <div style={{display:'flex',margin:'auto 0px',width:'80%',border:'0px dashed red'}}><h3>{state.rightBar.title}</h3></div>
                     <div style={{display:'flex',margin:'auto 0px',width:'20%',fontSize:'28px',justifyContent:'flex-end',border:'0px dashed red'}}><h2><RiCloseCircleFill onClick={()=>onClose()} className="stdclose" style={{paddingTop:'7px'}}/></h2></div>
                 </div>
-                <div className="scrollbarTypeDefault" style={{height:'calc(100vh - 61px)',overflow:'auto'}}>
+                <div className="scrollbarTypeDefault" style={{height:'calc(100vh - 61px)',overflow:'auto',background:'#eee'}}>
                     <BixRightbar/>
                 </div>
     

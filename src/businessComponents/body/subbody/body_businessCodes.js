@@ -47,6 +47,8 @@ const BodyBusinessCodes = () => {
                 50,
                 "INIT",
                 "",
+                "id"
+                ,
                 "ASC"
             )
             console.log(response)
@@ -79,6 +81,8 @@ const BodyBusinessCodes = () => {
                         newpageNumber,
                         "ASYNC",
                         "",
+                        "id"
+                        ,
                         "ASC"
                     )
                     setcontents(response)
@@ -130,6 +134,8 @@ const BodyBusinessCodes = () => {
                     { [state.bodyContents.s2]: inputValue + "%" },
                     { [state.bodyContents.s3]: "%" + inputValue + "%" }
                 ],
+                "id"
+                ,
                 "ASC"
             )
         setcontents(response)

@@ -11,7 +11,8 @@ const BusinessCodes = () =>{
     const dispatch = useDispatch();
 
     const contents = [
-        {name:"Code", desc:"Business Names", table:'code',s1:'code',s2:'codedesc',s3:'codedesc',col:[{name:'id',disp:'ID',dim:'10%'},{name:'code',disp:'Code',dim:'20%'},{name:'codedesc',disp:'Business Unit',dim:'50%'},{name:'status',disp:'Status',dim:'20%'}]}
+        {name:"Code", desc:"Business Names", table:'code',s1:'code',s2:'codedesc',s3:'codedesc',col:[{name:'id',disp:'ID',dim:'10%'},{name:'code',disp:'Code',dim:'20%'},{name:'codedesc',disp:'Business Unit',dim:'50%'},{name:'status',disp:'Status',dim:'20%'}]},
+        {name:"Mappings", desc:"User, Business & Forms", table:'Mappings',s1:'Form',s2:'Entity',s3:'Entity',col:[{name:'id',disp:'ID',dim:'5%'}, {name:'EntityType',disp:'Type',dim:'10%'}, {name:'Entity',disp:'Entity Name',dim:'40%'}, {name:'Form',disp:'Form Name',dim:'10%'}, {name:'AutoClear',disp:'AutoClear',dim:'5%'}, {name:'Status',disp:'Status',dim:'5%'}, {name:'Language',disp:'Lang',dim:'5%'}]},
     ]
 
     const clicked = (data,i) =>{

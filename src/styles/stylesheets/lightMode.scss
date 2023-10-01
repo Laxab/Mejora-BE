@@ -178,6 +178,8 @@
     .list_item:hover{cursor: pointer;background-color: darken($color: $backgroundColor, $amount: 7);transition: $delay;}
     .order_bigbox{border:5px solid #ddd;margin:20px 10px;height:200px;width:200px;border-radius: 20px;}
     .stdcolorblur{color:lighten($textColor,20)}
+    .stdcolorblurHover{color:lighten($textColor,40);cursor: pointer;}
+    .stdcolorblurHover:hover{color:lighten($textColor,0)}
     .stdcolortheme{color:$color2}
     .stdclose{color:lighten($textColor,30)}
     .stdclose:hover{color:lighten($textColor,20);cursor: pointer;}

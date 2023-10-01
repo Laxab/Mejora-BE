@@ -11,6 +11,7 @@ const initialState = {
     listingsLoading:false,
     body:[],
     rightBar:{state:false,title:"",body:"",width:"400px"},
+    snackBar:{state:false,message:"",severity:"success"},
     bodyContents:[],
     selectedMenu:{},
     backdrop:{status:false},
@@ -21,6 +22,10 @@ const initialState = {
   
   const counterReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'SNACKBAR_ON':
+            return {...state, snackBar:{state:true,message:action.message,severity:action.severity}}
+        case 'SNACKBAR_OFF':
+            return {...state, snackBar:{state:false,message:"",severity:""}}
         case 'RIGHTBAR_ON':
             return {...state,rightBar:{...state.rightBar, state:true,title:action.title,body:action.body,contents:action.contents,width:action.width}}
         case 'RIGHTBAR_OFF':
