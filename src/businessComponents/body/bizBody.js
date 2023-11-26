@@ -1,13 +1,32 @@
 
+/*
++--------------------------------------------------------------------------------------------------------------------------------+
+|                                                            M E J O R A                                                         |
+|                                                        All rights reserved                                                     |
+|                                                                                                                                |
+| No part of this code and associated documentation files may be copied reproduced, distributed, or transmitted in any form      |
+| or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written       |
+| permission of the author, except  in the case of brief quotations embodied in critical reviews and certain other noncommercial |
+| uses.                                                                                                                          |
+| For permission requests, kindly contact the author.                                                                            |
++--------------------------------------------------------------------------------------------------------------------------------+
+Title:      BUSINESS BODY
+Overview: 	
+            This component renders the body by using below inputs:
+            Redux Input:
+                state.selectedMenu.name (Eg. Manage) 
+                state.listings (Eg. Medical Log)
+
+Usage:
+            Usage is only done in sidenav.js, as the menu items will change on every click of item in sidenav
+            dispatch({type:'SELECTMENU',payload:data})
+
+Author: 	Abhijit Sawant (abhijitmsawant@gmail.com)
+Creation Date: 17 Nov 2023
+*/
 // Import Components
 import { useSelector } from "react-redux"
-import BodyBusinessLogic from "./subbody/body_businessLogic"
-import BodyPatientRecord from "./subbody/body_patientRecord"
-import BodyMedicalRecords from "./subbody/body_medicalRecords"
-import BodyBusinessCodes from "./subbody/body_businessCodes"
-import BodyGenTable1 from "./subbody/body_genTable1"
-//import Logout from "./subbody/logout"
-import BodyMejoraBase from "./mejoraDefault/body_mejoraBase"
+import BODY_MD_TABLE from "./mejoraDefault/BO_mD_table"
 
 
 const BizBody = () =>{
@@ -17,21 +36,11 @@ const BizBody = () =>{
 
     //Business Methods
     const bodySelector = () =>{
-        
-        if(state.selectedMenu.name==="Business Logic")
-            return <BodyBusinessLogic/>
-        else if((state.selectedMenu.name==="Assessments") && (state.listings==="Patient Record"))
-            return <BodyPatientRecord/>
-        else if((state.selectedMenu.name==="Assessments") && (state.listings==="Medical Log"))
-            return <BodyMedicalRecords/>
-        else if((state.selectedMenu.name==="Business Codes"))
-            return <BodyBusinessCodes/>
-        else if (state.selectedMenu.name==="Business Accounts")
-            return <BodyMejoraBase/>
+        if (state.selectedMenu.name==="Business Accounts")
+            return <BODY_MD_TABLE/>
         else {
             return null
         } 
-            
     }
 
     return <div className="bizBody" style={{padding:'0px',height:'500px'}}>

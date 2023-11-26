@@ -17,11 +17,16 @@ const initialState = {
     backdrop:{status:false},
     dialogbox:{status:false, title:'', body:'',response:''},
     reset:"",
+    struct:[],
     reduxdebugger:false
   };
   
   const counterReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'STRUCT_SET':
+            return {...state, struct:action.payload}
+        case 'STRUCT_UNSET':
+            return {...state, struct:[]}
         case 'SNACKBAR_ON':
             return {...state, snackBar:{state:true,message:action.message,severity:action.severity}}
         case 'SNACKBAR_OFF':

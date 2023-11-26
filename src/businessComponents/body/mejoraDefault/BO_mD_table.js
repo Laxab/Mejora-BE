@@ -1,22 +1,43 @@
+/*
++--------------------------------------------------------------------------------------------------------------------------------+
+|                                                            M E J O R A                                                         |
+|                                                        All rights reserved                                                     |
+|                                                                                                                                |
+| No part of this code and associated documentation files may be copied reproduced, distributed, or transmitted in any form      |
+| or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written       |
+| permission of the author, except  in the case of brief quotations embodied in critical reviews and certain other noncommercial |
+| uses.                                                                                                                          |
+| For permission requests, kindly contact the author.                                                                            |
++--------------------------------------------------------------------------------------------------------------------------------+
+Title:      Mejora Default - Body Table
+Overview: 	
+            This component takes renders the body for Mejora Default in tabular format.
+Usage:
+            Below inputs are taken for creating the table dynamically to support any structure
+
+            It also provides "RightBar" links to support column edition, add new records, edit/delete records
+
+Author: 	Abhijit Sawant (abhijitmsawant@gmail.com)
+Creation Date: 17 Nov 2023
+*/
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import fetchData from "../../others/fetchData"
 import { Box } from "../../others/others_colors"
-import { RiCloseCircleFill,RiSearchLine,RiAddLine,RiSortAsc, RiSortDesc } from 'react-icons/ri';
+import { RiCloseCircleFill,RiSearchLine,RiAddLine } from 'react-icons/ri';
 import {RiLayoutColumnLine} from 'react-icons/ri'
 import {GoTriangleUp, GoTriangleDown} from 'react-icons/go'
 import { useForm } from 'react-hook-form';
 import { LoadContentsAPI } from "../body_apiCall";
 
-
-const BodyMejoraBase = () =>{
-
+const BO_mD_table = () =>{
+    // Primary Definitions
     const state = useSelector(state=>state);
     const dispatch = useDispatch();
-    const { handleSubmit } = useForm();
     const contentRef = useRef(null);
+    const { handleSubmit } = useForm();
 
-    const [a,seta] = useState([])
+    // Secondary Definitions
     const [struct,setstruct] = useState([])
     const [cols,setcols] = useState([])
     const [bugFix,setbugFix] = useState(0)
@@ -24,7 +45,6 @@ const BodyMejoraBase = () =>{
     const [pageNumber,setpageNumber] = useState(1)
     const [inputValue, setInputValue] = useState('');
     const [close,setClose] = useState(0);
-    const [selectedKey,setselectedKey] = useState(999);
     const [sortName, setSortName] = useState("id")
     const [sortType, setSortType] = useState("Asc")
 
@@ -40,10 +60,10 @@ const BodyMejoraBase = () =>{
           setcontents([]);
           setpageNumber(1);
           setClose(0);
-          setselectedKey(999); console.log(selectedKey)
           dispatch({ type: 'RESET', payload: "Now" });
         }
     };
+
     const clearSearch = () =>{
         /**
          * Handle action items when 'close' button is hit on the search bar
@@ -53,7 +73,11 @@ const BodyMejoraBase = () =>{
         dispatch({type:'RESET',payload:"RESETNOW"})
         setInputValue("")
     }
+
     const onSubmit = async () =>{
+        /**
+         * Database search query to search 'inputValue' from the INPUT searchbox
+         */
         setbugFix(1)
         setcontents([]);
         dispatch({type:'LISTINGS_LOADING_ON'})
@@ -76,7 +100,15 @@ const BodyMejoraBase = () =>{
         setcontents(response)
         dispatch({type:'LISTINGS_LOADING_OFF'})
     }
+
     useEffect(()=>{
+        /**
+         * This method calls for the lists contents to be rendered in table (with CONDITIONS)
+         * Time of call: Whenever sortName or sortType changes -> sortName, sortType
+         * -----Error Correction Note-----
+         * 'pageNumber' has been commented
+         * Original working dependancies = [sortName,sortType]
+         */
         //setbugFix(1)
         setcontents([]);
         dispatch({type:'LISTINGS_LOADING_ON'})
@@ -87,7 +119,7 @@ const BodyMejoraBase = () =>{
                     "DBA_Select",
                     state.loginData,
                     struct.name,
-                    pageNumber,
+                    'pageNumber',
                     "SEARCH",
                     [
                         { [struct.s1] : inputValue + "%" },
@@ -103,19 +135,33 @@ const BodyMejoraBase = () =>{
         asynccall()
         dispatch({type:'LISTINGS_LOADING_OFF'})
 
-    },[sortName, sortType])
+    },[sortName,sortType,inputValue,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
 
     const addItem = (name) =>{
+        /**
+         * Open rightbar to add new items
+         */
         dispatch({type:"RIGHTBAR_ON",title:`Add ${name}`, body:name, width:'400px'})
     }
     const editTable = (name) =>{
-        dispatch({type:"RIGHTBAR_ON",title:`Add ${name}`, body:name, width:'400px'})
+        /**
+         * Open rightbar to manage columns
+         */
+        dispatch({type:"RIGHTBAR_ON",title:`Select columns ${name}`, body:'RB_mD_columns', width:'400px',contents:cols})
     }
     const editItem = (name,item) =>{
-        dispatch({type:"RIGHTBAR_ON",title:`Edit ${name}`, body:name, contents:item, width:'400px'})
+        /**
+         * Open rightbar to edit items, send 'item' (content) with it.
+         */
+        dispatch({type:"RIGHTBAR_ON",title:`Edit ${state.bodyContents.dispName}`, body:'RB_mD_edit', contents:item, width:'400px'})
     }
 
     useEffect(()=>{
+        /**
+         *  This method gets the structure of the database
+         *  Time of call: Whenever new list item is clicked -> state.bodyContents.name changes
+         */
+        setcontents([])
         const structApi = async() =>{
             //---> Begin the call
             dispatch({type:'LISTINGS_LOADING_ON'})
@@ -135,36 +181,51 @@ const BodyMejoraBase = () =>{
                 "pageNumber":1,
                 "pageSize":10
             }
-            if(inputValue.length===0){
+            /**
+             * -----Error Correction Note-----
+             * Replaced if(1) from if(inputValue.length===0)
+             */
+            if(1){
                 const resp = await fetchData(uri,body)
                 try{
                     dispatch({type:'LISTINGS_LOADING_OFF'})
                     if(resp.status==="success"){
                         //setcols(JSON.parse(`[\n\t\t{\n\t\t\t\"name\":\"form\"}]`))
+                        dispatch({type:"STRUCT_SET",payload:JSON.parse(resp.data.response.dbData[0].cols)})
                         setcols(JSON.parse(resp.data.response.dbData[0].cols))
                         setstruct(JSON.parse(resp.data.response.dbData[0].struct))
                     }
                     else{
+                        dispatch({type:"STRUCT_UNSET"})
                         setcols([])
                         setstruct([])
                         dispatch({type:"SNACKBAR_ON",message:resp.message, severity:"error"})
                     }
                 }
-                catch(e){
-    
-                }
-
+                catch(e){}
             }
 
         }
         structApi()
 
-    },[state.bodyContents])
+    },[state.bodyContents.name, dispatch,state.loginData.sid])
+
+    useEffect(()=>{
+        /**
+         * This method clears out the "Search" whenever the list-item component is changed
+         */
+        setInputValue("")
+    },[state.bodyContents.name])
 
 
 
     useEffect(()=>{
+        /**
+         * This method calls for the lists contents to be rendered in table
+         * Time of call: Whenever list item changes, and so the structure changes -> struct.name
+         */
         setpageNumber(1)
+        setcontents([])
         const initialize = async() =>{
             //---> Begin the call
             setcontents([])
@@ -179,20 +240,19 @@ const BodyMejoraBase = () =>{
                 50,
                 "INIT",
                 "",
-                sortName
+                'id'
                 ,
-                sortType
+                'Asc'
             )
-            console.log(response)
             setcontents(response)
             dispatch({type:'LISTINGS_LOADING_OFF'})
         }
         initialize()
-
         if(state.reset!=="") dispatch({type:'RESET',payload:""})
-    },[state.reset,dispatch,state.loginData,state.bodyContents, struct])
+    },[struct.name,state.reset,state.loginData, dispatch])
 
-
+    // working - struct.name,state.reset,state.loginData
+    //state.reset,dispatch,state.loginData,struct.name, struct
     const handleScroll = async () => {
         /**
          * Detect instance when scrollbar of listings hits bottom, which should trigger to load more contents in 'useEffect' by changing
@@ -205,23 +265,28 @@ const BodyMejoraBase = () =>{
                 setpageNumber(newpageNumber)
                 //---> Begin the call
                 dispatch({type:'LISTINGS_LOADING_ON'})
-                if(bugFix===0){
-                    const response = await LoadContentsAPI(
-                        'api/be/standard/select',
-                        "DBA_Select",
-                        state.loginData,
-                        struct.name,
-                        newpageNumber,
-                        "ASYNC",
-                        "",
-                        sortName
-                        ,
-                        sortType
-                    )
-                    setcontents(response)
+
+                if(struct.name === state.bodyContents.name){
+                    if(bugFix===0){
+                        const response = await LoadContentsAPI(
+                            'api/be/standard/select',
+                            "DBA_Select",
+                            state.loginData,
+                            struct.name,
+                            newpageNumber,
+                            "ASYNC",
+                            "",
+                            sortName
+                            ,
+                            sortType
+                        )
+                        setcontents(response)
+                    }
+                    else
+                        setbugFix(0)
+
                 }
-                else
-                    setbugFix(0)
+
                 dispatch({type:'LISTINGS_LOADING_OFF'})
             }
         }
@@ -235,7 +300,6 @@ const BodyMejoraBase = () =>{
     // state.bodyContents, cols, struct
 
     return <div style={{width:'100%'}}>
-
         <div style={{width:'90%',height:'79px',border:'0px dashed red',display:'flex',margin:'auto'}}>
             {
                 state?.bodyContents?.dispName &&
@@ -279,32 +343,31 @@ const BodyMejoraBase = () =>{
         </div>
                 */}
 
-
-
         <div style={{width:'100%'}}>
             <div style={{display:'flex',background:'#fff',borderBottom:'0px solid #eee',boxShadow:'0px 15px 15px -10px #aaa'}}>
                 {
-                    cols.map((col,i)=>{
-                        if(col.visible!=="true"){
+                    state.struct.map((col,i)=>{
+                        if(col.visible===true){
                             return  <div key={i} style={{width:col.dimention,display:'flex',padding:'0px 20px 0px'}}>
                                 <b style={{margin:'auto 5px auto 0'}}>{col.dispName}</b>
                                 <div style={{height:'100%'}}>
-                                    <div className="stdcolorblurHover" onClick={()=>sortKey(col.name,'Desc')} style={{border:'0px solid #ccc', lineHeight:'0px', marginTop:'4px',position:'relative',bottom:'-3px' }}><GoTriangleUp/></div>
-                                    <div className="stdcolorblurHover" onClick={()=>sortKey(col.name,'Asc')} style={{border:'0px solid #ccc', lineHeight:'0px', marginBottom:'4px',position:'relative',top:'-3px'}}><GoTriangleDown/></div>
+                                    <div className="stdcolorblurHover" onClick={()=>sortKey(col.name,'Desc')} style={{border:'0px solid #ccc', lineHeight:'0px', marginTop:'4px' }}><GoTriangleUp/></div>
+                                    <div className="stdcolorblurHover" onClick={()=>sortKey(col.name,'Asc')} style={{border:'0px solid #ccc', lineHeight:'0px', marginBottom:'4px'}}><GoTriangleDown/></div>
                                 </div>
                             </div>
                         }
+                        else return <></>
                     })
                 }
             </div>
             <div ref={contentRef} onScroll={handleScroll} className="scrollbarTypeDefault"   style={{height:'calc(100vh - 180px)',overflow:'auto',margin:'0px 0px 0px'}}>
-                
+            
                 {
                     contents && contents.length>0 && contents.map((content,index)=>(
                         <div className="stdBorderBottomDashed" onClick={()=>editItem(state.bodyContents.name,content)} key={index} style={{display:'flex',cursor:'pointer'}}>
                             {
-                                cols.map((col,i)=>{
-                                    if(col.visible!=="true"){
+                                state.struct.map((col,i)=>{
+                                    if(col.visible===true){
                                         return <div key={i} style={{width:col.dimention,display:'flex',padding:'7px 20px 7px'}}>
                                                 {
                                                     (col.name==="status" || col.name==="Status")?(content[col.name]===1?<div className="txt1" style={{display:'flex',margin:'auto auto auto 0px'}}>Enabled</div>:<div className="txt0" style={{display:'flex',margin:'auto auto auto 0px'}}>Disabled</div>):
@@ -312,6 +375,7 @@ const BodyMejoraBase = () =>{
                                                 }
                                             </div>
                                     }
+                                    else return <></>
                                     
                                 })
                             }
@@ -326,4 +390,4 @@ const BodyMejoraBase = () =>{
 
 }
 
-export default BodyMejoraBase
+export default BO_mD_table

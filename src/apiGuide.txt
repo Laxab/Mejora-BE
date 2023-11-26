@@ -1,0 +1,24 @@
+/src/
+App.js
+    useEffect	    fetchData	    api/be/v1.0/a3/getRBAC
+
+/src/components/typeA/
+login.js
+    onSubmit	    fetchData	    api/be/v1.0/a3/authenticate
+
+resetPassword.js
+    onSubmit	    fetchData	    api/be/v1.0/a3/authenticate
+
+/src/businessComponents/
+BO_mD_table.js
+    onSubmit	    LoadContentsAPI	api/be/standard/select	DBA_Select	Database search query to search 'inputValue' from the INPUT searchbox
+    useEffect	    LoadContentsAPI	api/be/standard/select	DBA_Select	This method calls for the lists contents to be rendered in table (with CONDITIONS)
+    useEffect	    fetchData	    api/be/standard/select	DBA_Select	This method gets the structure of the database
+    useEffect	    LoadContentsAPI	api/be/standard/select	DBA_Select	This method calls for the lists contents to be rendered in table
+    handleScroll	LoadContentsAPI	api/be/standard/select	DBA_Select	Detect instance when scrollbar of listings hits bottom
+
+RB_mD_edit.js
+    onSubmit	    fetchData	    api/be/standard/insert	DBA_Insert	Database write request for submitted form
+    onSubmit	    fetchData	    api/be/standard/update	DBA_Update	Database write request for submitted form
+    fetchOptions	fetchData	    api/be/standard/select	DBA_Select	Database read query
+    useEffect	    fetchData	    api/be/standard/delete	DBA_Delete	Database delete request

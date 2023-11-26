@@ -1,15 +1,21 @@
+/*
+
+This code needs to be re-writted to support dynamic operations
+- Abhijit Sawant
+
+*/
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import ListTitle from "../list_title"
+import LI_TITLE from "../../listings/LI_title"
 import {color} from "../../others/others_colors"
 import SessionValidation from "../../others/sessionValidation"
 
-
-
-const BusinessAccounts = () =>{
+const LI_mD_items = () =>{
+    // Primary Definitions
     const [stdbgHighlight,setstdbgHighlight] = useState(999)
     const dispatch = useDispatch();
 
+    // Secondary Definitions
     const contents = [
         {
             dispName:"CoI", 
@@ -32,7 +38,7 @@ const BusinessAccounts = () =>{
 
     return <div>
         <SessionValidation/>
-        <ListTitle title="Select Item"/>
+        <LI_TITLE title="Select Item"/>
 
         {
             contents.map((item,index)=>(
@@ -51,4 +57,4 @@ const BusinessAccounts = () =>{
     </div>
 }
 
-export default BusinessAccounts
+export default LI_mD_items

@@ -22,21 +22,20 @@ Usage:
 Author: 	Abhijit Sawant (abhijitmsawant@gmail.com)
 Creation Date: 17 Nov 2023
 */
-import { useSelector } from "react-redux"
-// Import Destination
-import LIST_MD_ITEMS from "../body/mejoraDefault/LI_mD_items"
+import {MdOutlineSettings} from 'react-icons/md'
 
-const BizListings = () =>{
+const LI_title = (props) =>{
+    const {title} = props
 
-    // Primary Definitions
-    const state = useSelector(state => state)
-    // Business Methods
-    //  else if((state.selectedMenu.name === "Assessment")&&(list === "Patient Record")) return <ListPatientRecord/>
-    const listSelector = () =>{
-        if(state.selectedMenu.name === "Business Accounts") return <LIST_MD_ITEMS/>
-    }
-    return <div >
-        {listSelector()}
+    return <div className="stdBorder" style={{borderTop:"0px",borderLeft:"0px",borderRight:"0px",height:'60px',display:'flex'}}>
+
+        <div className="mainTitleIcons" style={{display:'flex',width:'100%',margin:'0px auto 0px 20px',border:'0px dashed #666'}}>
+            <div style={{display:'flex',marginRight:'10px',borderRadius:'5px',background:`#eee`,color:'#888',height:'40px',width:'40px'}}><MdOutlineSettings style={{fontSize:'25px',display:'flex',margin:'auto'}}/></div>
+            <b>{title}</b>
+        </div>
+
     </div>
+
 }
-export default BizListings
+
+export default LI_title

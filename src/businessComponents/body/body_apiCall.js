@@ -1,8 +1,6 @@
 
 import fetchData from "../others/fetchData";
 
-
-
 const FireQuery = async (uri, request, session, table, select, pageNumber, pageSize, condition, conditionType, orderBy, order) =>{
     /**
      * LEVEL 0
@@ -72,8 +70,6 @@ const LoadContentsAPI = async (uri, request, session, table, pageNumber, type, c
 export{FireQuery,LoadContentsAPI}
 
 const BodyApiCall = () =>{
-
-
 }
 
 export default BodyApiCall

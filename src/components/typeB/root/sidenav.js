@@ -25,15 +25,16 @@ const Sidenav = (props) =>{
     const [selected,setselected] = useState(100)
     
     // Onload useEffect
+    /*
     useEffect(()=>{
         console.log(props.sidenav)
     },[props])
+    */
 
     // Business methods
     const toggle = () =>{
         props.setsidenav(!props.sidenav)
         dispatch({type:'INCREMENT'});
-        console.log(state)
     }
     const displayButtonNames = (name) => {
         return(
