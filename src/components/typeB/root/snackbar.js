@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,10 +11,6 @@ const SnackBar = () => {
   const [open, setOpen] = React.useState(false);
   const state = useSelector(state=>state);
   const dispatch = useDispatch();
-
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     dispatch({type:"SNACKBAR_OFF"})

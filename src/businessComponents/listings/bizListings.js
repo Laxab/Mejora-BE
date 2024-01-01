@@ -33,7 +33,14 @@ const BizListings = () =>{
     // Business Methods
     //  else if((state.selectedMenu.name === "Assessment")&&(list === "Patient Record")) return <ListPatientRecord/>
     const listSelector = () =>{
-        if(state.selectedMenu.name === "Business Accounts") return <LIST_MD_ITEMS/>
+        if(state.selectedMenu.dynamic!==false){
+            if(state.selectedMenu.dynamic === "mejoraDefault") 
+                return <LIST_MD_ITEMS/>
+        }
+        else{
+            if(state.selectedMenu.name === "random") 
+                return null
+        }
     }
     return <div >
         {listSelector()}

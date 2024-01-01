@@ -7,7 +7,7 @@
 */
 
 // Standard imports
-import { useEffect, useState } from "react"
+import { useState } from "react"
 // Components & Methods
 import {icon} from '../../typeC/icons'
 
@@ -43,6 +43,7 @@ const Sidenav = (props) =>{
     }
     const selectMenu = (data,index) => {
         dispatch({type:'SELECTMENU',payload:data})
+        dispatch({type:'BODYCONTENTS_OFF'})
         dispatch({type:'LIST',list:data.isMenu.name})
         setselected(index)
     }

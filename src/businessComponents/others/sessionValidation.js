@@ -12,6 +12,7 @@ const SessionValidation = () =>{
     const cookiecheck = () =>{
         const [sidkey,sidvalue] = document.cookie.split("=");
             if(sidvalue!==state.loginData.sid){
+                console.log(sidkey)
                 return <Logout/>
             }
             else

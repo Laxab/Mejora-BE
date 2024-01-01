@@ -4,36 +4,34 @@ This code needs to be re-writted to support dynamic operations
 - Abhijit Sawant
 
 */
-import { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import LI_TITLE from "../../listings/LI_title"
 import {color} from "../../others/others_colors"
 import SessionValidation from "../../others/sessionValidation"
 
 const LI_mD_items = () =>{
     // Primary Definitions
+    const state = useSelector(state => state)
     const [stdbgHighlight,setstdbgHighlight] = useState(999)
     const dispatch = useDispatch();
+    const [selector,setselector] = useState(999)
 
     // Secondary Definitions
-    const contents = [
-        {
-            dispName:"CoI", 
-            name:'coi',
-            description:"Category of Interpretation"
-        },
-        {
-            dispName:"Code", 
-            name:'code',
-            description:"Business Code"
-        }
-    ]
+    const contents = state.selectedMenu.dynamicListings;
 
     const clicked = (data,i) =>{
-        setstdbgHighlight(i)
+        
+        setselector(i)
         dispatch({type:'BODYCONTENTS_ADD',payload:data})
         
     }
+    useEffect(()=>{
+        setstdbgHighlight(selector)
+    },[selector])
+    useEffect(()=>{
+        setstdbgHighlight(999)
+    },[state.selectedMenu.name])
 
 
     return <div>

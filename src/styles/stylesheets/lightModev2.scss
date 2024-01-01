@@ -26,6 +26,7 @@
     .txt1{color:$green}
     .txt0{color:$disable}
     // Sidenav
+    .backgroundShaded1{background: darken($backgroundColor,15);color:$textColor}
     .sidenavBodyMin{background: linear-gradient(0deg, $color1,$color2); color:$backgroundColor;}
     .sidenavBodyMax{background: linear-gradient(0deg, $color1, $color2);}
 
@@ -35,6 +36,12 @@
     }
     .stdButton:active {border:0px}
     .stdButton:hover {border:0px;background: lighten($green, 10);transition: $delay;}
+    .stdButtonRed {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
+        padding:7px 20px;background:$red;color:white;cursor:pointer;transition: $delay;
+        text-align:'center';justify-content: 'center';border-radius: 5px;
+    }
+    .stdButtonRed:active {border:0px}
+    .stdButtonRed:hover {border:0px;background: lighten($red, 10);transition: $delay;}
 
     .stdButton0 {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
         padding:7px 20px;background:$red;color:white;cursor:pointer;transition: $delay;

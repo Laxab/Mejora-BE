@@ -111,6 +111,7 @@ const BO_mD_table = () =>{
          */
         //setbugFix(1)
         setcontents([]);
+        //alert("Gotcha")
         dispatch({type:'LISTINGS_LOADING_ON'})
         const asynccall = async() =>{
             setcontents([]);
@@ -133,7 +134,7 @@ const BO_mD_table = () =>{
             setcontents(response)
         } 
         asynccall()
-        dispatch({type:'LISTINGS_LOADING_OFF'})
+        //dispatch({type:'LISTINGS_LOADING_OFF'})
 
     },[sortName,sortType,inputValue,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
 
@@ -141,7 +142,8 @@ const BO_mD_table = () =>{
         /**
          * Open rightbar to add new items
          */
-        dispatch({type:"RIGHTBAR_ON",title:`Add ${name}`, body:name, width:'400px'})
+        //dispatch({type:"RIGHTBAR_ON",title:`Add ${name}`, body:name, width:'400px'})
+        dispatch({type:"RIGHTBAR_ON",title:`Add ${state.bodyContents.dispName}`, body:'RB_mD_add', contents:'item', width:'400px'})
     }
     const editTable = (name) =>{
         /**
@@ -208,7 +210,7 @@ const BO_mD_table = () =>{
         }
         structApi()
 
-    },[state.bodyContents.name, dispatch,state.loginData.sid])
+    },[state.bodyContents.name, dispatch,state.loginData.sid,state.listings])
 
     useEffect(()=>{
         /**
@@ -218,13 +220,13 @@ const BO_mD_table = () =>{
     },[state.bodyContents.name])
 
 
-
     useEffect(()=>{
         /**
          * This method calls for the lists contents to be rendered in table
          * Time of call: Whenever list item changes, and so the structure changes -> struct.name
          */
         setpageNumber(1)
+        //alert("Now")
         setcontents([])
         const initialize = async() =>{
             //---> Begin the call
@@ -244,6 +246,7 @@ const BO_mD_table = () =>{
                 ,
                 'Asc'
             )
+            //alert("Check")
             setcontents(response)
             dispatch({type:'LISTINGS_LOADING_OFF'})
         }
@@ -297,9 +300,9 @@ const BO_mD_table = () =>{
         setSortType(sort)
     }
 
-    // state.bodyContents, cols, struct
+    const renderBody = () =>{
+        return <>
 
-    return <div style={{width:'100%'}}>
         <div style={{width:'90%',height:'79px',border:'0px dashed red',display:'flex',margin:'auto'}}>
             {
                 state?.bodyContents?.dispName &&
@@ -334,14 +337,6 @@ const BO_mD_table = () =>{
 
 
         </div>
-
-        {/*
-        <div style={{width:'90%',border:'0px dashed red',display:'flex',margin:'auto'}}>
-            <pre style={{width:'90%',overflow:'auto',textAlign:'left'}}>
-                {JSON.stringify(cols,2,2)}
-            </pre>
-        </div>
-                */}
 
         <div style={{width:'100%'}}>
             <div style={{display:'flex',background:'#fff',borderBottom:'0px solid #eee',boxShadow:'0px 15px 15px -10px #aaa'}}>
@@ -384,6 +379,19 @@ const BO_mD_table = () =>{
                 }
             </div>
         </div>
+        </>
+    }
+
+
+    return <div style={{width:'100%'}}>
+        
+        {
+            state.bodyContents.length!==0
+            ?
+            renderBody()
+            :
+            <div style={{marginTop:'20px'}}>Select Item</div>
+        }
 
 
     </div>

@@ -30,7 +30,8 @@
     //input:focus {text-decoration: none;border:0px solid lighten($color2,30);background: darken($borderColor2,2);}
 
     .error {color:RED;margin: 2px 0px 7px;font-size: small;}
-    .stdBackground {background: #f9f9f9;box-shadow: 0 0px 5px 0 $borderColor, 0 1px 8px 0 $borderColor;border-radius: 10px;margin: 0px 10px 10px;padding: 15px;}
+    .stdBackground {background: $backgroundColor;}
+    //.stdBackground {background: #f9f9f9;box-shadow: 0 0px 5px 0 $borderColor, 0 1px 8px 0 $borderColor;border-radius: 10px;margin: 0px 10px 10px;padding: 15px;}
     .padTop {padding-top: 15px;}
     .stdBorder {border:1px solid $borderColor;}
     .stdBorderBottomDashed {border:1px dashed $borderColor;border-left: 0px;border-right: 0px;border-top: 0px;}

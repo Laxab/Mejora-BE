@@ -15,7 +15,6 @@ const Login = () =>{
     const tdstyle1={width:'150px',padding:'5px 10px 5px'}
     const tdstyle2={width:'150px',padding:'5px 10px 5px'}
     const [a,seta] = useState("")
-    const [b,setb] = useState([])
     const [reset,setreset] = useState(0)
 
 
@@ -66,7 +65,6 @@ const Login = () =>{
     };
 
     const onConfirmSubmit =(data) =>{
-        setb(data)
     }
 
     const handleChange = async (event) => {

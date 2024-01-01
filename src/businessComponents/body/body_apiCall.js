@@ -42,28 +42,68 @@ const LoadContentsAPI = async (uri, request, session, table, pageNumber, type, c
     var response    = [],
         condition   = [{ "id": "%" }]
         //orderBy     = "id"
+
+        const respondData = (response) => {
+            const resp = (prevData => {
+              const newData = response?.data?.response?.dbData;
+          
+              if (!newData || !Array.isArray(newData)) {
+                console.error("Invalid newData:", newData);
+                return prevData || []; // Return previous data if newData is invalid
+              }
+          
+              const filteredData = newData.filter(newItem => {
+                return true;
+              });
+          
+              if (prevData) {
+                return [...prevData, ...filteredData];
+              }
+          
+              return filteredData; // If prevData is falsy, return only the filtered data
+            });
+          
+            return resp;
+          };
+          
+          
+
+    /**
+     * 
+    const respondData = (response) =>{
+        const resp = ( prevData => {
+                
+            
+                const newData = response.data.response.dbData.filter(newItem => {
+                    
+                    return !prevData?.some(existingItem => (existingItem.id === newItem.id)) ?? []
+
+                });
+                if(prevData)
+                    return [...prevData, ...newData];
+                //else alert("Trigger")
+        });
+        return resp
+    }
+     */
     
     if(cond!==""){
         condition = cond
     }
     if(type==="ASYNC") {
         response = await FireQuery(uri, request, session, table, ["*"], pageNumber, 50, condition, "OR", orderBy, order)
+        if (response?.status === "success") return respondData(response)
     }
     else if (type==="INIT"){
         response = await FireQuery(uri, request, session, table, ["*"], 1, 50, condition, "OR", orderBy, order)
+        if (response?.status === "success") return respondData(response)
     }
     else if (type==="SEARCH"){
         response = await FireQuery(uri, request, session, table, ["*"], 1, 50, condition, "OR", orderBy, order)
+        if (response?.status === "success") return respondData(response)
     }
-    if (response?.status === "success") {
-        const resp = (prevData => {
-            const newData = response?.data?.response?.dbData?.filter(newItem => {
-                return !prevData?.some(existingItem => existingItem?.id === newItem?.id) ?? ""
-            });
-            return [...prevData, ...newData];
-        });
-        return resp
-    }
+    
+    
 
 }
 

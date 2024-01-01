@@ -30,8 +30,9 @@ Creation Date: 17 Nov 2023
 // Default Imports
 import { useSelector } from "react-redux"
 // Import Destination Components
-import RB_mD_columns from "../body/mejoraDefault/RB_mD_columns"
-import RB_mD_edit from "../body/mejoraDefault/RB_mD_edit"
+import RB_MD_COLS from "../body/mejoraDefault/RB_mD_columns"
+import RB_MD_EDIT from "../body/mejoraDefault/RB_mD_edit"
+import RB_MD_ADD from "../body/mejoraDefault/RB_mD_add"
 
 const BixRightbar = () =>{
     // Primary Definitions
@@ -39,11 +40,13 @@ const BixRightbar = () =>{
     // Render Destination components as per requests
     const listSelector = (list) =>{
         if(list === "RB_mD_columns")
-            return <div><RB_mD_columns/></div>
+            return <div><RB_MD_COLS/></div>
         else if(list === "RB_mD_edit")
-            return <div><RB_mD_edit/></div>
+            return <div><RB_MD_EDIT/></div>
+        else if(list === "RB_mD_add")
+            return <div><RB_MD_ADD/></div>
         else
-            return <div style={{zIndex:10}}>{list}</div>
+            return <div style={{zIndex:10}}> Test - {list}</div>
     }
     return <div  >
         {listSelector(state.rightBar.body)}

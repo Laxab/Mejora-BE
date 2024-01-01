@@ -46,4 +46,4 @@ const Box = (props) =>{
 
 
 export {Box}
-export default {color};
+//export default {color};

@@ -27,7 +27,9 @@ Creation Date: 17 Nov 2023
 // Import Components
 import { useSelector } from "react-redux"
 import BODY_MD_TABLE from "./mejoraDefault/BO_mD_table"
-
+import ACCOUNT_DETAILS from "./subbody/accountDetails"
+import BODY_MD_ANALYTICS from "./mejoraDefault/BO_mD_analytics"
+import BODY_MD_LOGGING from "./mejoraDefault/BO_mD_logging"
 
 const BizBody = () =>{
 
@@ -36,11 +38,22 @@ const BizBody = () =>{
 
     //Business Methods
     const bodySelector = () =>{
-        if (state.selectedMenu.name==="Business Accounts")
-            return <BODY_MD_TABLE/>
-        else {
-            return null
-        } 
+        
+        if (state.selectedMenu.dynamic !== false){
+            if ((state.selectedMenu.dynamic==="mejoraDefault")&&(state.selectedMenu.isMenu.name==="List"))
+                return <BODY_MD_TABLE/>
+            else if ((state.selectedMenu.dynamic==="mejoraDefault")&&(state.selectedMenu.isMenu.name==="Analytics"))
+                return <BODY_MD_ANALYTICS/>
+            else if ((state.selectedMenu.dynamic==="mejoraDefault")&&(state.selectedMenu.isMenu.name==="Logging"))
+                return <BODY_MD_LOGGING/>
+        }
+        else{
+            if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Account Details"))
+                return <ACCOUNT_DETAILS/>
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Theme"))
+                return "This is theme"
+            else return null
+        }
     }
 
     return <div className="bizBody" style={{padding:'0px',height:'500px'}}>
