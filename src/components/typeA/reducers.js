@@ -1,4 +1,6 @@
 const initialState = {
+    businessNameShort:'be',
+    businessName:'Business Exp.',
     counter: 0,
     lightTheme:true,
     login:false,

@@ -30,6 +30,7 @@ import BODY_MD_TABLE from "./mejoraDefault/BO_mD_table"
 import ACCOUNT_DETAILS from "./subbody/accountDetails"
 import BODY_MD_ANALYTICS from "./mejoraDefault/BO_mD_analytics"
 import BODY_MD_LOGGING from "./mejoraDefault/BO_mD_logging"
+import ACCOUNT_THEMES from "./subbody/accountThemes"
 
 const BizBody = () =>{
 
@@ -51,7 +52,7 @@ const BizBody = () =>{
             if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Account Details"))
                 return <ACCOUNT_DETAILS/>
             else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Theme"))
-                return "This is theme"
+                return <ACCOUNT_THEMES/>
             else return null
         }
     }

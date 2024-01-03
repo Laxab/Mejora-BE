@@ -23,6 +23,7 @@ import fetchData from "../../others/fetchData"
 import {RiSearchLine } from 'react-icons/ri';
 import { useForm } from "react-hook-form"
 import { PieChart } from '@mui/x-charts/PieChart';
+import { color } from "../../others/others_colors"
 
 const BO_mD_analytics = () =>{
 
@@ -88,6 +89,7 @@ const BO_mD_analytics = () =>{
          * Onload UseEffect
          * This method gets the column names to be filled to the select inputs upon loading the component
          */
+        setres([])
         const structApi = async() =>{
             dispatch({type:'LISTINGS_LOADING_ON'})
             const uri='api/be/standard/select';
@@ -149,6 +151,26 @@ const BO_mD_analytics = () =>{
         return result
     }
 
+    const getDisplayName = (input) =>{
+        /**
+         * Get the actual name (Display Name) for the column name given as input
+         */
+        const arrayFound = cols.find(col => col.name === input)
+        const dispName = arrayFound ? arrayFound.dispName : null
+        return dispName
+    }
+    const pieChartData = (input) => {
+        /**
+         * Prepare the data for pieChart as required
+         */
+        const data = input?.map((item, index) => {
+            const { x, y } = item;
+            const [backgroundColor] = color(String(y));
+            return { id: index, value: x, label: String(y), color:`${backgroundColor}` };
+          });
+        return data
+    }
+
     const header = () =>{
         /**
          * JSX Header
@@ -174,7 +196,7 @@ const BO_mD_analytics = () =>{
                     }
                     <form onSubmit={handleSubmit(onSubmit)} style={{margin:'auto 0px auto auto',display:'flex'}}>
                         <div style={{margin:'auto 10px auto auto'}}>X" (Count)</div>
-                        <select onChange={(e)=>handlechange(e,'xAxis','string')} style={{width:'130px'}}>
+                        <select className="backgroundShaded15" onChange={(e)=>handlechange(e,'xAxis','string')} style={{width:'130px'}}>
                             <option value={false} selected>Select X"</option>
                             {
                                 cols.map((col,i)=>{
@@ -183,7 +205,7 @@ const BO_mD_analytics = () =>{
                             }
                         </select>
                         <div style={{margin:'auto 10px auto 10px'}}>Y"</div>
-                        <select onChange={(e)=>handlechange(e,'yAxis','string')} style={{width:'130px'}}>
+                        <select className="backgroundShaded15" onChange={(e)=>handlechange(e,'yAxis','string')} style={{width:'130px'}}>
                             <option value={false} selected>Select Y"</option>
                             {
                                 cols.map((col,i)=>{
@@ -203,25 +225,6 @@ const BO_mD_analytics = () =>{
 
             </div>
         </>
-    }
-
-    const getDisplayName = (input) =>{
-        /**
-         * Get the actual name (Display Name) for the column name given as input
-         */
-        const arrayFound = cols.find(col => col.name === input)
-        const dispName = arrayFound ? arrayFound.dispName : null
-        return dispName
-    }
-    const pieChartData = (input) => {
-        /**
-         * Prepare the data for pieChart as required
-         */
-        const data = input?.map((item, index) => {
-            const { x, y } = item;
-            return { id: index, value: x, label: String(y) };
-          });
-        return data
     }
 
     const body = (cols) => {
@@ -245,6 +248,7 @@ const BO_mD_analytics = () =>{
                         ]}
                         width={800}
                         height={300}
+                        style={{overflow:'auto'}}
                     />
                 </div>
 
@@ -255,7 +259,7 @@ const BO_mD_analytics = () =>{
                             <b>{getDisplayName(res?.y)}</b>
                         </div>
                         <div style={{width:'20%',margin:'auto 20px auto 0px',padding:'10px', textAlign:'right'}}>
-                            <b>{getDisplayName(res?.x)}</b>
+                            <b>{getDisplayName(res?.x)} Count</b>
                         </div>
                     </div>
                 </div>
@@ -275,12 +279,18 @@ const BO_mD_analytics = () =>{
                 }
                 </div>
 
+                {/*}
                 <div style={{borderBottom:'0px dashed RED',padding:'0px',fontSize:'25px',textAlign:'center',margin:'30px auto 0px auto'}}>
                     <b>JSON Representation</b>
                 </div>
-                <pre style={{textAlign:'left',padding:'20px',background:'#222',color:'#aaa',borderRadius:'5px',width:'500px',height:'1000px',margin:'20px auto',overflow:'auto'}}>
+                <pre style={{textAlign:'left',padding:'20px',background:'#222',color:'#aaa',borderRadius:'5px',width:'500px',margin:'20px auto'}}>
                     {JSON.stringify(pieChartData(res?.data?.dbData),2,2)}
                 </pre>
+                {*/}
+
+                <div style={{margin:'20px auto 100px auto',border:'0px dashed red',width:'550px',lineHeight:'30px',letterSpacing:'1px'}}>
+                    Analyzing the correlation between {getDisplayName(res?.x)} (Count) and {getDisplayName(res?.y)} to provide trend insights. Analytics derived by {state.businessName}
+                </div>
             </div>
         </div>
     }

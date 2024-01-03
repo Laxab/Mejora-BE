@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux"
+import {BoxInitials} from "../../others/others_colors"
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -14,6 +15,19 @@ const AccountDetails = () =>{
     }
     
     return <div style={{marginLeft:'auto',marginRight:'auto',textAlign:'left'}}>
+        <div style={{margin:'20px 0px 0px 0px',display:'flex'}}>
+            <div style={{margin:'auto 0px auto auto'}}>
+                <BoxInitials dim={'80px'} txt={state?.loginData?.identity?.userName}/>
+            </div>
+            <div style={{margin:'auto auto auto 20px'}}>
+                <div style={{fontSize:'x-large'}}>
+                    <b>{state?.loginData?.identity?.userName}</b>
+                </div>
+                <div className="backgroundShaded10" style={{margin:'5px 0 5px 0',padding:'5px 10px',borderRadius:'5px',cursor:'pointer',display:'table-cell'}}>
+                    @{state?.loginData?.identity?.userid}
+                </div>
+            </div>
+        </div>
         <div className='stdBorder stdBackground' style={{display:'flex', width:'500px', height:'50px',marginTop:'20px'}}>
             <div style={{width:'50%', margin:'auto',padding:'0px 10px'}}>Name</div>
             <div style={{width:'50%', margin:'auto',padding:'0px 10px',textAlign:'right'}}>{state.loginData.identity?.userName}</div>
@@ -59,6 +73,10 @@ const AccountDetails = () =>{
         <button onClick={()=>signOut()} className='stdButtonRed' style={{display:'flex', width:'500px', height:'50px',marginTop:'20px'}}>
             <div style={{margin:'auto'}}>Sign Out</div>
         </button>
+
+        <div style={{border:'0px dashed red',height:'100px'}}>
+
+        </div>
 
     </div>
     

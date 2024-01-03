@@ -69,39 +69,28 @@ const RB_mD_add = () =>{
                 const response = await fetchData(url,body)
                 if(response.status==="success"){
                     dispatch({type:'RESET',payload:"Now"})
-                    //dispatch({type:'BODYCONTENTS_ADD',payload:input})
                     dispatch({type:'RIGHTBAR_OFF'})
+                    const logData = async()=>{
+                        const url='api/be/mejoradefault/logging';
+                        const loggingBody = {
+                            "sid": state.loginData.sid,
+                            "username": state.loginData.identity.userid,
+                            "user": state.loginData.identity.userName,
+                            "request": "DBA_Select",
+                            "dbTable":state.bodyContents.name,
+                            "logType":"Insert",
+                            "bu":buName,
+                            "type":'logging',
+                            "requestBody":body
+                        }
+                        await fetchData(url,loggingBody)
+                    }
+                    logData()
                 }
                 dispatch({type:'BACKDROP_OFF'})
             }
             dispatch({type:'BACKDROP_ON'})
             putData(input,state.rightBar.contents)
-        }
-        else{
-            /**
-             * Perform database Update for editing values
-             */
-            const putData = async (input,contents) =>{
-                const url = 'api/be/standard/update'
-                const body = {
-                    "sid": state.loginData.sid,
-                    "request": "DBA_Update",
-                    "bu":buName,
-                    "type":state.bodyContents.name,
-                    "update":[input],
-                    "condition":[{"id":input.id}],
-                    "conditionType":"AND"
-                }
-                const response = await fetchData(url,body)
-                if(response.status==="success"){
-                    dispatch({type:'RESET',payload:"Now"})
-                    dispatch({type:'RIGHTBAR_OFF'})
-                }
-                dispatch({type:'BACKDROP_OFF'})
-            }
-            dispatch({type:'BACKDROP_ON'})
-            putData(input,state.rightBar.contents)
-
         }
     }
 

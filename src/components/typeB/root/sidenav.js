@@ -51,13 +51,13 @@ const Sidenav = (props) =>{
         if(sidenavStatus === 1)
             return(
                 <div style={{width:'40px',height:'40px',borderRadius:'5px',padding:'3px 5px 5px',display:'flex',justifyContent:'center'}}>
-                    <div style={{display:'flex',margin:'auto 0px auto',position:'relative',top:'-6px',left:'-1px',fontSize:'40px',color:'#fff',fontFamily:'logo'}}>be</div>
+                    <div style={{display:'flex',margin:'auto 0px auto',position:'relative',top:'-6px',left:'-1px',fontSize:'40px',color:'#fff',fontFamily:'logo'}}>{state.businessNameShort}</div>
                 </div>
             )
         else
             return(
                 <div style={{width:'40px',height:'40px',borderRadius:'5px',padding:'3px 5px 5px',display:'flex',justifyContent:'center'}}>
-                    <div style={{display:'flex',margin:'auto 0px auto',position:'relative',top:'-6px',left:'-1px',fontSize:'40px',color:'#fff',fontFamily:'logo'}}>be</div>
+                    <div style={{display:'flex',margin:'auto 0px auto',position:'relative',top:'-6px',left:'-1px',fontSize:'40px',color:'#fff',fontFamily:'logo'}}>{state.businessNameShort}</div>
                 </div>
             )
     }
@@ -75,7 +75,7 @@ const Sidenav = (props) =>{
                 {
                     props.sidenav
                     &&
-                    <div className='buttonName' style={{width:'100%',fontFamily:'logo', fontSize:'25px',paddingTop:'3px',color:'#fff',justifyContent:'center'}}>Business Exp</div>
+                    <div className='buttonName' style={{width:'100%',fontFamily:'logo', fontSize:'25px',paddingTop:'3px',color:'#fff',justifyContent:'center'}}>{state.businessName}</div>
                 }
             </div>
 

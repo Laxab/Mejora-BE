@@ -1,53 +1,83 @@
 import { useDispatch, useSelector } from "react-redux"
 import {Box} from "../../others/others_colors"
+import {BoxInitials} from "../../others/others_colors"
 import { useEffect, useState } from "react"
 import fetchData from "../../others/fetchData"
+import { color } from "../../others/others_colors"
+import { useForm } from "react-hook-form"
 import {RiSearchLine } from 'react-icons/ri';
 
 const BO_mD_logging = () =>{
 
     const state = useSelector(state => state);
     const dispatch = useDispatch();
-    const [cols,setcols] = useState([])
+    const [log,setlog] = useState([])
+
+
+
+    /** -------------------------------------------------------------
+     * FORM methods
+     * Below methods handle all logic related to the Forms operations
+     */
+    const { handleSubmit, trigger } = useForm();
+    const [input, setinput] = useState([]);
+    const [res,setres] = useState([]);
+    const onSubmit = async () => {
+        const submitForm = async() =>{
+        }
+        submitForm()
+    }
+    const handlechange = async (e,type,datatype)  =>{
+        /**
+         * Handles the changes dynamically for each input elements in the form
+         */
+        if(datatype==="string")
+            setinput(prev => ({...prev, [type]:e.target.value}))
+        else if(datatype==="int")
+            setinput(prev => ({...prev, [type]:parseInt(e?.target?.value)}))
+        await trigger(e.target.name);
+    }
+    const errorMessage = () =>{
+        alert("X and Y should have distinct values")
+    }
+    // End of form dependent definitions ----------------------------
 
     useEffect(()=>{
-        const structApi = async() =>{
-            //---> Begin the call
+        const submitForm = async() =>{
             dispatch({type:'LISTINGS_LOADING_ON'})
-            const uri='api/be/standard/select';
+            const uri='api/be/mejoradefault/loggingView';
             const body={
                 "sid": state.loginData.sid,
                 "request": "DBA_Select",
                 "bu":"GreyInsights",
-                "type":"struct_"+state.bodyContents.name,
-                "select":["*"],
-                "condition":[{"id":"%"}],
-                "conditionType":"OR",
-                "order":{
-                    "orderBy":"id",
-                    "order":"DESC"
-                },
-                "pageNumber":1,
-                "pageSize":10
+                'type':state.bodyContents.name
             }
 
             const resp = await fetchData(uri,body)
             try{
                 dispatch({type:'LISTINGS_LOADING_OFF'})
                 if(resp.status==="success"){
-                    dispatch({type:"STRUCT_SET",payload:JSON.parse(resp.data.response.dbData[0].cols)})
-                    setcols(JSON.parse(resp.data.response.dbData[0].cols))
+                    setlog(resp?.data?.dbData)
                 }
                 else{
-                    dispatch({type:"STRUCT_UNSET"})
-                    setcols([])
+                    setlog([])
                     dispatch({type:"SNACKBAR_ON",message:resp.message, severity:"error"})
                 }
             }
             catch(e){}
         }
-        structApi()
+        submitForm()
     },[dispatch,state.bodyContents.name,state.loginData.sid])
+
+    const generateColordDiv = (word) =>{
+        /**
+         * This method assigns background color as per the hash of the text provided.
+         */
+        const [backgroundColor, val] = color(word);
+        return  <div style={{display:'table-cell',background:`${backgroundColor}`,color:'#fff',float:'right',padding:'5px 10px',borderRadius:'5px'}}>
+            {word}
+        </div>
+    }
 
     const header = () =>{
 
@@ -66,39 +96,72 @@ const BO_mD_logging = () =>{
                 <div style={{fontSize:'small'}}>{state.bodyContents.description}</div>
             </div>
 
+
+
+
             <div style={{margin:'auto 0px auto auto',display:'flex'}}>
-
-                <div style={{margin:'auto 10px auto auto'}}>X-Count</div>
-                <select style={{width:'130px'}}>
-                    {
-                        cols.map((col,i)=>{
-                            return <option key={i} value={col.name}>{col.dispName}</option>
-                        })
-                    }
-                </select>
-
-                <div style={{margin:'auto 10px auto 10px'}}>Y-Values</div>
-                <select style={{width:'130px'}}>
-                    {
-                        cols.map((col,i)=>{
-                            return <option key={i} value={col.name}>{col.dispName}</option>
-                        })
-                    }
-                </select>
+                {
+                /**
+                 * Form for selecting two inputs and rendering the analytics content
+                 */
+                }
+                <form onSubmit={handleSubmit(onSubmit)} style={{margin:'auto 0px auto auto',display:'flex'}}>
+                    <div style={{margin:'auto 10px auto 10px'}}>Select Date</div>
+                    <input className="backgroundShaded15" type='date' onChange={(e)=>handlechange(e,'yAxis','string')} style={{width:'130px'}}/>
+                </form>
             </div>
-
-            <button className="stdButton" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',fontSize:'20px'}}/></button>
+            <button onClick={handleSubmit(onSubmit)} className="stdButton" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',fontSize:'20px'}}/></button>
 
         </div>
         </>
     }
 
-    const body = (cols) => {
+    const body = () => {
 
         return <div className="scrollbarTypeDefault" style={{width:'100%',height:'calc(100vh - 141px)',overflow:'auto'}}>
-            <pre style={{textAlign:'left'}}>
-                This is for logging
-            </pre>
+            <div style={{width:'100%',border:'0px dashed RED',textAlign:'left',overflow:'auto'}}>
+                {
+                    log?.map((item,i)=>(
+                        <div key={i} className="stdbox" style={{width:'70%',margin:'20px auto auto 20px',padding:'0px'}}>
+                            <div style={{padding:'20px 0px 10px 0px',display:'flex'}}>
+                                <div style={{padding:'0px 0px 0px 20px'}}>
+                                    <BoxInitials dim={'45px'} txt={item.user}/>
+                                </div>
+                                <div style={{padding:'0px 0px 0px 10px'}}>
+                                    <div><b>{item.user}</b></div>
+                                    <div style={{fontSize:'12px', display:'flex'}}>
+                                        <div className="backgroundShaded5" style={{margin:'5px 0 5px 0',padding:'5px 10px',borderRadius:'5px'}}>@{item.username}</div> 
+                                        <div className="backgroundShaded5" style={{margin:'5px 0px 5px 5px',padding:'5px 10px',borderRadius:'5px'}}>{item.sid}</div>
+                                    </div>
+                                </div>
+                                <div style={{margin:'auto 20px auto auto'}}>
+                                {
+                                    item.logType==="Update"
+                                    &&
+                                    generateColordDiv("Update")
+                                }
+                                {
+                                    item.logType==="Insert"
+                                    &&
+                                    generateColordDiv("Insert")
+                                }
+                                {
+                                    item.logType==="Delete"
+                                    &&
+                                    generateColordDiv("Delete")
+                                }
+                                </div>
+                            </div>
+                            <pre className="backgroundShaded5" style={{width:'100%',overflow:'auto'}}>
+                                {JSON.stringify(JSON.parse(item.requestBody),2,2)}
+                            </pre>
+                            <div style={{textAlign:'right',padding:'0px 20px 10px 0px',fontSize:'small'}}>
+                                <i>{item.datetime}</i>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
         </div>
     }
 
@@ -108,7 +171,7 @@ const BO_mD_logging = () =>{
         }      
         <div style={{display:'flex',height:'0px',borderBottom:'1px solid #ddd'}}></div>
         {
-            body(cols)
+            body()
         }        
         
     </div>

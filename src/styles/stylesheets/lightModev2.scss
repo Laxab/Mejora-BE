@@ -27,6 +27,11 @@
     .txt0{color:$disable}
     // Sidenav
     .backgroundShaded1{background: darken($backgroundColor,15);color:$textColor}
+    .backgroundShaded10{background: darken($backgroundColor,10);color:$textColor}
+    .backgroundShaded15{background: darken($backgroundColor,15);color:$textColor}
+    .backgroundShaded20{background: darken($backgroundColor,20);color:$textColor}
+    .backgroundShaded25{background: darken($backgroundColor,25);color:$textColor}
+    .backgroundShaded5{background: darken($backgroundColor,5);color:$textColor}
     .sidenavBodyMin{background: linear-gradient(0deg, $color1,$color2); color:$backgroundColor;}
     .sidenavBodyMax{background: linear-gradient(0deg, $color1, $color2);}
 

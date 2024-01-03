@@ -51,33 +51,7 @@ const RB_mD_edit = () =>{
          * Database write request for submitted form
          */
         var buName=state?.loginData?.identity?.buName ?? ""
-        if(reqType==="add"){
-            /**
-             * Perform database Insertion for newly added values
-             */
-            const putData = async (input,contents) =>{
-                const url = 'api/be/standard/insert'
-                delete input.id
-                const body = {
-                    "sid": state.loginData.sid,
-                    "request": "DBA_Insert",
-                    "bu":buName,
-                    "type":state.bodyContents.name,
-                    "value":[[input]],
-                    "key":"id"
-                }
-                const response = await fetchData(url,body)
-                if(response.status==="success"){
-                    dispatch({type:'RESET',payload:"Now"})
-                    //dispatch({type:'BODYCONTENTS_ADD',payload:input})
-                    dispatch({type:'RIGHTBAR_OFF'})
-                }
-                dispatch({type:'BACKDROP_OFF'})
-            }
-            dispatch({type:'BACKDROP_ON'})
-            putData(input,state.rightBar.contents)
-        }
-        else{
+        if(reqType==="update"){
             /**
              * Perform database Update for editing values
              */
@@ -94,6 +68,22 @@ const RB_mD_edit = () =>{
                 }
                 const response = await fetchData(url,body)
                 if(response.status==="success"){
+                    const logData = async()=>{
+                        const url='api/be/mejoradefault/logging';
+                        const loggingBody = {
+                            "sid": state.loginData.sid,
+                            "username": state.loginData.identity.userid,
+                            "user": state.loginData.identity.userName,
+                            "dbTable":state.bodyContents.name,
+                            "request": "DBA_Select",
+                            "logType":"Update",
+                            "bu":buName,
+                            "type":'logging',
+                            "requestBody":body
+                        }
+                        await fetchData(url,loggingBody)
+                    }
+                    logData()
                     dispatch({type:'RESET',payload:"Now"})
                     dispatch({type:'RIGHTBAR_OFF'})
                 }
@@ -330,8 +320,24 @@ const RB_mD_edit = () =>{
                 const response = await fetchData(url,body)
                 if(response.status==="success"){
                     dispatch({type:'RESET',payload:"Now"})
-                    //dispatch({type:'BODYCONTENTS_ADD',payload:input})
                     dispatch({type:'RIGHTBAR_OFF'})
+                    setDel(false)
+                    const logData = async()=>{
+                        const url='api/be/mejoradefault/logging';
+                        const loggingBody = {
+                            "sid": state.loginData.sid,
+                            "username": state.loginData.identity.userid,
+                            "user": state.loginData.identity.userName,
+                            "request": "DBA_Select",
+                            "dbTable":state.bodyContents.name,
+                            "logType":"Delete",
+                            "bu":buName,
+                            "type":'logging',
+                            "requestBody":body
+                        }
+                        await fetchData(url,loggingBody)
+                    }
+                    logData()
                 }
                 dispatch({type:'BACKDROP_OFF'})
             }
@@ -339,7 +345,7 @@ const RB_mD_edit = () =>{
             putData(input,state.rightBar.contents)
 
         }
-    },[dispatch, input, del, state?.loginData?.identity?.buName, state.loginData.sid, state.rightBar.contents, state.bodyContents.name])
+    },[dispatch, input, del, state?.loginData?.identity?.buName, state.loginData.sid, state.rightBar.contents, state.bodyContents.name, state.loginData.identity.userName, state.loginData.identity.userid])
 
     return <div>
         <div style={{padding:'10px'}}>
