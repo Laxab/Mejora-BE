@@ -23,11 +23,11 @@ const fetchData = async (uri, body, cookie) => {
     if(cookie!=="")
         myHeaders.append("sid", cookie);
 
-    var url = 'http://localhost:1111/'+uri;
+    var url = 'http://192.168.29.84:1111/'+uri;
     //var url = 'https://api.78e.laxab.com/'+uri;
 
     var raw = JSON.stringify(body);
-
+    
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,

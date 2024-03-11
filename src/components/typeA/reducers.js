@@ -1,6 +1,9 @@
+import customerRepo from "../../customerBusiness/customer.repo";
+
 const initialState = {
-    businessNameShort:'be',
-    businessName:'Business Exp.',
+    businessNameShort:customerRepo.businessNameShort,
+    businessName:customerRepo.businessName,
+    businessUnit:customerRepo.businessUnit,
     counter: 0,
     lightTheme:true,
     login:false,
@@ -20,11 +23,14 @@ const initialState = {
     dialogbox:{status:false, title:'', body:'',response:''},
     reset:"",
     struct:[],
+    colorCount:0,
     reduxdebugger:false
   };
   
   const counterReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'COLOR_COUNT':
+            return {...state, colorCount:action.payload}
         case 'STRUCT_SET':
             return {...state, struct:action.payload}
         case 'STRUCT_UNSET':

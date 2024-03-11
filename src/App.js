@@ -31,7 +31,7 @@ function App() {
         var body = {
           "sid":sidvalue,
           "request": "getRBAC",
-          "bu":"GreyInsights"
+          "bu":state?.businessUnit
         };
         const data = await fetchData(uri,body,'');
         try{
@@ -53,7 +53,7 @@ function App() {
     };
     loginNow();
     
-  },[state.login, sidvalue,dispatch,sidkey])
+  },[state.login, sidvalue,dispatch,sidkey, state?.businessUnit])
 
   return (
     <div style={{height:'100vh'}}>

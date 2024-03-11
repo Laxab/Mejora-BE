@@ -33,6 +33,9 @@ import { useSelector } from "react-redux"
 import RB_MD_COLS from "../body/mejoraDefault/RB_mD_columns"
 import RB_MD_EDIT from "../body/mejoraDefault/RB_mD_edit"
 import RB_MD_ADD from "../body/mejoraDefault/RB_mD_add"
+import RB_MA3_COLS from "../body/mejoraA3/RB_mA3_columns"
+import RB_MA3_EDIT from "../body/mejoraA3/RB_mA3_edit"
+import RB_MA3_ADD from "../body/mejoraA3/RB_mA3_add"
 
 const BixRightbar = () =>{
     // Primary Definitions
@@ -45,6 +48,12 @@ const BixRightbar = () =>{
             return <div><RB_MD_EDIT/></div>
         else if(list === "RB_mD_add")
             return <div><RB_MD_ADD/></div>
+        else if(list === "RB_mA3_columns")
+            return <div><RB_MA3_COLS/></div>
+        else if(list === "RB_mA3_edit")
+            return <div><RB_MA3_EDIT/></div>
+        else if(list === "RB_mA3_add")
+            return <div><RB_MA3_ADD/></div>
         else
             return <div style={{zIndex:10}}> Test - {list}</div>
     }

@@ -24,12 +24,12 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import fetchData from "../../others/fetchData"
 
-const RB_mD_edit = () =>{
+const RB_mA3_add = () =>{
 
     // Primary Definitions
     const state = useSelector(state => state)
     const dispatch = useDispatch();
-    const { register, handleSubmit, formState: { errors }, trigger, setValue } = useForm();
+    const { register, handleSubmit, formState: { errors }, trigger } = useForm();
 
     // Secondary Definitions
     const [triggeronce,settriggeronce] = useState(1);
@@ -44,39 +44,41 @@ const RB_mD_edit = () =>{
     const stdDiv = {padding:'8px 0px 8px'}
     const stdDiv2 = {margin:'5px 0px 5px',width:'calc(100% - 20px)'}
     const stdDiv2a = {margin:'5px 0px 5px',width:'calc(100% - 0px)'}
-    const [reqType,setreqType] = useState("add")
+    const reqType = "add"
 
     const onSubmit = async () => {
         /**
          * Database write request for submitted form
          */
         var buName=state?.loginData?.identity?.buName ?? ""
-        if(reqType==="update"){
+        if(reqType==="add"){
             /**
-             * Perform database Update for editing values
+             * Perform database Insertion for newly added values
              */
             const putData = async (input,contents) =>{
-                const url = 'api/be/standard/update'
+                const url = 'api/be/v1.0/standard/insert'
+                delete input.id
                 const body = {
                     "sid": state.loginData.sid,
-                    "request": "DBA_Update",
+                    "request": "DBA_A3_Insert",
                     "bu":buName,
                     "type":state.bodyContents.name,
-                    "update":[input],
-                    "condition":[{"id":input.id}],
-                    "conditionType":"AND"
+                    "value":[[input]],
+                    "key":"id"
                 }
                 const response = await fetchData(url,body)
                 if(response.status==="success"){
+                    dispatch({type:'RESET',payload:"Now"})
+                    dispatch({type:'RIGHTBAR_OFF'})
                     const logData = async()=>{
-                        const url='api/be/mejoradefault/logging';
+                        const url='api/be/v1.0/mejoradefault/logging';
                         const loggingBody = {
                             "sid": state.loginData.sid,
                             "username": state.loginData.identity.userid,
                             "user": state.loginData.identity.userName,
+                            "request": "DBA_A3_Select",
                             "dbTable":state.bodyContents.name,
-                            "request": "DBA_Select",
-                            "logType":"Update",
+                            "logType":"Insert",
                             "bu":buName,
                             "type":'logging',
                             "requestBody":body
@@ -84,14 +86,11 @@ const RB_mD_edit = () =>{
                         await fetchData(url,loggingBody)
                     }
                     logData()
-                    dispatch({type:'RESET',payload:"Now"})
-                    dispatch({type:'RIGHTBAR_OFF'})
                 }
                 dispatch({type:'BACKDROP_OFF'})
             }
             dispatch({type:'BACKDROP_ON'})
             putData(input,state.rightBar.contents)
-
         }
     }
 
@@ -115,14 +114,14 @@ const RB_mD_edit = () =>{
             settriggeronce(0)
             const asynccall = async() =>{
                 dispatch({type:'BACKDROP_ON'})
-                const uri='api/be/standard/select';
+                const uri='api/be/v1.0/standard/select';
                 const body={
                     "sid": state.loginData.sid,
-                    "request": "DBA_Select",
+                    "request": "DBA_A3_Select",
                     "bu":state?.businessUnit,
                     "type":item.select_table,
-                    "select":[item.select_column],
-                    "condition":[(item.select_condition)],
+                    "select":["DISTINCT "+item.select_column],
+                    "condition":item.select_condition,
                     "conditionType":item.select_conditionType,
                     "order":{
                         "orderBy":item.select_orderBy,
@@ -269,35 +268,6 @@ const RB_mD_edit = () =>{
         </div>
     }
 
-    useEffect(()=>{
-        /**
-         * This useEffect initializes the values into "input"
-         * -----Error Correction Note-----
-         * Added to dependancies - state.struct
-         * Using "// eslint-disable-next-line react-hooks/exhaustive-deps" to clear the input dependancy.
-         */
-        if(state.rightBar.contents){
-            setreqType("update")
-            const validateInputs = async() =>{
-                const newInput = state.struct.reduce((input, field) => {
-                    input[field.name] = state.rightBar.contents[field.name];
-                    return input;
-                  }, {});
-                input['id'] = state.rightBar.contents['id'];
-                setinput(prev => ({ ...prev, ...newInput }));
-                for (const field of state.struct) {
-                    const fieldName = field.name;
-                    setValue(fieldName, state.rightBar.contents[fieldName]);
-                    await trigger(fieldName);
-                }
-            }
-            validateInputs()
-        }
-        else {
-            setreqType("add");
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[state.rightBar,setValue, trigger, state.struct])
 
     useEffect(()=>{
         /**
@@ -308,10 +278,10 @@ const RB_mD_edit = () =>{
         if(del){
             var buName=state?.loginData?.identity?.buName ?? ""
             const putData = async (input,contents) =>{
-                const url = 'api/be/standard/delete'
+                const url = 'api/be/v1.0/standard/delete'
                 const body = {
                     "sid": state.loginData.sid,
-                    "request": "DBA_Delete",
+                    "request": "DBA_A3_Delete",
                     "bu":buName,
                     "type":state.bodyContents.name,
                     "condition":[{"id":input.id}],
@@ -320,24 +290,8 @@ const RB_mD_edit = () =>{
                 const response = await fetchData(url,body)
                 if(response.status==="success"){
                     dispatch({type:'RESET',payload:"Now"})
+                    //dispatch({type:'BODYCONTENTS_ADD',payload:input})
                     dispatch({type:'RIGHTBAR_OFF'})
-                    setDel(false)
-                    const logData = async()=>{
-                        const url='api/be/mejoradefault/logging';
-                        const loggingBody = {
-                            "sid": state.loginData.sid,
-                            "username": state.loginData.identity.userid,
-                            "user": state.loginData.identity.userName,
-                            "request": "DBA_Select",
-                            "dbTable":state.bodyContents.name,
-                            "logType":"Delete",
-                            "bu":buName,
-                            "type":'logging',
-                            "requestBody":body
-                        }
-                        await fetchData(url,loggingBody)
-                    }
-                    logData()
                 }
                 dispatch({type:'BACKDROP_OFF'})
             }
@@ -345,7 +299,7 @@ const RB_mD_edit = () =>{
             putData(input,state.rightBar.contents)
 
         }
-    },[dispatch, input, del, state?.loginData?.identity?.buName, state.loginData.sid, state.rightBar.contents, state.bodyContents.name, state.loginData.identity.userName, state.loginData.identity.userid])
+    },[dispatch, input, del, state?.loginData?.identity?.buName, state.loginData.sid, state.rightBar.contents, state.bodyContents.name])
 
     return <div>
         <div style={{padding:'10px'}}>
@@ -354,4 +308,4 @@ const RB_mD_edit = () =>{
     </div>
 }
 
-export default RB_mD_edit
+export default RB_mA3_add

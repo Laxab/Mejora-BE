@@ -32,7 +32,7 @@ import {GoTriangleUp, GoTriangleDown} from 'react-icons/go'
 import { useForm } from 'react-hook-form';
 import { LoadContentsAPI } from "../body_apiCall";
 
-const BO_mD_table = () =>{
+const BO_mA3_table = () =>{
     // Primary Definitions
     const state = useSelector(state=>state);
     const dispatch = useDispatch();
@@ -84,8 +84,8 @@ const BO_mD_table = () =>{
         setcontents([]);
         dispatch({type:'BACKDROP_ON'})
         const response = await LoadContentsAPI(
-                'api/be/standard/select',
-                "DBA_Select",
+                'api/be/v1.0/standard/select',
+                "DBA_A3_Select",
                 state.loginData,
                 struct.name,
                 pageNumber,
@@ -118,8 +118,8 @@ const BO_mD_table = () =>{
         const asynccall = async() =>{
             setcontents([]);
             const response = await LoadContentsAPI(
-                    'api/be/standard/select',
-                    "DBA_Select",
+                    'api/be/v1.0/standard/select',
+                    "DBA_A3_Select",
                     state.loginData,
                     struct.name,
                     'pageNumber',
@@ -145,19 +145,23 @@ const BO_mD_table = () =>{
          * Open rightbar to add new items
          */
         //dispatch({type:"RIGHTBAR_ON",title:`Add ${name}`, body:name, width:'400px'})
-        dispatch({type:"RIGHTBAR_ON",title:`Add ${state.bodyContents.dispName}`, body:'RB_mD_add', contents:'item', width:'400px'})
+        dispatch({type:"RIGHTBAR_ON",title:`Add ${state.bodyContents.dispName}`, body:'RB_mA3_add', contents:'item', width:'400px'})
     }
     const editTable = (name) =>{
         /**
          * Open rightbar to manage columns
          */
-        dispatch({type:"RIGHTBAR_ON",title:`Select columns ${name}`, body:'RB_mD_columns', width:'400px',contents:cols})
+        dispatch({type:"RIGHTBAR_ON",title:`Select columns ${name}`, body:'RB_mA3_columns', width:'400px',contents:cols})
     }
     const editItem = (name,item) =>{
         /**
          * Open rightbar to edit items, send 'item' (content) with it.
          */
-        dispatch({type:"RIGHTBAR_ON",title:`Edit ${state.bodyContents.dispName}`, body:'RB_mD_edit', contents:item, width:'400px'})
+        var widthPx = '400px'
+        if(state.bodyContents.rightbar_size){
+            widthPx = state.bodyContents.rightbar_size
+        }
+        dispatch({type:"RIGHTBAR_ON",title:`Edit ${state.bodyContents.dispName}`, body:'RB_mA3_edit', contents:item, width:`${widthPx}`})
     }
 
     useEffect(()=>{
@@ -169,10 +173,10 @@ const BO_mD_table = () =>{
         const structApi = async() =>{
             //---> Begin the call
             dispatch({type:'BACKDROP_ON'})
-            const uri='api/be/standard/select';
+            const uri='api/be/v1.0/standard/select';
             const body={
                 "sid": state.loginData.sid,
-                "request": "DBA_Select",
+                "request": "DBA_A3_Select",
                 "bu":state?.businessUnit,
                 "type":"structure",
                 "select":["*"],
@@ -237,8 +241,8 @@ const BO_mD_table = () =>{
             setSortType('Asc')
             dispatch({type:'BACKDROP_ON'})
             const response = await LoadContentsAPI(
-                'api/be/standard/select',
-                "DBA_Select",
+                'api/be/v1.0/standard/select',
+                "DBA_A3_Select",
                 state.loginData,
                 struct.name,
                 50,
@@ -275,8 +279,8 @@ const BO_mD_table = () =>{
                 if(struct.name === state.bodyContents.name){
                     if(bugFix===0){
                         const response = await LoadContentsAPI(
-                            'api/be/standard/select',
-                            "DBA_Select",
+                            'api/be/v1.0/standard/select',
+                            "DBA_A3_Select",
                             state.loginData,
                             struct.name,
                             newpageNumber,
@@ -313,7 +317,7 @@ const BO_mD_table = () =>{
         else if(col.decoration === "EnableDisable"){
 
             const checkIfEnabled = (data) =>{
-                if((data===1)||(data==="ENABLED"))
+                if((data===1)||(data==="ENABLED")||(data==="ACTIVE"))
                     return true
                 else
                     return false
@@ -333,7 +337,7 @@ const BO_mD_table = () =>{
                         </div>
                     </div>
         }
-        else if((content[col.name]===null)||(content[col.name]===""))
+        else if(content[col.name]===null)
             return <div style={{display:'flex',margin:'auto auto auto 0px',textAlign:'left'}}>
                         <div className="greyout" style={{padding:'3px 6px', fontSize:'small', borderRadius:'5px'}}>
                             No data
@@ -390,10 +394,6 @@ const BO_mD_table = () =>{
 
 
         </div>
-
-
-
-
 
         <div style={{width:'100%'}}>
             <div style={{display:'flex',background:'#fff',borderBottom:'0px solid #eee',boxShadow:'0px 15px 15px -10px #aaa'}}>
@@ -479,4 +479,4 @@ const BO_mD_table = () =>{
 
 }
 
-export default BO_mD_table
+export default BO_mA3_table

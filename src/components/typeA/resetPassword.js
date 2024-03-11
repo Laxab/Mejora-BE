@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from 'react-hook-form';
 import md5 from "md5";
 import fetchData from '../../businessComponents/others/fetchData'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Cookies from 'universal-cookie';
 
@@ -11,6 +11,7 @@ const cookies = new Cookies();
 const ResetPassword = () =>{
     const { register, handleSubmit, formState: { errors }, trigger } = useForm();
     const dispatch = useDispatch()
+    const state = useSelector(state => state)
 
     const tdstyle1={width:'150px',padding:'5px 10px 5px'}
     const tdstyle2={width:'150px',padding:'5px 10px 5px'}
@@ -19,7 +20,7 @@ const ResetPassword = () =>{
 
     const onSubmit = (data) => {
         const request = {
-            "bu":"GreyInsights",
+            "bu":state?.loginData?.identity?.buName,
             "request":"authentication",
             "sid": null,
             "username":data.username,

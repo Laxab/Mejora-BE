@@ -27,7 +27,7 @@ import { ColorSelection1 } from "../../others/others_colors"
 //import html2pdf from 'html2pdf.js';
 import BO_sket_main from "../mejoraSketches/BO_sket_main";
 
-const BO_mD_analytics = () =>{
+const BO_mA3_analytics = () =>{
 
     // Primady definitions
     const state = useSelector(state => state);
@@ -45,10 +45,10 @@ const BO_mD_analytics = () =>{
     const onSubmit = async () => {
         const submitForm = async() =>{
             dispatch({type:'BACKDROP_ON'})
-            const uri='api/be/mejoradefault/analytics';
+            const uri='api/be/v1.0/mejoradefault/analytics';
             const body={
                 "sid": state.loginData.sid,
-                "request": "DBA_Select",
+                "request": "DBA_A3_Select",
                 "bu":state?.businessUnit,
                 'type':state.bodyContents.name,
                 'xAxis':input.xAxis,
@@ -94,10 +94,10 @@ const BO_mD_analytics = () =>{
         setres([])
         const structApi = async() =>{
             dispatch({type:'BACKDROP_ON'})
-            const uri='api/be/standard/select';
+            const uri='api/be/v1.0/standard/select';
             const body={
                 "sid": state.loginData.sid,
-                "request": "DBA_Select",
+                "request": "DBA_A3_Select",
                 "bu":state?.businessUnit,
                 "type":"structure",
                 "select":["*"],
@@ -360,4 +360,4 @@ const BO_mD_analytics = () =>{
     </div>
 }
 
-export default BO_mD_analytics
+export default BO_mA3_analytics

@@ -16,6 +16,18 @@ export const ValidateSQLInjection = (value) => {
     return true;
   };
 
+  export const ValidateSQLInjection_Weak = (value) => {
+      /*
+          Clear out the special characters mentioned in regex - sqliRegex
+          Allows: [space] ['] [,]
+      */
+      const sqliRegex = /['`^+/\\]+/;
+      if (sqliRegex.test(value)) {
+        return 'Field contains invalid characters';
+      }
+      return true;
+    };
+
 
 export const Pincode = { value:/^\d{6}$/, message:"Enter valid 6 digits Indian pin code" };
 export const Mobile = { value:/^\d{10}$/, message:"Enter valid 10 digits contact number, please skip +91" };

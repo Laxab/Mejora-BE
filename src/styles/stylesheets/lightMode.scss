@@ -34,7 +34,7 @@
     //.stdBackground {background: #f9f9f9;box-shadow: 0 0px 5px 0 $borderColor, 0 1px 8px 0 $borderColor;border-radius: 10px;margin: 0px 10px 10px;padding: 15px;}
     .padTop {padding-top: 15px;}
     .stdBorder {border:1px solid $borderColor;}
-    .stdBorderBottomDashed {border:1px dashed $borderColor;border-left: 0px;border-right: 0px;border-top: 0px;}
+    .stdBorderBottomDashed {border:1px dashed darken($borderColor,8);border-left: 0px;border-right: 0px;border-top: 0px;}
     .stdBorderSelected {border:0px solid linear-gradient(#199119,#199119);background: linear-gradient(#2AA82B,#3DC33E);color:#ffffff;}
 
     .sidenavBodyMin {height:100vh;width: 70px; transition:$delay;color: $backgroundColor}
@@ -58,7 +58,7 @@
     
     // Mainbody
     $listingsWidth: 250px;
-    .mainbody {background: $backgroundColor2;width: calc(100% - $listingsWidth);transition: $delay;box-shadow: 0 0px 10px 0 $borderColor, 0 1px 12px 0 $borderColor;display:'flex';align-items: 'center';margin:'auto 0px auto'}
+    .mainbody {background: $backgroundColor2;width: calc(100% - $listingsWidth);transition: $delay;box-shadow: 0 0px 10px 0 darken($borderColor,15), 0 10px 30px 0 darken($borderColor,15);display:'flex';align-items: 'center';margin:'auto 0px auto'}
     .mainbodyToggle {background: $backgroundColor2;width: calc(100% - 0px);transition: $delay;display:'flex';align-items: 'center';margin:'auto 0px auto'}
     // Mainbody > Listings
     .listingBodyOn {width:$listingsWidth;height:100vh;background:$backgroundColor;transition: $delay;}

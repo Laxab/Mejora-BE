@@ -11,11 +11,14 @@
     $color1: #4B0C95;
     $color2: #66148C;
 
+    $color2: #310565;
+    $color1: #310565;
+
 
     $delay:0.2s;
     $paddingLarge:20px;
     $green:#3AB66B;
-    $red:#B6473A;
+    $red:#B83C3C;
 
 
 
@@ -26,7 +29,8 @@
     .txt1{color:$green}
     .txt0{color:$disable}
     // Sidenav
-    .backgroundShaded1{background: darken($backgroundColor,15);color:$textColor}
+    .greyout{background: darken($backgroundColor,13);color:lighten($textColor,15)}
+    .backgroundShaded1{background: darken($backgroundColor,0);color:$textColor}
     .backgroundShaded10{background: darken($backgroundColor,10);color:$textColor}
     .backgroundShaded15{background: darken($backgroundColor,15);color:$textColor}
     .backgroundShaded20{background: darken($backgroundColor,20);color:$textColor}

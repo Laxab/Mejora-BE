@@ -28,9 +28,15 @@ Creation Date: 17 Nov 2023
 import { useSelector } from "react-redux"
 import BODY_MD_TABLE from "./mejoraDefault/BO_mD_table"
 import ACCOUNT_DETAILS from "./subbody/accountDetails"
+import ACCOUNT_ROLES from "./subbody/accountRoles"
 import BODY_MD_ANALYTICS from "./mejoraDefault/BO_mD_analytics"
 import BODY_MD_LOGGING from "./mejoraDefault/BO_mD_logging"
 import ACCOUNT_THEMES from "./subbody/accountThemes"
+import { checkSubComponent } from "../others/roleChecks"
+import BO_sket_main from "./mejoraSketches/BO_sket_main"
+import BODY_MA3_ANALYTICS from "./mejoraA3/BO_mA3_analytics"
+import BODY_MA3_TABLE from "./mejoraA3/BO_mA3_table"
+import BODY_MA3_LOGGING from "./mejoraA3/BO_mA3_logging"
 
 const BizBody = () =>{
 
@@ -47,10 +53,18 @@ const BizBody = () =>{
                 return <BODY_MD_ANALYTICS/>
             else if ((state.selectedMenu.dynamic==="mejoraDefault")&&(state.selectedMenu.isMenu.name==="Logging"))
                 return <BODY_MD_LOGGING/>
+            else if ((state.selectedMenu.dynamic==="mejoraA3")&&(state.selectedMenu.isMenu.name==="List"))
+                return <BODY_MA3_TABLE/>
+            else if ((state.selectedMenu.dynamic==="mejoraA3")&&(state.selectedMenu.isMenu.name==="Analytics"))
+                return <BODY_MA3_ANALYTICS/>
+            else if ((state.selectedMenu.dynamic==="mejoraA3")&&(state.selectedMenu.isMenu.name==="Logging"))
+                return <BODY_MA3_LOGGING/>
         }
         else{
             if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Account Details"))
                 return <ACCOUNT_DETAILS/>
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Roles"))
+                return <ACCOUNT_ROLES/>
             else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Theme"))
                 return <ACCOUNT_THEMES/>
             else return null
@@ -58,7 +72,18 @@ const BizBody = () =>{
     }
 
     return <div className="bizBody" style={{padding:'0px',height:'500px'}}>
-            {bodySelector()}
+            {
+                /*
+                !checkSubComponent(state?.sidenav, state?.selectedMenu?.name, state?.bodyContents?.name, state.selectedMenu.isMenu.name)
+                ?
+                bodySelector()
+                :
+                BO_sket_main({title:"Select subcomponent from above",select:"assetSelection"})
+
+                */
+                
+                bodySelector()
+            }
     </div>
 }
 export default BizBody

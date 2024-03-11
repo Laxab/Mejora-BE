@@ -81,6 +81,8 @@ h3 {margin:0px;padding:0px}
     letter-spacing: 0.6px;
 }
 
+.scrollbarTypeDefaultWoOverflow { scrollbar-width: thin;scrollbar-color: transparent transparent}
+.scrollbarTypeDefaultWoOverflow:hover {  scrollbar-color: #bbb transparent;}
 .scrollbarTypeDefault {  overflow: auto;scrollbar-width: thin;scrollbar-color: transparent transparent}
 .scrollbarTypeDefault:hover {  scrollbar-color: #bbb transparent;}
 .scrollbarTypeDefault::-webkit-scrollbar {width: 10px;}

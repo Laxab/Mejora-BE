@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 // Components and Methods
 import {icon} from '../../typeC/icons'
 import { LuSettings } from 'react-icons/lu';
+import {checkSubComponent, checkSubComponenttmp} from '../../../businessComponents/others/roleChecks';
 // Redux definitions
 const { useSelector, useDispatch } = require("react-redux")
 
@@ -33,6 +34,7 @@ const Title = () =>{
         else 
             settemp(0)
     }
+
     
 
 
@@ -57,6 +59,8 @@ const Title = () =>{
                     state.selectedMenu.menu.map((data,index) => (
                         <div key={index}>
                         {
+                            checkSubComponent(state?.sidenav, state?.selectedMenu, state?.bodyContents?.name, data.name)
+                            &&
                             state.selectedMenu.isMenu
                             &&
                             state.selectedMenu.isMenu.name

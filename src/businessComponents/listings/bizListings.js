@@ -25,6 +25,7 @@ Creation Date: 17 Nov 2023
 import { useSelector } from "react-redux"
 // Import Destination
 import LIST_MD_ITEMS from "../body/mejoraDefault/LI_mD_items"
+import LIST_MA3_ITEMS from "../body/mejoraA3/LI_mA3_items"
 
 const BizListings = () =>{
 
@@ -36,6 +37,8 @@ const BizListings = () =>{
         if(state.selectedMenu.dynamic!==false){
             if(state.selectedMenu.dynamic === "mejoraDefault") 
                 return <LIST_MD_ITEMS/>
+            else if(state.selectedMenu.dynamic === "mejoraA3") 
+                return <LIST_MA3_ITEMS/>
         }
         else{
             if(state.selectedMenu.name === "random") 

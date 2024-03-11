@@ -113,15 +113,15 @@ const RB_mD_add = () =>{
         if(triggeronce){
             settriggeronce(0)
             const asynccall = async() =>{
-                dispatch({type:'LISTINGS_LOADING_ON'})
+                dispatch({type:'BACKDROP_ON'})
                 const uri='api/be/standard/select';
                 const body={
                     "sid": state.loginData.sid,
                     "request": "DBA_Select",
-                    "bu":"GreyInsights",
+                    "bu":state?.businessUnit,
                     "type":item.select_table,
                     "select":[item.select_column],
-                    "condition":[JSON.parse(item.select_condition)],
+                    "condition":[(item.select_condition)],
                     "conditionType":item.select_conditionType,
                     "order":{
                         "orderBy":item.select_orderBy,
@@ -134,7 +134,7 @@ const RB_mD_add = () =>{
                 setsel(resp.data.response.dbData)
             } 
             asynccall()
-            dispatch({type:'LISTINGS_LOADING_OFF'})
+            dispatch({type:'BACKDROP_OFF'})
         }
         console.log(sel[0])
         return <>

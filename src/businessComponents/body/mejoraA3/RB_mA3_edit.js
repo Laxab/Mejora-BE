@@ -19,12 +19,12 @@ Author: 	Abhijit Sawant (abhijitmsawant@gmail.com)
 Creation Date: 17 Nov 2023
 */
 import { useForm } from "react-hook-form"
-import {ValidateSQLInjection} from "../../others/validations"
+import {ValidateSQLInjection, ValidateSQLInjection_Weak} from "../../others/validations"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import fetchData from "../../others/fetchData"
 
-const RB_mD_edit = () =>{
+const RB_mA3_edit = () =>{
 
     // Primary Definitions
     const state = useSelector(state => state)
@@ -56,10 +56,10 @@ const RB_mD_edit = () =>{
              * Perform database Update for editing values
              */
             const putData = async (input,contents) =>{
-                const url = 'api/be/standard/update'
+                const url = 'api/be/v1.0/standard/update'
                 const body = {
                     "sid": state.loginData.sid,
-                    "request": "DBA_Update",
+                    "request": "DBA_A3_Update",
                     "bu":buName,
                     "type":state.bodyContents.name,
                     "update":[input],
@@ -69,13 +69,13 @@ const RB_mD_edit = () =>{
                 const response = await fetchData(url,body)
                 if(response.status==="success"){
                     const logData = async()=>{
-                        const url='api/be/mejoradefault/logging';
+                        const url='api/be/v1.0/mejoradefault/logging';
                         const loggingBody = {
                             "sid": state.loginData.sid,
                             "username": state.loginData.identity.userid,
                             "user": state.loginData.identity.userName,
                             "dbTable":state.bodyContents.name,
-                            "request": "DBA_Select",
+                            "request": "DBA_A3_Select",
                             "logType":"Update",
                             "bu":buName,
                             "type":'logging',
@@ -115,14 +115,14 @@ const RB_mD_edit = () =>{
             settriggeronce(0)
             const asynccall = async() =>{
                 dispatch({type:'BACKDROP_ON'})
-                const uri='api/be/standard/select';
+                const uri='api/be/v1.0/standard/select';
                 const body={
                     "sid": state.loginData.sid,
-                    "request": "DBA_Select",
+                    "request": "DBA_A3_Select",
                     "bu":state?.businessUnit,
                     "type":item.select_table,
-                    "select":[item.select_column],
-                    "condition":[(item.select_condition)],
+                    "select":["DISTINCT "+item.select_column],
+                    "condition":item.select_condition,
                     "conditionType":item.select_conditionType,
                     "order":{
                         "orderBy":item.select_orderBy,
@@ -131,13 +131,34 @@ const RB_mD_edit = () =>{
                     "pageNumber":1,
                     "pageSize":100
                 }
+                /*
+                dispatch({type:'BACKDROP_ON'})
+                const uri='api/be/v1.0/standard/select';
+                const body={
+                    "sid": state.loginData.sid,
+                    "request": "DBA_A3_Select",
+                    "bu":state?.businessUnit,
+                    "type":item.select_table,
+                    "select":[item.select_column],
+                    "condition":[JSON.parse(item.select_condition)],
+                    "conditionType":item.select_conditionType,
+                    "order":{
+                        "orderBy":item.select_orderBy,
+                        "order":item.select_order
+                    },
+                    "pageNumber":1,
+                    "pageSize":100
+                }
+                */
                 const resp = await fetchData(uri,body)
                 setsel(resp.data.response.dbData)
             } 
             asynccall()
             dispatch({type:'BACKDROP_OFF'})
+            
         }
-        console.log(sel[0])
+        //console.log(sel[0])
+        
         return <>
             {
                 sel.map((selitem,i)=>(
@@ -173,6 +194,7 @@ const RB_mD_edit = () =>{
          * Assigns validations to the input elements
          */
         if(validations === "ValidateSQLInjection") return ValidateSQLInjection
+        else if(validations === "ValidateSQLInjection_Weak") return ValidateSQLInjection_Weak
         else return false
     }
 
@@ -216,8 +238,8 @@ const RB_mD_edit = () =>{
                              */
                             return <div style={stdDiv}> 
                                 <div>{item.input_title}</div>
-                                <textarea 
-                                    name={item.name} rows={4}
+                                <pre><textarea 
+                                    name={item.name} rows={10}
                                     {
                                         ...register(
                                             item.name,
@@ -228,8 +250,8 @@ const RB_mD_edit = () =>{
                                         )
                                     }
                                     onKeyUp={(e)=>handlechange(e,item.name,item.input_datatype)} placeholder="Enter Form Name" style={stdDiv2}
-                                    defaultValue={input.form}
-                                />
+                                    defaultValue={JSON.stringify(input.form, null, 4)}
+                                /></pre>
                                 {errors[item.name] && <div style={{color:'#F37512'}}>{errors[item.name].message}</div>}
                             </div>
                         }
@@ -308,10 +330,10 @@ const RB_mD_edit = () =>{
         if(del){
             var buName=state?.loginData?.identity?.buName ?? ""
             const putData = async (input,contents) =>{
-                const url = 'api/be/standard/delete'
+                const url = 'api/be/v1.0/standard/delete'
                 const body = {
                     "sid": state.loginData.sid,
-                    "request": "DBA_Delete",
+                    "request": "DBA_A3_Delete",
                     "bu":buName,
                     "type":state.bodyContents.name,
                     "condition":[{"id":input.id}],
@@ -323,12 +345,12 @@ const RB_mD_edit = () =>{
                     dispatch({type:'RIGHTBAR_OFF'})
                     setDel(false)
                     const logData = async()=>{
-                        const url='api/be/mejoradefault/logging';
+                        const url='api/be/v1.0/mejoradefault/logging';
                         const loggingBody = {
                             "sid": state.loginData.sid,
                             "username": state.loginData.identity.userid,
                             "user": state.loginData.identity.userName,
-                            "request": "DBA_Select",
+                            "request": "DBA_A3_Select",
                             "dbTable":state.bodyContents.name,
                             "logType":"Delete",
                             "bu":buName,
@@ -354,4 +376,4 @@ const RB_mD_edit = () =>{
     </div>
 }
 
-export default RB_mD_edit
+export default RB_mA3_edit

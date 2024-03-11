@@ -9,7 +9,7 @@ import {RiSearchLine } from 'react-icons/ri'
 import BO_sket_main from "../mejoraSketches/BO_sket_main"
 
 
-const BO_mD_logging = () =>{
+const BO_mA3_logging = () =>{
 
     const state = useSelector(state => state);
     const dispatch = useDispatch();
@@ -27,10 +27,10 @@ const BO_mD_logging = () =>{
     const onSubmit = async () => {
         const submitForm = async() =>{
             dispatch({type:'BACKDROP_ON'})
-            const uri='api/be/mejoradefault/loggingView';
+            const uri='api/be/v1.0/mejoradefault/loggingView';
             const body={
                 "sid": state.loginData.sid,
-                "request": "DBA_Select",
+                "request": "DBA_A3_Select",
                 "bu":state?.businessUnit,
                 'type':state.bodyContents.name,
                 "inputDate":input['inputDate']
@@ -94,10 +94,10 @@ const BO_mD_logging = () =>{
     useEffect(()=>{
         const submitForm = async() =>{
             dispatch({type:'BACKDROP_ON'})
-            const uri='api/be/mejoradefault/loggingView';
+            const uri='api/be/v1.0/mejoradefault/loggingView';
             const body={
                 "sid": state.loginData.sid,
-                "request": "DBA_Select",
+                "request": "DBA_A3_Select",
                 "bu":state?.businessUnit,
                 'type':state.bodyContents.name
             }
@@ -258,4 +258,4 @@ const BO_mD_logging = () =>{
     </div>
 }
 
-export default BO_mD_logging
+export default BO_mA3_logging
