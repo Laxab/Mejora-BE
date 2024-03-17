@@ -55,7 +55,7 @@ const RB_mA3_columns = () =>{
     }
 
     return <div>
-        <div style={{padding:'10px'}}>
+        <div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {
                     cols.map((content,i)=>(

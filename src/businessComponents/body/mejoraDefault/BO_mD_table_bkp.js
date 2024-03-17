@@ -33,7 +33,7 @@ import { useForm } from 'react-hook-form';
 import { LoadContentsAPI } from "../body_apiCall";
 import { sliceText } from "../../others/others_textFormat"
 
-const BO_mA3_table = () =>{
+const BO_mD_table = () =>{
     // Primary Definitions
     const state = useSelector(state=>state);
     const dispatch = useDispatch();
@@ -50,11 +50,6 @@ const BO_mA3_table = () =>{
     const [close,setClose] = useState(0);
     const [sortName, setSortName] = useState("id")
     const [sortType, setSortType] = useState("Asc")
-
-
-    useEffect(()=>{
-        setSortName('id')
-    },[struct.name])
 
     const handleInputChange = async (event) => {
         /**
@@ -84,15 +79,14 @@ const BO_mA3_table = () =>{
 
     const onSubmit = async () =>{
         /**
-         * Trigger on pressing <ENTER> on searchbar
-         * NOT triggered on each keypress inside searchbar
+         * Database search query to search 'inputValue' from the INPUT searchbox
          */
         setbugFix(1)
         setcontents([]);
         dispatch({type:'BACKDROP_ON'})
         const response = await LoadContentsAPI(
-                'api/be/v1.0/standard/select',
-                "DBA_A3_Select",
+                'api/be/standard/select',
+                "DBA_Select",
                 state.loginData,
                 struct.name,
                 pageNumber,
@@ -112,8 +106,6 @@ const BO_mA3_table = () =>{
 
     useEffect(()=>{
         /**
-         * FIRST LOAD of contents
-         * 
          * This method calls for the lists contents to be rendered in table (with CONDITIONS)
          * Time of call: Whenever sortName or sortType changes -> sortName, sortType
          * -----Error Correction Note-----
@@ -122,16 +114,16 @@ const BO_mA3_table = () =>{
          */
         //setbugFix(1)
         setcontents([]);
+        //alert("Gotcha")
         dispatch({type:'BACKDROP_ON'})
-        setpageNumber(1)
         const asynccall = async() =>{
             setcontents([]);
             const response = await LoadContentsAPI(
-                    'api/be/v1.0/standard/select',
-                    "DBA_A3_Select",
+                    'api/be/standard/select',
+                    "DBA_Select",
                     state.loginData,
-                    state.bodyContents.name,
-                    1,
+                    struct.name,
+                    'pageNumber',
                     "SEARCH",
                     [
                         { [struct.s1] : inputValue + "%" },
@@ -145,7 +137,6 @@ const BO_mA3_table = () =>{
             setcontents(response)
         } 
         asynccall()
-        //alert(struct.name)
         dispatch({type:'BACKDROP_OFF'})
 
     },[sortName,sortType,inputValue,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
@@ -155,23 +146,19 @@ const BO_mA3_table = () =>{
          * Open rightbar to add new items
          */
         //dispatch({type:"RIGHTBAR_ON",title:`Add ${name}`, body:name, width:'400px'})
-        dispatch({type:"RIGHTBAR_ON",title:`Add ${state.bodyContents.dispName}`, body:'RB_mA3_add', contents:'item', width:'450px'})
+        dispatch({type:"RIGHTBAR_ON",title:`Add ${state.bodyContents.dispName}`, body:'RB_mD_add', contents:'item', width:'400px'})
     }
     const editTable = (name) =>{
         /**
          * Open rightbar to manage columns
          */
-        dispatch({type:"RIGHTBAR_ON",title:`${state.bodyContents.dispName}`, body:'RB_mA3_columns', width:'450px',contents:cols})
+        dispatch({type:"RIGHTBAR_ON",title:`Select Columns`, body:'RB_mD_columns', width:'450px',contents:cols})
     }
     const editItem = (name,item) =>{
         /**
          * Open rightbar to edit items, send 'item' (content) with it.
          */
-        var widthPx = '450px'
-        if(state.bodyContents.rightbar_size){
-            widthPx = state.bodyContents.rightbar_size
-        }
-        dispatch({type:"RIGHTBAR_ON",title:`Edit ${state.bodyContents.dispName}`, body:'RB_mA3_edit', contents:item, width:`${widthPx}`})
+        dispatch({type:"RIGHTBAR_ON",title:`Manage Records`, body:'RB_mD_edit', contents:item, width:'450px'})
     }
 
     useEffect(()=>{
@@ -183,10 +170,10 @@ const BO_mA3_table = () =>{
         const structApi = async() =>{
             //---> Begin the call
             dispatch({type:'BACKDROP_ON'})
-            const uri='api/be/v1.0/standard/select';
+            const uri='api/be/standard/select';
             const body={
                 "sid": state.loginData.sid,
-                "request": "DBA_A3_Select",
+                "request": "DBA_Select",
                 "bu":state?.businessUnit,
                 "type":"structure",
                 "select":["*"],
@@ -234,6 +221,7 @@ const BO_mA3_table = () =>{
          */
         setInputValue("")
     },[state.bodyContents.name])
+
 
     useEffect(()=>{
         /**
@@ -287,51 +275,24 @@ const BO_mA3_table = () =>{
                 //---> Begin the call
                 dispatch({type:'BACKDROP_ON'})
 
-                if(inputValue===""){
-                    if(struct.name === state.bodyContents.name){
-                        if(bugFix===0){
-                            const response = await LoadContentsAPI(
-                                'api/be/v1.0/standard/select',
-                                "DBA_A3_Select",
-                                state.loginData,
-                                struct.name,
-                                newpageNumber,
-                                "ASYNC",
-                                "",
-                                sortName
-                                ,
-                                sortType
-                            )
-                            setcontents(response)
-                        }
-                        else
-                            setbugFix(0)
+                if(struct.name === state.bodyContents.name){
+                    if(bugFix===0){
+                        const response = await LoadContentsAPI(
+                            'api/be/standard/select',
+                            "DBA_Select",
+                            state.loginData,
+                            struct.name,
+                            newpageNumber,
+                            "ASYNC",
+                            "",
+                            sortName
+                            ,
+                            sortType
+                        )
+                        setcontents(response)
                     }
-                }
-                else{
-                    if(struct.name === state.bodyContents.name){
-                        if(bugFix===0){
-                            const response = await LoadContentsAPI(
-                                'api/be/v1.0/standard/select',
-                                "DBA_A3_Select",
-                                state.loginData,
-                                struct.name,
-                                newpageNumber,
-                                "ASYNC",
-                                [
-                                    { [struct.s1] : inputValue + "%" },
-                                    { [struct.s2]: inputValue + "%" },
-                                    { [struct.s3]: "%" + inputValue + "%" }
-                                ],
-                                sortName
-                                ,
-                                sortType
-                            )
-                            setcontents(response)
-                        }
-                        else
-                            setbugFix(0)
-                    }
+                    else
+                        setbugFix(0)
 
                 }
 
@@ -355,7 +316,7 @@ const BO_mA3_table = () =>{
         else if(col.decoration === "EnableDisable"){
 
             const checkIfEnabled = (data) =>{
-                if((data===1)||(data==="ENABLED")||(data==="ACTIVE"))
+                if((data===1)||(data==="ENABLED"))
                     return true
                 else
                     return false
@@ -375,7 +336,7 @@ const BO_mA3_table = () =>{
                         </div>
                     </div>
         }
-        else if(content[col.name]===null)
+        else if((content[col.name]===null)||(content[col.name]===""))
             return <div style={{display:'flex',margin:'auto auto auto 0px',textAlign:'left'}}>
                         <div className="greyout" style={{padding:'3px 6px', fontSize:'small', borderRadius:'5px'}}>
                             No data
@@ -389,6 +350,7 @@ const BO_mA3_table = () =>{
 
     const renderBody = () =>{
         return <>
+
         <div style={{width:'90%',height:'79px',border:'0px dashed red',display:'flex',margin:'auto'}}>
             {
                 state?.bodyContents?.dispName &&
@@ -431,6 +393,10 @@ const BO_mA3_table = () =>{
 
 
         </div>
+
+
+
+
 
         <div style={{width:'100%'}}>
             <div style={{display:'flex',background:'#fff',borderBottom:'0px solid #eee',boxShadow:'0px 15px 15px -10px #aaa'}}>
@@ -481,9 +447,7 @@ const BO_mA3_table = () =>{
                                                         content[col.name].length>40 
                                                         ? 
                                                         <div style={{textAlign:'left'}}>
-                                                            {
-                                                                content[col.name]?.slice(0,90)+"..."
-                                                            }
+                                                            {content[col.name].slice(0,90)+"..."}
                                                         </div>
                                                         : 
                                                         generateBackground(col, content)
@@ -504,6 +468,7 @@ const BO_mA3_table = () =>{
 
 
     return <div style={{width:'100%'}}>
+        
         {
             state.bodyContents.length!==0
             ?
@@ -517,4 +482,4 @@ const BO_mA3_table = () =>{
 
 }
 
-export default BO_mA3_table
+export default BO_mD_table

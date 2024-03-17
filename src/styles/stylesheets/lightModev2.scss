@@ -17,7 +17,7 @@
 
     $delay:0.2s;
     $paddingLarge:20px;
-    $green:#3AB66B;
+    $green:#0FA551;
     $red:#B83C3C;
 
 
@@ -39,12 +39,42 @@
     .sidenavBodyMin{background: linear-gradient(0deg, $color1,$color2); color:$backgroundColor;}
     .sidenavBodyMax{background: linear-gradient(0deg, $color1, $color2);}
 
-    .stdButton {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
-        padding:7px 20px;background:$green;color:white;cursor:pointer;transition: $delay;
-        text-align:'center';justify-content: 'center';border-radius: 5px;
-    }
-    .stdButton:active {border:0px}
-    .stdButton:hover {border:0px;background: lighten($green, 10);transition: $delay;}
+    .stdPadding {padding:10px 20px;}
+
+    /*
+    * ----- Buttons Management -----
+    * Generic GREEN Button
+    */
+        .stdButton {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
+            padding:8px 25px;background:$green;color:white;cursor:pointer;transition: $delay;
+            text-align:'center';justify-content: 'center';border-radius: 5px;
+        }
+        .stdButton:active {border:0px}
+        .stdButton:hover {border:0px;background: lighten($green, 5);transition: $delay;}
+    // Generic RED Button
+        .stdButton0 {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
+            padding:8px 25px;background:$red;color:white;cursor:pointer;transition: $delay;
+            text-align:'center';justify-content: 'center';border-radius: 5px;
+        }
+        .stdButton0:active {border:0px}
+        .stdButton0:hover {border:0px;background: lighten($red, 5);transition: $delay;}
+    // Title Buttons
+        .titleButtonFirst {text-align:'center';background: darken($backgroundColor, 10);font-size: 16px;text-decoration: none;border:0px;
+            padding:4px 8px;color:$textColor;cursor:pointer;transition: $delay; border-left:darken($backgroundColor, 20) solid 1px;
+            border-top:darken($backgroundColor, 20) solid 1px;border-bottom:darken($backgroundColor, 20) solid 1px;border-top-left-radius: 7px;border-bottom-left-radius: 7px;
+        }
+        .titleButtonFirst:hover {background: lighten($backgroundColor, 10);}
+        .titleButton {text-align:'center';background: darken($backgroundColor, 10);font-size: 16px;text-decoration: none;border:0px;
+            padding:4px 8px;color:$textColor;cursor:pointer;transition: $delay; border-left:darken($backgroundColor, 20) solid 1px;
+            border-right:darken($backgroundColor, 20) solid 1px;border-top:darken($backgroundColor, 20) solid 1px;border-bottom:darken($backgroundColor, 20) solid 1px;
+        }
+        .titleButton:hover {background: lighten($backgroundColor, 10);}
+        .titleButtonLast {text-align:'center';background: darken($backgroundColor, 10);font-size: 16px;text-decoration: none;border:0px;
+            padding:4px 8px;color:$textColor;cursor:pointer;transition: $delay; border-right:darken($backgroundColor, 20) solid 1px;
+            border-top:darken($backgroundColor, 20) solid 1px;border-bottom:darken($backgroundColor, 20) solid 1px;border-top-right-radius: 7px;border-bottom-right-radius: 7px;
+        }
+        .titleButtonLast:hover {background: lighten($backgroundColor, 10);}
+
     .stdButtonRed {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
         padding:7px 20px;background:$red;color:white;cursor:pointer;transition: $delay;
         text-align:'center';justify-content: 'center';border-radius: 5px;
@@ -52,12 +82,6 @@
     .stdButtonRed:active {border:0px}
     .stdButtonRed:hover {border:0px;background: lighten($red, 10);transition: $delay;}
 
-    .stdButton0 {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
-        padding:7px 20px;background:$red;color:white;cursor:pointer;transition: $delay;
-        text-align:'center';justify-content: 'center';border-radius: 5px;
-    }
-    .stdButton0:active {border:0px}
-    .stdButton0:hover {border:0px;background: lighten($red, 10);transition: $delay;}
 
 
     .stdButton2 {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
@@ -78,6 +102,22 @@
         background: linear-gradient(195deg, #fff, #fff);
         padding:10px 20px 10px;border-radius: 10px;color:#fff;
         color:$textColor;
+    }
+
+    .animationRightBar{
+        position:absolute;
+        right:-300px;
+        animation: moveAnimationRightBar 0.25s ease-in-out forwards;
+    }
+    @keyframes moveAnimationRightBar {
+        0%      { right:-300; }
+        100%    { right: 0px; }
+    }
+    .animateTrial{border: 1px dashed RED;width:100px;position:absolute;left:0;height:100px;animation: moveToRight 0.2s linear forwards;}
+
+    @keyframes moveToRight {
+        0%      { left:0; }
+        100%    { left: 200px; }
     }
 
 

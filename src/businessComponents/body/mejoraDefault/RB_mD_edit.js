@@ -187,73 +187,82 @@ const RB_mD_edit = () =>{
                      * Load the INPUT elements based on "state.struct" which is defined in redux
                      */
                     struct.map((item,i)=>{
-                        if(item.input_type==="text"){
-                            /**
-                             * INPUT filed as text
-                             */
-                            return <div style={stdDiv}> 
-                                <div>{item.input_title}</div>
-                                <input 
-                                    type='text' name={item.name}
-                                    {
-                                        ...register(
-                                            item.name,
-                                            {
-                                                required:item.input_mandatory ? "Mandatory" : false,
-                                                validate: validators(item.input_validations)
-                                            }
-                                        )
-                                    }
-                                    onKeyUp={(e)=>handlechange(e,item.name,item.input_datatype)} placeholder="Enter Form Name" style={stdDiv2}
-                                    defaultValue={input.form}
-                                />
-                                {errors[item.name] && <div style={{color:'#F37512'}}>{errors[item.name].message}</div>}
-                            </div>
+                        if(item?.editable){
+                            if(item.input_type==="text"){
+                                /**
+                                 * INPUT filed as text
+                                 */
+                                return <div style={stdDiv}> 
+                                    <div>{item.input_title}</div>
+                                    <input 
+                                        type='text' name={item.name}
+                                        {
+                                            ...register(
+                                                item.name,
+                                                {
+                                                    required:item.input_mandatory ? "Mandatory" : false,
+                                                    validate: validators(item.input_validations)
+                                                }
+                                            )
+                                        }
+                                        onKeyUp={(e)=>handlechange(e,item.name,item.input_datatype)} placeholder="Enter Form Name" style={stdDiv2}
+                                        defaultValue={input.form}
+                                    />
+                                    {errors[item.name] && <div style={{color:'#F37512'}}>{errors[item.name].message}</div>}
+                                </div>
+                            }
+                            else if(item.input_type==="textarea"){
+                                /**
+                                 * INPUT filed as textarea
+                                 */
+                                return <div style={stdDiv}> 
+                                    <div>{item.input_title}</div>
+                                    <textarea 
+                                        name={item.name} rows={4}
+                                        {
+                                            ...register(
+                                                item.name,
+                                                {
+                                                    required:item.input_mandatory ? "Mandatory" : false,
+                                                    validate: validators(item.input_validations)
+                                                }
+                                            )
+                                        }
+                                        onKeyUp={(e)=>handlechange(e,item.name,item.input_datatype)} placeholder="Enter Form Name" style={stdDiv2}
+                                        defaultValue={input.form}
+                                    />
+                                    {errors[item.name] && <div style={{color:'#F37512'}}>{errors[item.name].message}</div>}
+                                </div>
+                            }
+                            else if(item.input_type==="select"){
+                                /**
+                                 * INPUT filed as select
+                                 */
+                                return <div style={stdDiv}> 
+                                    <div>{item.input_title}</div>
+                                    <select onChange={(e)=>handlechange(e,item.name,item.input_datatype)}  style={stdDiv2a} >
+                                        <option value={input[item.name]} selected>{input[item.name]}</option>
+                                        {
+                                            item.select_options===null
+                                            ?
+                                            fetchOptions(item)
+                                            :
+                                            getOptions(item)
+                                        }
+                                    </select>
+                                    {errors.status && <div style={{color:'#F37512'}}>{errors.status.message}</div>}
+                                </div>
+                            }
+                            else return <></>
                         }
-                        else if(item.input_type==="textarea"){
-                            /**
-                             * INPUT filed as textarea
-                             */
-                            return <div style={stdDiv}> 
-                                <div>{item.input_title}</div>
-                                <textarea 
-                                    name={item.name} rows={4}
-                                    {
-                                        ...register(
-                                            item.name,
-                                            {
-                                                required:item.input_mandatory ? "Mandatory" : false,
-                                                validate: validators(item.input_validations)
-                                            }
-                                        )
-                                    }
-                                    onKeyUp={(e)=>handlechange(e,item.name,item.input_datatype)} placeholder="Enter Form Name" style={stdDiv2}
-                                    defaultValue={input.form}
-                                />
-                                {errors[item.name] && <div style={{color:'#F37512'}}>{errors[item.name].message}</div>}
-                            </div>
+                        else{
+                            return <div style={stdDiv}>
+                                    <div>{item?.dispName}</div>
+                                    <h3 style={{paddingLeft:'10px',paddingTop:'5px'}}>{input[item?.name]}</h3>
+                                </div>
                         }
-                        else if(item.input_type==="select"){
-                            /**
-                             * INPUT filed as select
-                             */
-                            return <div style={stdDiv}> 
-                                <div>{item.input_title}</div>
-                                <select onChange={(e)=>handlechange(e,item.name,item.input_datatype)}  style={stdDiv2a} >
-                                    <option value={input[item.name]} selected>{input[item.name]}</option>
-                                    {
-                                        item.select_options===null
-                                        ?
-                                        fetchOptions(item)
-                                        :
-                                        getOptions(item)
-                                    }
-                                </select>
-                                {errors.status && <div style={{color:'#F37512'}}>{errors.status.message}</div>}
-                            </div>
-                        }
-                        else return <></>
-                    })
+                    }
+                    )
                 }
                 <div style={{display:'flex'}}>
                     {/**
@@ -348,7 +357,7 @@ const RB_mD_edit = () =>{
     },[dispatch, input, del, state?.loginData?.identity?.buName, state.loginData.sid, state.rightBar.contents, state.bodyContents.name, state.loginData.identity.userName, state.loginData.identity.userid])
 
     return <div>
-        <div style={{padding:'10px'}}>
+        <div>
             {renderForm(state.struct)}
         </div>
     </div>

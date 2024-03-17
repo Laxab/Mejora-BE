@@ -31,8 +31,9 @@ import {RiLayoutColumnLine} from 'react-icons/ri'
 import {GoTriangleUp, GoTriangleDown} from 'react-icons/go'
 import { useForm } from 'react-hook-form';
 import { LoadContentsAPI } from "../body_apiCall";
+import { sliceText } from "../../others/others_textFormat"
 
-const BO_mD_table = () =>{
+const BO_mA3_table = () =>{
     // Primary Definitions
     const state = useSelector(state=>state);
     const dispatch = useDispatch();
@@ -49,6 +50,11 @@ const BO_mD_table = () =>{
     const [close,setClose] = useState(0);
     const [sortName, setSortName] = useState("id")
     const [sortType, setSortType] = useState("Asc")
+
+
+    useEffect(()=>{
+        setSortName('id')
+    },[struct.name])
 
     const handleInputChange = async (event) => {
         /**
@@ -78,7 +84,8 @@ const BO_mD_table = () =>{
 
     const onSubmit = async () =>{
         /**
-         * Database search query to search 'inputValue' from the INPUT searchbox
+         * Trigger on pressing <ENTER> on searchbar
+         * NOT triggered on each keypress inside searchbar
          */
         setbugFix(1)
         setcontents([]);
@@ -105,6 +112,8 @@ const BO_mD_table = () =>{
 
     useEffect(()=>{
         /**
+         * FIRST LOAD of contents
+         * 
          * This method calls for the lists contents to be rendered in table (with CONDITIONS)
          * Time of call: Whenever sortName or sortType changes -> sortName, sortType
          * -----Error Correction Note-----
@@ -113,16 +122,16 @@ const BO_mD_table = () =>{
          */
         //setbugFix(1)
         setcontents([]);
-        //alert("Gotcha")
         dispatch({type:'BACKDROP_ON'})
+        setpageNumber(1)
         const asynccall = async() =>{
             setcontents([]);
             const response = await LoadContentsAPI(
                     'api/be/standard/select',
                     "DBA_Select",
                     state.loginData,
-                    struct.name,
-                    'pageNumber',
+                    state.bodyContents.name,
+                    1,
                     "SEARCH",
                     [
                         { [struct.s1] : inputValue + "%" },
@@ -136,6 +145,7 @@ const BO_mD_table = () =>{
             setcontents(response)
         } 
         asynccall()
+        //alert(struct.name)
         dispatch({type:'BACKDROP_OFF'})
 
     },[sortName,sortType,inputValue,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
@@ -145,19 +155,23 @@ const BO_mD_table = () =>{
          * Open rightbar to add new items
          */
         //dispatch({type:"RIGHTBAR_ON",title:`Add ${name}`, body:name, width:'400px'})
-        dispatch({type:"RIGHTBAR_ON",title:`Add ${state.bodyContents.dispName}`, body:'RB_mD_add', contents:'item', width:'400px'})
+        dispatch({type:"RIGHTBAR_ON",title:`Add ${state.bodyContents.dispName}`, body:'RB_mA3_add', contents:'item', width:'450px'})
     }
     const editTable = (name) =>{
         /**
          * Open rightbar to manage columns
          */
-        dispatch({type:"RIGHTBAR_ON",title:`Select columns ${name}`, body:'RB_mD_columns', width:'400px',contents:cols})
+        dispatch({type:"RIGHTBAR_ON",title:`${state.bodyContents.dispName}`, body:'RB_mA3_columns', width:'450px',contents:cols})
     }
     const editItem = (name,item) =>{
         /**
          * Open rightbar to edit items, send 'item' (content) with it.
          */
-        dispatch({type:"RIGHTBAR_ON",title:`Edit ${state.bodyContents.dispName}`, body:'RB_mD_edit', contents:item, width:'400px'})
+        var widthPx = '450px'
+        if(state.bodyContents.rightbar_size){
+            widthPx = state.bodyContents.rightbar_size
+        }
+        dispatch({type:"RIGHTBAR_ON",title:`Edit ${state.bodyContents.dispName}`, body:'RB_mA3_edit', contents:item, width:`${widthPx}`})
     }
 
     useEffect(()=>{
@@ -221,18 +235,19 @@ const BO_mD_table = () =>{
         setInputValue("")
     },[state.bodyContents.name])
 
-
     useEffect(()=>{
         /**
          * This method calls for the lists contents to be rendered in table
          * Time of call: Whenever list item changes, and so the structure changes -> struct.name
          */
+        
         setpageNumber(1)
-        //alert("Now")
         setcontents([])
+        const clearContents = async() =>{
+            await setcontents([])
+        }
         const initialize = async() =>{
-            //---> Begin the call
-            setcontents([])
+            clearContents()
             setSortName('id')
             setSortType('Asc')
             dispatch({type:'BACKDROP_ON'})
@@ -248,13 +263,13 @@ const BO_mD_table = () =>{
                 ,
                 'Asc'
             )
-            //alert("Check")
             setcontents(response)
+            if(state.reset!=="") dispatch({type:'RESET',payload:""})
             dispatch({type:'BACKDROP_OFF'})
         }
         initialize()
-        if(state.reset!=="") dispatch({type:'RESET',payload:""})
-    },[struct.name,state.reset,state.loginData, dispatch])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[state.reset])
 
     // working - struct.name,state.reset,state.loginData
     //state.reset,dispatch,state.loginData,struct.name, struct
@@ -272,24 +287,51 @@ const BO_mD_table = () =>{
                 //---> Begin the call
                 dispatch({type:'BACKDROP_ON'})
 
-                if(struct.name === state.bodyContents.name){
-                    if(bugFix===0){
-                        const response = await LoadContentsAPI(
-                            'api/be/standard/select',
-                            "DBA_Select",
-                            state.loginData,
-                            struct.name,
-                            newpageNumber,
-                            "ASYNC",
-                            "",
-                            sortName
-                            ,
-                            sortType
-                        )
-                        setcontents(response)
+                if(inputValue===""){
+                    if(struct.name === state.bodyContents.name){
+                        if(bugFix===0){
+                            const response = await LoadContentsAPI(
+                                'api/be/standard/select',
+                                "DBA_Select",
+                                state.loginData,
+                                struct.name,
+                                newpageNumber,
+                                "ASYNC",
+                                "",
+                                sortName
+                                ,
+                                sortType
+                            )
+                            setcontents(response)
+                        }
+                        else
+                            setbugFix(0)
                     }
-                    else
-                        setbugFix(0)
+                }
+                else{
+                    if(struct.name === state.bodyContents.name){
+                        if(bugFix===0){
+                            const response = await LoadContentsAPI(
+                                'api/be/standard/select',
+                                "DBA_Select",
+                                state.loginData,
+                                struct.name,
+                                newpageNumber,
+                                "ASYNC",
+                                [
+                                    { [struct.s1] : inputValue + "%" },
+                                    { [struct.s2]: inputValue + "%" },
+                                    { [struct.s3]: "%" + inputValue + "%" }
+                                ],
+                                sortName
+                                ,
+                                sortType
+                            )
+                            setcontents(response)
+                        }
+                        else
+                            setbugFix(0)
+                    }
 
                 }
 
@@ -313,7 +355,7 @@ const BO_mD_table = () =>{
         else if(col.decoration === "EnableDisable"){
 
             const checkIfEnabled = (data) =>{
-                if((data===1)||(data==="ENABLED"))
+                if((data===1)||(data==="ENABLED")||(data==="ACTIVE"))
                     return true
                 else
                     return false
@@ -333,7 +375,7 @@ const BO_mD_table = () =>{
                         </div>
                     </div>
         }
-        else if((content[col.name]===null)||(content[col.name]===""))
+        else if(content[col.name]===null)
             return <div style={{display:'flex',margin:'auto auto auto 0px',textAlign:'left'}}>
                         <div className="greyout" style={{padding:'3px 6px', fontSize:'small', borderRadius:'5px'}}>
                             No data
@@ -347,7 +389,6 @@ const BO_mD_table = () =>{
 
     const renderBody = () =>{
         return <>
-
         <div style={{width:'90%',height:'79px',border:'0px dashed red',display:'flex',margin:'auto'}}>
             {
                 state?.bodyContents?.dispName &&
@@ -372,7 +413,7 @@ const BO_mD_table = () =>{
                     <input 
                         style={{background:'#ddd',margin:'0px',borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',width:'150px',height:'15px',display:'flex',borderTopRightRadius:'0px',borderBottomRightRadius:'0px'}}
                         type='text'
-                        value={inputValue} onChange={handleInputChange} placeholder={`Search in ${state.bodyContents.dispName}`}
+                        value={inputValue} onChange={handleInputChange} placeholder={sliceText(18,`Search in ${state.bodyContents.dispName}`)}
                     />
                     {
                         close===1 ?
@@ -380,20 +421,16 @@ const BO_mD_table = () =>{
                         :
                         <div className="bg1" style={{background:'#ddd',height:'35px',width:'45px',borderTopRightRadius:'5px',borderBottomRightRadius:'5px',display:'flex',margin:'auto 0px auto 0px',fontSize:'20px',lineHeight:'0px'}}></div>
                     }
-                    <button onClick={handleSubmit(onSubmit)} className="stdButton" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></button>
+                    <button onClick={handleSubmit(onSubmit)} className="titleButtonFirst" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></button>
                 </form>
             </div>
             
 
-            <div onClick={()=>addItem(state.bodyContents.name)} className="stdButton" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiAddLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></div>
-            <div onClick={()=>editTable(state.bodyContents.name)} className="stdButton" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiLayoutColumnLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></div>
+            <div onClick={()=>addItem(state.bodyContents.name)} className="titleButton" style={{display:'flex',margin:'auto 0px auto 0px'}}><RiAddLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></div>
+            <div onClick={()=>editTable(state.bodyContents.name)} className="titleButtonLast" style={{display:'flex',margin:'auto 0px auto 0px'}}><RiLayoutColumnLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></div>
 
 
         </div>
-
-
-
-
 
         <div style={{width:'100%'}}>
             <div style={{display:'flex',background:'#fff',borderBottom:'0px solid #eee',boxShadow:'0px 15px 15px -10px #aaa'}}>
@@ -444,7 +481,9 @@ const BO_mD_table = () =>{
                                                         content[col.name].length>40 
                                                         ? 
                                                         <div style={{textAlign:'left'}}>
-                                                            {content[col.name].slice(0,90)+"..."}
+                                                            {
+                                                                content[col.name]?.slice(0,90)+"..."
+                                                            }
                                                         </div>
                                                         : 
                                                         generateBackground(col, content)
@@ -465,7 +504,6 @@ const BO_mD_table = () =>{
 
 
     return <div style={{width:'100%'}}>
-        
         {
             state.bodyContents.length!==0
             ?
@@ -479,4 +517,4 @@ const BO_mD_table = () =>{
 
 }
 
-export default BO_mD_table
+export default BO_mA3_table

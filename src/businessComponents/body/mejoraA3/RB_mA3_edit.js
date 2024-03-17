@@ -370,7 +370,7 @@ const RB_mA3_edit = () =>{
     },[dispatch, input, del, state?.loginData?.identity?.buName, state.loginData.sid, state.rightBar.contents, state.bodyContents.name, state.loginData.identity.userName, state.loginData.identity.userid])
 
     return <div>
-        <div style={{padding:'10px'}}>
+        <div>
             {renderForm(state.struct)}
         </div>
     </div>

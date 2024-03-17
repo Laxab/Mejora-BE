@@ -246,7 +246,7 @@ const BO_mA3_analytics = () =>{
                     ?
                     <button onClick={handleSubmit(onSubmit)} className="stdButton" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',fontSize:'20px'}}/></button>
                     :
-                    <button onClick={handleSubmit(errorMessage)} className="stdButtonRed" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',fontSize:'20px'}}/></button>
+                    <button onClick={handleSubmit(errorMessage)} className="stdButton0" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',fontSize:'20px'}}/></button>
                 }
 
             </div>

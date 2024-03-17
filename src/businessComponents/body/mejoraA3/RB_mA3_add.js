@@ -302,7 +302,7 @@ const RB_mA3_add = () =>{
     },[dispatch, input, del, state?.loginData?.identity?.buName, state.loginData.sid, state.rightBar.contents, state.bodyContents.name])
 
     return <div>
-        <div style={{padding:'10px'}}>
+        <div>
             {renderForm(state.struct)}
         </div>
     </div>

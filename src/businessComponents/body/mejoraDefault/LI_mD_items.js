@@ -46,8 +46,8 @@ const LI_mD_items = () =>{
                         <div style={{display:'flex',margin:'auto'}}><b>{item.dispName.slice(0,2)}</b></div>
                     </div>
                     <div style={{display:'flex',margin:"auto auto auto 5px",border:'0px solid red',textAlign:'left',flexDirection:'column',width:'80%'}}>
-                        <div style={{position:'relative',top:'7px'}}><b>{item.dispName}</b></div>
-                        <div className="stdcolorblur" style={{margin:"auto 20px auto auto",fontSize:'small',textAlign:'right'}}>{item.description.length>18?item.description.slice(0,18)+"...":item.description}</div>
+                        <div style={{position:'relative',top:'6px'}}><b>{item.dispName}</b></div>
+                        <div className="stdcolorblur" style={{margin:"05px 20px auto auto",fontSize:'small',textAlign:'left',border:'0px dashed red'}}>{item.description.length>18?item.description.slice(0,18)+"...":item.description}</div>
                     </div>
                 </div>
             ))

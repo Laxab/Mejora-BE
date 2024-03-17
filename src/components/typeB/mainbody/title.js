@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 // Components and Methods
 import {icon} from '../../typeC/icons'
 import { LuSettings } from 'react-icons/lu';
-import {checkSubComponent, checkSubComponenttmp} from '../../../businessComponents/others/roleChecks';
+import {checkSubComponent} from '../../../businessComponents/others/roleChecks';
 // Redux definitions
 const { useSelector, useDispatch } = require("react-redux")
 
