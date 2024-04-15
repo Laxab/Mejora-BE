@@ -141,7 +141,7 @@ const BO_mD_logging = () =>{
             }
 
             <div style={{display:'flex',flexDirection:'column',margin:'auto auto auto 0px',textAlign:'left'}}>
-                <div style={{fontSize:'large',color:'#5B6A71'}}><b>{state.bodyContents.dispName}</b></div>
+                <div style={{fontSize:'large'}}><b>{state.bodyContents.dispName}</b></div>
                 <div style={{fontSize:'small'}}>{state.bodyContents.description}</div>
             </div>
 
@@ -235,7 +235,7 @@ const BO_mD_logging = () =>{
         {
             header()
         }      
-        <div style={{display:'flex',height:'0px',borderBottom:'1px solid #ddd'}}></div>
+        <div className={'stdBorder'} style={{display:'flex',height:'0px',borderTop:'0px',borderLeft:'0px',borderRight:'0px'}}></div>
         {}
         {
             log.length === 0 ?

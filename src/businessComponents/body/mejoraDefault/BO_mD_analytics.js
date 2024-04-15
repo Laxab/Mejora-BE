@@ -20,12 +20,14 @@ import { useDispatch, useSelector } from "react-redux"
 import {Box} from "../../others/others_colors"
 import { useEffect, useState, useRef } from "react"
 import fetchData from "../../others/fetchData"
-import {RiSearchLine } from 'react-icons/ri';
+import {RiSearchLine, RiDownload2Fill } from 'react-icons/ri';
 import { useForm } from "react-hook-form"
 import { PieChart } from '@mui/x-charts/PieChart';
 import { ColorSelection1 } from "../../others/others_colors"
-//import html2pdf from 'html2pdf.js';
 import BO_sket_main from "../mejoraSketches/BO_sket_main";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 
 const BO_mD_analytics = () =>{
 
@@ -180,21 +182,15 @@ const BO_mD_analytics = () =>{
 
     const componentToSaveRef = useRef(null);
     const generatePDF = () => {
-        const element = componentToSaveRef.current;
-    
-        if (element) {
-            /*
-          const options = {
-            margin: 10,
-            filename: `report_${state.bodyContents.dispName}_${new Date().toLocaleDateString()}.pdf`, // Set the filename
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          };
-    
-          html2pdf(element, options);
-          */
-        }
+        const input = document.getElementById('pdf-content'); 
+        // Specify the id of the element you want to convert to PDF
+        html2canvas(input).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'PNG', -20, -10);
+        pdf.save('download.pdf'); 
+        // Specify the name of the downloaded PDF file
+        });
     };
 
     const header = () =>{
@@ -210,7 +206,7 @@ const BO_mD_analytics = () =>{
                     </div>
                 }
                 <div style={{display:'flex',flexDirection:'column',margin:'auto auto auto 0px',textAlign:'left'}}>
-                    <div style={{fontSize:'large',color:'#5B6A71'}}><b>{state.bodyContents.dispName}</b></div>
+                    <div style={{fontSize:'large'}}><b>{state.bodyContents.dispName}</b></div>
                     <div style={{fontSize:'small'}}>{state.bodyContents.description}</div>
                 </div>
 
@@ -244,9 +240,17 @@ const BO_mD_analytics = () =>{
                 {
                     selectValidity(input)
                     ?
-                    <button onClick={handleSubmit(onSubmit)} className="stdButton" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',fontSize:'20px'}}/></button>
+                    <button onClick={handleSubmit(onSubmit)} className="titleButtonFirst" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',fontSize:'20px'}}/></button>
                     :
-                    <button onClick={handleSubmit(errorMessage)} className="stdButton0" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',fontSize:'20px'}}/></button>
+                    <button onClick={handleSubmit(errorMessage)} className="titleButtonFirst_disabled" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',fontSize:'20px'}}/></button>
+                }
+                {
+                    res?.data?.dbData?.length > 0
+                    ?
+                    <button onClick={generatePDF} className="titleButtonLast" style={{borderStyle:'solid',borderLeftWidth:'1px',display:'flex',margin:'auto 0px auto 0px'}}><RiDownload2Fill style={{display:'flex',fontSize:'20px'}}/></button>
+                    :
+                    <button onClick={()=>alert("Please generate the report")} className="titleButtonLast_disabled" style={{borderStyle:'solid',borderLeftWidth:'1px', display:'flex',margin:'auto 0px auto 0px'}}><RiDownload2Fill style={{display:'flex',fontSize:'20px'}}/></button>
+
                 }
 
             </div>
@@ -259,8 +263,7 @@ const BO_mD_analytics = () =>{
          */
         return <div className="scrollbarTypeDefault" style={{width:'100%',height:'calc(100vh - 141px)',overflow:'auto'}}>
             <div style={{width:'85%'}}>
-                <div className="stdButton" onClick={generatePDF} style={{fontSize:'small',display:'table-cell'}}>Copy to Clipboard</div>
-                <div ref={componentToSaveRef}>
+                <div id="pdf-content" ref={componentToSaveRef}>
 
                     <div style={{borderBottom:'0px dashed RED',padding:'0px',fontSize:'25px',textAlign:'center',margin:'30px auto 10px auto'}}>
                         <b style={{marginLeft:'20px'}}>{getDisplayName(res?.x)} (Count) vs {getDisplayName(res?.y)}</b>
@@ -330,7 +333,7 @@ const BO_mD_analytics = () =>{
             {
                 header()
             }      
-            <div style={{display:'flex',height:'0px',borderBottom:'1px solid #ddd'}}></div>
+            <div className={'stdBorder'} style={{display:'flex',height:'0px',borderTop:'0px',borderLeft:'0px',borderRight:'0px'}}></div>
             {
                 res?.data?.dbData?.length>0
                 ?
@@ -338,7 +341,7 @@ const BO_mD_analytics = () =>{
                 :
                 <div style={{margin:'20px'}}>
                     {
-                        BO_sket_main({title:'Select above inputs to load analytics',select:'br_noData'})
+                            BO_sket_main({title:'Select above inputs to load analytics',select:'br_noData'})
                     }
 
                 </div>
@@ -355,13 +358,8 @@ const BO_mD_analytics = () =>{
             ?
             renderComponent()
             :
-            BO_sket_main({title:"Select item from left menu",select:"assetSelection"})
+           BO_sket_main({title:"Select item from left menu",select:"assetSelection"})
         }
-        <div>
-            <div className="animateTrial">
-
-            </div>
-        </div>
     </div>
 }
 

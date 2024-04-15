@@ -16,10 +16,10 @@ export const BoxInitials = (props) =>{
         color:"#fff",
         display:"flex",
         borderRadius:'5px',
-        fontSize:`calc(${dim}/2)`
+        fontSize:`calc(${dim}/2.5)`
     }
     return <div style={style}>
-        <div style={{display:'flex', margin:'auto'}}><b>{getInitials(txt)}</b></div>
+        <div style={{display:'flex', margin:'auto', color:'#fff'}}><b>{getInitials(txt)}</b></div>
     </div>
 
 }
@@ -32,7 +32,6 @@ export const Bullet = (props) =>{
         background:color(txt)[0],
         color:"#fff",
         display:"flex",
-        borderRadius:'5px',
         fontSize:`calc(${dim}/2)`,
         borderRadius:'50%',
         margin:'auto'
@@ -126,10 +125,10 @@ const Box = (props) =>{
         color:"#fff",
         display:"flex",
         borderRadius:'5px',
-        fontSize:`calc(${dim}/2)`
+        fontSize:`calc(${dim}/2.5)`
     }
     return <div style={style}>
-        <div style={{display:'flex', margin:'auto'}}><b>{txt.slice(0,2)}</b></div>
+        <div style={{display:'flex', margin:'auto', color:'#fff'}}><b>{txt.slice(0,2)}</b></div>
     </div>
 }
 

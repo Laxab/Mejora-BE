@@ -78,11 +78,11 @@ const Login = () =>{
         
         <div className="stdbox" style={{height:'auto',display:'flex',margin:'auto 0px auto',padding:'30px 40px 30px'}}>
             <div style={{display:'flex',flexDirection:'column',color:'#000'}}>
-                <div className='buttonName' style={{fontFamily:'logo', fontSize:'170px',margin:'0px',
-                    padding:'0px 0px 10px',
-                    textAlign:'center',color:'#333',lineHeight:'150px'
+                <div className='buttonName fabricTextColor' style={{fontFamily:'logo', fontSize:'100px',margin:'0px',
+                    padding:'0px 0px 30px',
+                    textAlign:'center',lineHeight:'120px'
                 }}>
-                        be
+                        <b>ntrak</b>
                 </div>
 
                 {

@@ -27,16 +27,19 @@ Creation Date: 17 Nov 2023
 // Import Components
 import { useSelector } from "react-redux"
 import BODY_MD_TABLE from "./mejoraDefault/BO_mD_table"
-import ACCOUNT_DETAILS from "./subbody/accountDetails"
-import ACCOUNT_ROLES from "./subbody/accountRoles"
+import ACCOUNT_DETAILS from "./account/BO_accountDetails"
+import ACCOUNT_ROLES from "./account/BO_accountRoles"
 import BODY_MD_ANALYTICS from "./mejoraDefault/BO_mD_analytics"
 import BODY_MD_LOGGING from "./mejoraDefault/BO_mD_logging"
-import ACCOUNT_THEMES from "./subbody/accountThemes"
-import { checkSubComponent } from "../others/roleChecks"
-import BO_sket_main from "./mejoraSketches/BO_sket_main"
+import ACCOUNT_THEMES from "./account/BO_accountThemes"
 import BODY_MA3_ANALYTICS from "./mejoraA3/BO_mA3_analytics"
 import BODY_MA3_TABLE from "./mejoraA3/BO_mA3_table"
 import BODY_MA3_LOGGING from "./mejoraA3/BO_mA3_logging"
+import ACCOUNT_SETTING_THEME from "./account/BO_accountSettingTheme"
+import ACCOUNT_SETTING_PASSWORD from "./account/BO_accountSettingPassword"
+import DefaultSelectLeft from "./subbody/defaultSelectLeft"
+import BODY_NV_SEARCH from "../networkVirtualization/BO_nV_search"
+import BODY_NV_HISTORY from "../networkVirtualization/BO_nV_history"
 
 const BizBody = () =>{
 
@@ -65,8 +68,20 @@ const BizBody = () =>{
                 return <ACCOUNT_DETAILS/>
             else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Roles"))
                 return <ACCOUNT_ROLES/>
-            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Theme"))
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Developer Lookup"))
                 return <ACCOUNT_THEMES/>
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")&&(state.bodyContents.dispName==="Roles"))
+                return <ACCOUNT_ROLES/>
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")&&(state.bodyContents.dispName==="Theme"))
+                return <ACCOUNT_SETTING_THEME/>
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")&&(state.bodyContents.dispName==="Password"))
+                return <ACCOUNT_SETTING_PASSWORD/>
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings"))
+                return <DefaultSelectLeft/>
+            else if ((state.selectedMenu.name==="Network Visualization") && (state.selectedMenu.isMenu.name==="Search"))
+                return <BODY_NV_SEARCH/>
+            else if ((state.selectedMenu.name==="Network Visualization") && (state.selectedMenu.isMenu.name==="History"))
+                return <BODY_NV_HISTORY/>
             else return null
         }
     }

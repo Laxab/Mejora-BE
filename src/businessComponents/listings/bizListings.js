@@ -26,6 +26,7 @@ import { useSelector } from "react-redux"
 // Import Destination
 import LIST_MD_ITEMS from "../body/mejoraDefault/LI_mD_items"
 import LIST_MA3_ITEMS from "../body/mejoraA3/LI_mA3_items"
+import LIST_ACCOUNT_SETTING from "../body/account/LI_accountSetting"
 
 const BizListings = () =>{
 
@@ -40,6 +41,9 @@ const BizListings = () =>{
             else if(state.selectedMenu.dynamic === "mejoraA3") 
                 return <LIST_MA3_ITEMS/>
         }
+        else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")){
+            return <LIST_ACCOUNT_SETTING/>
+        }  
         else{
             if(state.selectedMenu.name === "random") 
                 return null

@@ -23,6 +23,8 @@ import {ValidateSQLInjection, ValidateSQLInjection_Weak} from "../../others/vali
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import fetchData from "../../others/fetchData"
+import MonacoEditor from 'react-monaco-editor';
+
 
 const RB_mA3_edit = () =>{
 
@@ -93,6 +95,12 @@ const RB_mA3_edit = () =>{
             putData(input,state.rightBar.contents)
 
         }
+    }
+
+    const [monaco, setMonaco] = useState("")
+    const handleMonacoChange = (e,itemName) =>{
+        setMonaco(e)
+        setinput(prev => ({...prev, [itemName]:e}))
     }
 
     const handlechange = async (e,type,datatype)  =>{
@@ -198,6 +206,13 @@ const RB_mA3_edit = () =>{
         else return false
     }
 
+    const vscodetheme = () =>{
+        if(state.theme==="lightMode")
+            return "vs-light"
+        else
+            return "vs-dark"
+    }
+
     const renderForm = (struct) =>{
         /**
          * This method crafts the INPUT form elements based on the configured state.struct
@@ -238,20 +253,45 @@ const RB_mA3_edit = () =>{
                              */
                             return <div style={stdDiv}> 
                                 <div>{item.input_title}</div>
-                                <pre><textarea 
-                                    name={item.name} rows={10}
-                                    {
-                                        ...register(
-                                            item.name,
-                                            {
-                                                required:item.input_mandatory ? "Mandatory" : false,
-                                                validate: validators(item.input_validations)
-                                            }
-                                        )
-                                    }
-                                    onKeyUp={(e)=>handlechange(e,item.name,item.input_datatype)} placeholder="Enter Form Name" style={stdDiv2}
-                                    defaultValue={JSON.stringify(input.form, null, 4)}
-                                /></pre>
+                                <pre>
+                                    {/*}
+                                    <textarea 
+                                        name={item.name} rows={10}
+                                        {
+                                            ...register(
+                                                item.name,
+                                                {
+                                                    required:item.input_mandatory ? "Mandatory" : false,
+                                                    validate: validators(item.input_validations)
+                                                }
+                                            )
+                                        }
+                                        onKeyUp={(e)=>handlechange(e,item.name,item.input_datatype)} placeholder="Enter Form Name" style={stdDiv2}
+                                        defaultValue={JSON.stringify(JSON.parse(input[item?.name]),2,2)}
+                                    />
+                                    
+                                    <MonacoEditor
+                                            width="800"
+                                            height="600"
+                                            language="json"
+                                            value={monaco}
+                                            onChange={(e)=>handleMonacoChange(e,item.name)}
+                                        />
+                                    
+                                    {*/}
+
+                                    <MonacoEditor
+                                        name={item.name}
+                                        width="760"
+                                        height={item.input_vscode_height ? item.input_vscode_height : "380"}
+                                        language="json"
+                                        className={"stdBorder"}
+                                        value={input[item?.name]}
+                                        theme={vscodetheme()}
+                                        onChange={(e)=>handleMonacoChange(e,item.name)}
+                                    />
+                                
+                                </pre>
                                 {errors[item.name] && <div style={{color:'#F37512'}}>{errors[item.name].message}</div>}
                             </div>
                         }

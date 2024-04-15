@@ -24,6 +24,7 @@ const LI_mD_items = () =>{
         
         setselector(i)
         dispatch({type:'BODYCONTENTS_ADD',payload:data})
+        dispatch({type:'SELECTMENUBUTTON',payload:data.rbac[0]})
         
     }
     useEffect(()=>{
@@ -43,7 +44,7 @@ const LI_mD_items = () =>{
                 <div onClick={()=>clicked(item,index)} key={index} 
                     className={ stdbgHighlight===index?"stdbgHighlight  stdbgList":" stdbgList"} style={{height:'60px',display:'flex',justifyContent:'flex-start'}}>
                     <div style={{display:'flex',margin:"auto 5px auto 20px",borderRadius:'5px',background:`${color(item.dispName)[0]}`,color:'#fff',height:'40px',width:'40px'}}>
-                        <div style={{display:'flex',margin:'auto'}}><b>{item.dispName.slice(0,2)}</b></div>
+                        <div style={{display:'flex',margin:'auto', color:'#fff'}}><b>{item.dispName.slice(0,2)}</b></div>
                     </div>
                     <div style={{display:'flex',margin:"auto auto auto 5px",border:'0px solid red',textAlign:'left',flexDirection:'column',width:'80%'}}>
                         <div style={{position:'relative',top:'6px'}}><b>{item.dispName}</b></div>

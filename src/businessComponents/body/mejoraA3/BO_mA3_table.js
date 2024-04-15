@@ -54,6 +54,9 @@ const BO_mA3_table = () =>{
 
     useEffect(()=>{
         setSortName('id')
+        setSortType("Asc")
+        setpageNumber(1)
+        setClose(0)
     },[struct.name])
 
     const handleInputChange = async (event) => {
@@ -87,26 +90,31 @@ const BO_mA3_table = () =>{
          * Trigger on pressing <ENTER> on searchbar
          * NOT triggered on each keypress inside searchbar
          */
-        setbugFix(1)
         setcontents([]);
         dispatch({type:'BACKDROP_ON'})
-        const response = await LoadContentsAPI(
-                'api/be/v1.0/standard/select',
-                "DBA_A3_Select",
-                state.loginData,
-                struct.name,
-                pageNumber,
-                "SEARCH",
-                [
-                    { [struct.s1] : inputValue + "%" },
-                    { [struct.s2]: inputValue + "%" },
-                    { [struct.s3]: "%" + inputValue + "%" }
-                ],
-                sortName
-                ,
-                sortType
-            )
-        setcontents(response)
+        setpageNumber(1)
+        const asynccall = async() =>{
+            setcontents([]);
+            const response = await LoadContentsAPI(
+                    'api/be/v1.0/standard/select',
+                    "DBA_A3_Select",
+                    state.loginData,
+                    state.bodyContents.name,
+                    1,
+                    "SEARCH",
+                    [
+                        { [struct.s1] : inputValue + "%" },
+                        { [struct.s2]: inputValue + "%" },
+                        { [struct.s3]: "%" + inputValue + "%" }
+                    ],
+                    sortName
+                    ,
+                    sortType
+                )
+            setcontents(response)
+        } 
+        asynccall()
+        //alert(struct.name)
         dispatch({type:'BACKDROP_OFF'})
     }
 
@@ -147,8 +155,8 @@ const BO_mA3_table = () =>{
         asynccall()
         //alert(struct.name)
         dispatch({type:'BACKDROP_OFF'})
-
-    },[sortName,sortType,inputValue,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[sortName,sortType,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
 
     const addItem = (name) =>{
         /**
@@ -396,7 +404,7 @@ const BO_mA3_table = () =>{
             }
 
             <div style={{display:'flex',flexDirection:'column',margin:'auto auto auto 0px',textAlign:'left'}}>
-                <div style={{fontSize:'large',color:'#5B6A71'}}><b>{state.bodyContents.dispName}</b></div>
+                <div style={{fontSize:'large'}}><b>{state.bodyContents.dispName}</b></div>
                 <div style={{fontSize:'small'}}>
                     {state.bodyContents.description} 
                     {/*
@@ -411,16 +419,10 @@ const BO_mA3_table = () =>{
             <div style={{display:'flex',margin:'auto 0px auto auto',paddingTop:'0px',textAlign:'left'}}>
                 <form onSubmit={handleSubmit(onSubmit)} style={{display:'flex',width:'100%'}}>
                     <input 
-                        style={{background:'#ddd',margin:'0px',borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',width:'150px',height:'15px',display:'flex',borderTopRightRadius:'0px',borderBottomRightRadius:'0px'}}
+                        style={{margin:'0px',borderRadius:'5px',width:'200px',height:'15px',display:'flex'}}
                         type='text'
                         value={inputValue} onChange={handleInputChange} placeholder={sliceText(18,`Search in ${state.bodyContents.dispName}`)}
                     />
-                    {
-                        close===1 ?
-                        <div className="bg2" onClick={clearSearch} style={{height:'35px',width:'45px',borderTopRightRadius:'5px',borderBottomRightRadius:'5px',display:'flex',margin:'auto 0px auto 0px',fontSize:'20px',lineHeight:'0px'}}><RiCloseCircleFill style={{display:'flex',margin:'auto'}}/></div>
-                        :
-                        <div className="bg1" style={{background:'#ddd',height:'35px',width:'45px',borderTopRightRadius:'5px',borderBottomRightRadius:'5px',display:'flex',margin:'auto 0px auto 0px',fontSize:'20px',lineHeight:'0px'}}></div>
-                    }
                     <button onClick={handleSubmit(onSubmit)} className="titleButtonFirst" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></button>
                 </form>
             </div>
@@ -433,7 +435,7 @@ const BO_mA3_table = () =>{
         </div>
 
         <div style={{width:'100%'}}>
-            <div style={{display:'flex',background:'#fff',borderBottom:'0px solid #eee',boxShadow:'0px 15px 15px -10px #aaa'}}>
+            <div className="tableTitle" style={{display:'flex'}}>
                 {
                     state.struct.map((col,i)=>{
                         if(col.visible===true){

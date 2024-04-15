@@ -8,8 +8,7 @@ const fetchData = async (uri, body, cookie) => {
     if(cookie!=="")
         myHeaders.append("sid", cookie);
 
-    var url = 'http://10.189.63.45:54899/'+uri;
-    //var url = 'http://localhost:54899/'+uri;
+    var url = 'https://10.189.63.45/'+uri;
 
     var raw = JSON.stringify(body);
     

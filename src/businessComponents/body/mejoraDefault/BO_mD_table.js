@@ -25,15 +25,16 @@ import { useDispatch, useSelector } from "react-redux"
 import BO_sket_main from "../mejoraSketches/BO_sket_main"
 import fetchData from "../../others/fetchData"
 import { Box, BoxInitials, Bullet } from "../../others/others_colors"
-import { RiCloseCircleFill,RiSearchLine,RiAddLine } from 'react-icons/ri';
+import { RiSearchLine,RiAddLine, RiDownload2Fill } from 'react-icons/ri';
 import { FaCircleXmark, FaCircleCheck } from "react-icons/fa6";
 import {RiLayoutColumnLine} from 'react-icons/ri'
 import {GoTriangleUp, GoTriangleDown} from 'react-icons/go'
 import { useForm } from 'react-hook-form';
 import { LoadContentsAPI } from "../body_apiCall";
 import { sliceText } from "../../others/others_textFormat"
+import * as XLSX from 'xlsx'
 
-const BO_mA3_table = () =>{
+const BO_mD_table = () =>{
     // Primary Definitions
     const state = useSelector(state=>state);
     const dispatch = useDispatch();
@@ -47,13 +48,14 @@ const BO_mA3_table = () =>{
     const [contents, setcontents] = useState([])
     const [pageNumber,setpageNumber] = useState(1)
     const [inputValue, setInputValue] = useState('');
-    const [close,setClose] = useState(0);
     const [sortName, setSortName] = useState("id")
     const [sortType, setSortType] = useState("Asc")
 
 
     useEffect(()=>{
         setSortName('id')
+        setSortType("Asc")
+        setpageNumber(1)
     },[struct.name])
 
     const handleInputChange = async (event) => {
@@ -61,52 +63,45 @@ const BO_mA3_table = () =>{
          * Detect changes down to the input text bar
          * and search the text contents by querying Search API
          */
-        setClose(1);
         setInputValue(event.target.value);
       
         if (event.target.value === "") {
           setcontents([]);
           setpageNumber(1);
-          setClose(0);
           dispatch({ type: 'RESET', payload: "Now" });
         }
     };
-
-    const clearSearch = () =>{
-        /**
-         * Handle action items when 'close' button is hit on the search bar
-         */
-        setcontents([]);
-        setClose(0);
-        dispatch({type:'RESET',payload:"RESETNOW"})
-        setInputValue("")
-    }
 
     const onSubmit = async () =>{
         /**
          * Trigger on pressing <ENTER> on searchbar
          * NOT triggered on each keypress inside searchbar
          */
-        setbugFix(1)
         setcontents([]);
         dispatch({type:'BACKDROP_ON'})
-        const response = await LoadContentsAPI(
-                'api/be/standard/select',
-                "DBA_Select",
-                state.loginData,
-                struct.name,
-                pageNumber,
-                "SEARCH",
-                [
-                    { [struct.s1] : inputValue + "%" },
-                    { [struct.s2]: inputValue + "%" },
-                    { [struct.s3]: "%" + inputValue + "%" }
-                ],
-                sortName
-                ,
-                sortType
-            )
-        setcontents(response)
+        setpageNumber(1)
+        const asynccall = async() =>{
+            setcontents([]);
+            const response = await LoadContentsAPI(
+                    'api/be/standard/select',
+                    "DBA_Select",
+                    state.loginData,
+                    state.bodyContents.name,
+                    1,
+                    "SEARCH",
+                    [
+                        { [struct.s1] : "%" + inputValue + "%" },
+                        { [struct.s2]: "%" + inputValue + "%" },
+                        { [struct.s3]: "%" + inputValue + "%" }
+                    ],
+                    sortName
+                    ,
+                    sortType
+                )
+            setcontents(response)
+        } 
+        asynccall()
+        //alert(struct.name)
         dispatch({type:'BACKDROP_OFF'})
     }
 
@@ -147,31 +142,34 @@ const BO_mA3_table = () =>{
         asynccall()
         //alert(struct.name)
         dispatch({type:'BACKDROP_OFF'})
-
-    },[sortName,sortType,inputValue,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[sortName,sortType,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
 
     const addItem = (name) =>{
         /**
          * Open rightbar to add new items
          */
         //dispatch({type:"RIGHTBAR_ON",title:`Add ${name}`, body:name, width:'400px'})
-        dispatch({type:"RIGHTBAR_ON",title:`Add ${state.bodyContents.dispName}`, body:'RB_mA3_add', contents:'item', width:'450px'})
+        dispatch({type:"RIGHTBAR_ON",title:`Add ${state.bodyContents.dispName}`, body:'RB_mD_add', contents:'item', width:'400px'})
     }
     const editTable = (name) =>{
         /**
          * Open rightbar to manage columns
          */
-        dispatch({type:"RIGHTBAR_ON",title:`${state.bodyContents.dispName}`, body:'RB_mA3_columns', width:'450px',contents:cols})
+        dispatch({type:"RIGHTBAR_ON",title:`Select Columns`, body:'RB_mD_columns', width:'450px',contents:cols})
     }
     const editItem = (name,item) =>{
         /**
          * Open rightbar to edit items, send 'item' (content) with it.
          */
+        //dispatch({type:"RIGHTBAR_ON",title:`Manage Records`, body:'RB_mD_edit', contents:item, width:'450px'})
+
         var widthPx = '450px'
         if(state.bodyContents.rightbar_size){
             widthPx = state.bodyContents.rightbar_size
         }
-        dispatch({type:"RIGHTBAR_ON",title:`Edit ${state.bodyContents.dispName}`, body:'RB_mA3_edit', contents:item, width:`${widthPx}`})
+        dispatch({type:"RIGHTBAR_ON",title:`Edit ${state.bodyContents.dispName}`, body:'RB_mD_edit', contents:item, width:`${widthPx}`})
+
     }
 
     useEffect(()=>{
@@ -355,7 +353,7 @@ const BO_mA3_table = () =>{
         else if(col.decoration === "EnableDisable"){
 
             const checkIfEnabled = (data) =>{
-                if((data===1)||(data==="ENABLED")||(data==="ACTIVE"))
+                if((data===1)||(data==="ENABLED")||(data==="ACTIVE")||(data==="Yes")||(data==="YES"))
                     return true
                 else
                     return false
@@ -375,7 +373,7 @@ const BO_mA3_table = () =>{
                         </div>
                     </div>
         }
-        else if(content[col.name]===null)
+        else if((content[col.name]===null)||(content[col.name]===""))
             return <div style={{display:'flex',margin:'auto auto auto 0px',textAlign:'left'}}>
                         <div className="greyout" style={{padding:'3px 6px', fontSize:'small', borderRadius:'5px'}}>
                             No data
@@ -387,6 +385,60 @@ const BO_mA3_table = () =>{
                     </div>
     }
 
+    const downloadExcel = async (contents) =>{
+        const structApi = async() =>{
+            //---> Begin the call
+            dispatch({type:'BACKDROP_ON'})
+            const uri='api/be/standard/select';
+            const body={
+                "sid": state.loginData.sid,
+                "request": "DBA_Select",
+                "bu":state?.businessUnit,
+                "type":struct.name,
+                "select":["*"],
+                "conditionType":"OR",
+                "order":{
+                    "orderBy":"id",
+                    "order":"DESC"
+                },
+                "pageNumber":1,
+                "pageSize":100000
+            }
+            const resp = await fetchData(uri,body)
+            if(resp?.data?.response?.dbData){
+                
+                dispatch({type:'BACKDROP_OFF'})
+
+                const keys = Object.keys(resp?.data?.response?.dbData[0])
+                const data = [keys, ...resp?.data?.response?.dbData.map(item => keys.map(key => item[key]))];
+                const worksheet = XLSX.utils.aoa_to_sheet(data);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, `Data`);
+                // Generate a download link for the Excel file
+                const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+                const url = URL.createObjectURL(blob);
+                // Create a temporary link and click it to trigger the download
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `DataInsights_${state.bodyContents.dispName}_${new Date().toLocaleDateString()}.xlsx`;
+                a.click();
+            
+                // Cleanup
+                URL.revokeObjectURL(url);
+            }
+            else{
+                dispatch({type:"STRUCT_UNSET"})
+                dispatch({type:"SNACKBAR_ON",message:resp.message, severity:"error"})
+
+            }
+
+        }
+        structApi()
+        
+
+    }
+
     const renderBody = () =>{
         return <>
         <div style={{width:'90%',height:'79px',border:'0px dashed red',display:'flex',margin:'auto'}}>
@@ -396,7 +448,7 @@ const BO_mA3_table = () =>{
             }
 
             <div style={{display:'flex',flexDirection:'column',margin:'auto auto auto 0px',textAlign:'left'}}>
-                <div style={{fontSize:'large',color:'#5B6A71'}}><b>{state.bodyContents.dispName}</b></div>
+                <div style={{fontSize:'large'}}><b>{state.bodyContents.dispName}</b></div>
                 <div style={{fontSize:'small'}}>
                     {state.bodyContents.description} 
                     {/*
@@ -411,29 +463,58 @@ const BO_mA3_table = () =>{
             <div style={{display:'flex',margin:'auto 0px auto auto',paddingTop:'0px',textAlign:'left'}}>
                 <form onSubmit={handleSubmit(onSubmit)} style={{display:'flex',width:'100%'}}>
                     <input 
-                        style={{background:'#ddd',margin:'0px',borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',width:'150px',height:'15px',display:'flex',borderTopRightRadius:'0px',borderBottomRightRadius:'0px'}}
+                        style={{margin:'0px',borderRadius:'5px',width:'200px',height:'15px',display:'flex'}}
                         type='text'
-                        value={inputValue} onChange={handleInputChange} placeholder={sliceText(18,`Search in ${state.bodyContents.dispName}`)}
+                        value={inputValue} onChange={handleInputChange} placeholder={sliceText(25,`Search in ${state.bodyContents.dispName}`)}
                     />
-                    {
-                        close===1 ?
-                        <div className="bg2" onClick={clearSearch} style={{height:'35px',width:'45px',borderTopRightRadius:'5px',borderBottomRightRadius:'5px',display:'flex',margin:'auto 0px auto 0px',fontSize:'20px',lineHeight:'0px'}}><RiCloseCircleFill style={{display:'flex',margin:'auto'}}/></div>
-                        :
-                        <div className="bg1" style={{background:'#ddd',height:'35px',width:'45px',borderTopRightRadius:'5px',borderBottomRightRadius:'5px',display:'flex',margin:'auto 0px auto 0px',fontSize:'20px',lineHeight:'0px'}}></div>
-                    }
                     <button onClick={handleSubmit(onSubmit)} className="titleButtonFirst" style={{display:'flex',margin:'auto 0px auto 10px'}}><RiSearchLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></button>
                 </form>
             </div>
             
-
-            <div onClick={()=>addItem(state.bodyContents.name)} className="titleButton" style={{display:'flex',margin:'auto 0px auto 0px'}}><RiAddLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></div>
-            <div onClick={()=>editTable(state.bodyContents.name)} className="titleButtonLast" style={{display:'flex',margin:'auto 0px auto 0px'}}><RiLayoutColumnLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/></div>
+            {
+                state?.selectedMenu?.isMenu?.rbac?.add === true
+                ?
+                <div onClick={()=>addItem(state.bodyContents.name)} className="titleButton" style={{display:'flex',margin:'auto 0px auto 0px'}}>
+                    <RiAddLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/>
+                </div>
+                :
+                <div onClick={()=>alert("No permission to add contents")} className="titleButton_disabled" style={{display:'flex',margin:'auto 0px auto 0px'}}>
+                    <RiAddLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/>
+                </div>
+            }
+            
+            {
+                state?.selectedMenu?.isMenu?.rbac?.columns === true
+                ?
+                <div onClick={()=>editTable(state.bodyContents.name)} className="titleButton" style={{display:'flex',margin:'auto 0px auto 0px'}}>
+                    <RiLayoutColumnLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/>
+                </div>
+                :
+                <div onClick={()=>alert("No permission to filter columns")} className="titleButton_disabled" style={{display:'flex',margin:'auto 0px auto 0px'}}>
+                    <RiLayoutColumnLine style={{display:'flex',margin:'auto',fontSize:'20px'}}/>
+                </div>
+            }
+            
+            {
+                state?.selectedMenu?.isMenu?.rbac?.download === true
+                ?
+                <div onClick={()=>downloadExcel(contents)} className="titleButtonLast" style={{display:'flex',margin:'auto 0px auto 0px'}}>
+                    <RiDownload2Fill style={{display:'flex',margin:'auto',fontSize:'20px'}}/>
+                </div>
+                :
+                <div onClick={()=>alert("No permission to download content")} className="titleButtonLast_disabled" style={{display:'flex',margin:'auto 0px auto 0px'}}>
+                    <RiDownload2Fill style={{display:'flex',margin:'auto',fontSize:'20px'}}/>
+                </div>
+            }
+            
+            
+            
 
 
         </div>
 
         <div style={{width:'100%'}}>
-            <div style={{display:'flex',background:'#fff',borderBottom:'0px solid #eee',boxShadow:'0px 15px 15px -10px #aaa'}}>
+            <div className="tableTitle" style={{display:'flex'}}>
                 {
                     state.struct.map((col,i)=>{
                         if(col.visible===true){
@@ -452,7 +533,9 @@ const BO_mA3_table = () =>{
             <div ref={contentRef} onScroll={handleScroll} className="scrollbarTypeDefault"   style={{height:'calc(100vh - 180px)',overflow:'auto',margin:'0px 0px 0px'}}>
             
                 {
-                    contents && contents.length>0 && contents.map((content,index)=>(
+                    contents && contents.length>0 
+                    ? 
+                    contents.map((content,index)=>(
                         <div className="stdBorderBottomDashed" onClick={()=>editItem(state.bodyContents.name,content)} key={index} style={{display:'flex',cursor:'pointer'}}>
                             
                             {
@@ -496,6 +579,8 @@ const BO_mA3_table = () =>{
                             }
                         </div>
                     ))
+                    :
+                    BO_sket_main({title:"No data found",select:"br_noData2"})
                 }
             </div>
         </div>
@@ -512,9 +597,8 @@ const BO_mA3_table = () =>{
             BO_sket_main({title:"Select item from left menu",select:"assetSelection"})
         }
 
-
     </div>
 
 }
 
-export default BO_mA3_table
+export default BO_mD_table

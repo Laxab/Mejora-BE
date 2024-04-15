@@ -51,6 +51,13 @@ const BO_mD_table = () =>{
     const [sortName, setSortName] = useState("id")
     const [sortType, setSortType] = useState("Asc")
 
+    useEffect(()=>{
+        setSortName('id')
+        setSortType("Asc")
+        setpageNumber(1)
+        setClose(0)
+    },[struct.name])
+
     const handleInputChange = async (event) => {
         /**
          * Detect changes down to the input text bar
@@ -81,26 +88,31 @@ const BO_mD_table = () =>{
         /**
          * Database search query to search 'inputValue' from the INPUT searchbox
          */
-        setbugFix(1)
         setcontents([]);
         dispatch({type:'BACKDROP_ON'})
-        const response = await LoadContentsAPI(
-                'api/be/standard/select',
-                "DBA_Select",
-                state.loginData,
-                struct.name,
-                pageNumber,
-                "SEARCH",
-                [
-                    { [struct.s1] : inputValue + "%" },
-                    { [struct.s2]: inputValue + "%" },
-                    { [struct.s3]: "%" + inputValue + "%" }
-                ],
-                sortName
-                ,
-                sortType
-            )
-        setcontents(response)
+        setpageNumber(1)
+        const asynccall = async() =>{
+            setcontents([]);
+            const response = await LoadContentsAPI(
+                    'api/be/standard/select',
+                    "DBA_Select",
+                    state.loginData,
+                    state.bodyContents.name,
+                    1,
+                    "SEARCH",
+                    [
+                        { [struct.s1] : inputValue + "%" },
+                        { [struct.s2]: inputValue + "%" },
+                        { [struct.s3]: "%" + inputValue + "%" }
+                    ],
+                    sortName
+                    ,
+                    sortType
+                )
+            setcontents(response)
+        } 
+        asynccall()
+        //alert(struct.name)
         dispatch({type:'BACKDROP_OFF'})
     }
 
@@ -138,8 +150,8 @@ const BO_mD_table = () =>{
         } 
         asynccall()
         dispatch({type:'BACKDROP_OFF'})
-
-    },[sortName,sortType,inputValue,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
+        // eslint-disable-next-line react-hooks/exhaustive-deps 
+    },[sortName,sortType,dispatch,state.loginData,struct.name, struct.s1,struct.s2,struct.s3])
 
     const addItem = (name) =>{
         /**
@@ -158,7 +170,14 @@ const BO_mD_table = () =>{
         /**
          * Open rightbar to edit items, send 'item' (content) with it.
          */
-        dispatch({type:"RIGHTBAR_ON",title:`Manage Records`, body:'RB_mD_edit', contents:item, width:'450px'})
+        //dispatch({type:"RIGHTBAR_ON",title:`Manage Records`, body:'RB_mD_edit', contents:item, width:'450px'})
+
+        var widthPx = '450px'
+        if(state.bodyContents.rightbar_size){
+            widthPx = state.bodyContents.rightbar_size
+        }
+        dispatch({type:"RIGHTBAR_ON",title:`Edit ${state.bodyContents.dispName}`, body:'RB_mD_edit', contents:item, width:`${widthPx}`})
+
     }
 
     useEffect(()=>{
@@ -240,8 +259,8 @@ const BO_mD_table = () =>{
             setSortType('Asc')
             dispatch({type:'BACKDROP_ON'})
             const response = await LoadContentsAPI(
-                'api/be/v1.0/standard/select',
-                "DBA_A3_Select",
+                'api/be/standard/select',
+                "DBA_Select",
                 state.loginData,
                 struct.name,
                 50,
@@ -316,7 +335,7 @@ const BO_mD_table = () =>{
         else if(col.decoration === "EnableDisable"){
 
             const checkIfEnabled = (data) =>{
-                if((data===1)||(data==="ENABLED"))
+                if((data===1)||(data==="ENABLED")||(data==="ACTIVE"))
                     return true
                 else
                     return false
@@ -358,7 +377,7 @@ const BO_mD_table = () =>{
             }
 
             <div style={{display:'flex',flexDirection:'column',margin:'auto auto auto 0px',textAlign:'left'}}>
-                <div style={{fontSize:'large',color:'#5B6A71'}}><b>{state.bodyContents.dispName}</b></div>
+                <div style={{fontSize:'large'}}><b>{state.bodyContents.dispName}</b></div>
                 <div style={{fontSize:'small'}}>
                     {state.bodyContents.description} 
                     {/*

@@ -10,7 +10,7 @@ import LI_TITLE from "../../listings/LI_title"
 import {color} from "../../others/others_colors"
 import SessionValidation from "../../others/sessionValidation"
 
-const LI_mA3_items = () =>{
+const LI_accountSetting = () =>{
     // Primary Definitions
     const state = useSelector(state => state)
     const [stdbgHighlight,setstdbgHighlight] = useState(999)
@@ -18,7 +18,11 @@ const LI_mA3_items = () =>{
     const [selector,setselector] = useState(999)
 
     // Secondary Definitions
-    const contents = state.selectedMenu.dynamicListings;
+    const contents = [
+        {dispName:'Password', description:'Reset Password'},
+        {dispName:'Roles', description:'View assigned Roles'},
+        {dispName:'Theme', description:'Switch Themes'}
+    ]
 
     const clicked = (data,i) =>{
         
@@ -55,4 +59,4 @@ const LI_mA3_items = () =>{
     </div>
 }
 
-export default LI_mA3_items
+export default LI_accountSetting

@@ -1,10 +1,4 @@
 
-/*
-    (C) - Copyright 2023, All rights reserved
-    Laxab Digital Solutions Private Limited, Pune - India
-
-    Version 1, 30 May 2023 - Initial code
-*/
 
 // Standard imports
 import { useState } from "react"
@@ -38,7 +32,7 @@ const Sidenav = (props) =>{
     }
     const displayButtonNames = (name) => {
         return(
-            <div className='buttonName'>{name}</div>
+            <div className='buttonName' style={{marginLeft:'-5px',border:'0px dashed pink',width:'122px'}}>{name}</div>
         )
     }
     const selectMenu = (data,index) => {
@@ -57,7 +51,9 @@ const Sidenav = (props) =>{
         else
             return(
                 <div style={{width:'40px',height:'40px',borderRadius:'5px',padding:'3px 5px 5px',display:'flex',justifyContent:'center'}}>
-                    <div style={{display:'flex',margin:'auto 0px auto',position:'relative',top:'-6px',left:'-1px',fontSize:'40px',color:'#fff',fontFamily:'logo'}}>{state.businessNameShort}</div>
+                    <div style={{display:'flex',margin:'auto 0px auto',position:'relative',top:'-6px',left:'-1px',fontSize:'40px',color:'#fff',fontFamily:'logo'}}>
+                        <div style={{color:'#fff'}}>{state.businessNameShort}</div>
+                    </div>
                 </div>
             )
     }
@@ -75,7 +71,7 @@ const Sidenav = (props) =>{
                 {
                     props.sidenav
                     &&
-                    <div className='buttonName' style={{width:'100%',fontFamily:'logo', fontSize:'25px',paddingTop:'3px',color:'#fff',justifyContent:'center'}}>{state.businessName}</div>
+                    <div className='buttonName' style={{width:'100%',fontFamily:'logo', fontSize:'35px',paddingTop:'3px',color:'#fff',justifyContent:'center'}}>{state.businessName}</div>
                 }
             </div>
 
@@ -91,14 +87,17 @@ const Sidenav = (props) =>{
                     {
                         data.position==="top"
                         &&
-                        <>
-                            <div className='buttonIcon'>{icon(data.name)}</div>
+                        <div style={{display:'flex',margin:'auto'}}>
+                            <div className='buttonIcon' style={{width:'35px',marginLeft:'5px'}}>{icon(data.icon)}</div>
+                            <div style={{border:'0px dashed red',paddingLeft:'11px',paddingTop:'2px'}}>
                             {
                                 props.sidenav
                                 &&
                                 displayButtonNames(data.name)
                             }
-                        </>
+                            
+                            </div>
+                        </div>
                     }
                 </div>
             ))
@@ -116,7 +115,7 @@ const Sidenav = (props) =>{
                         data.position==="bottom"
                         &&
                         <>
-                            <div className='buttonIcon'>{icon(data.name)}</div>
+                            <div className='buttonIcon' style={{marginLeft:'-5px'}}>{icon(data.icon)}</div>
                             {
                                 props.sidenav
                                 &&

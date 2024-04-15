@@ -5,7 +5,7 @@ const initialState = {
     businessName:customerRepo.businessName,
     businessUnit:customerRepo.businessUnit,
     counter: 0,
-    lightTheme:true,
+    theme:'lightMode', // 'lightMode' 'darkMode' 'darkContrast'
     login:false,
     loginData:{},
     sidenav:[
@@ -97,7 +97,7 @@ const initialState = {
         case 'SELECTMENUBUTTON':
             return {...state,selectedMenu: {...state.selectedMenu, isMenu:action.payload}};
         case 'CHANGETHEME':
-            return {...state,lightTheme:action.payload};
+            return {...state,theme:action.payload};
         default:
             return state;
     }

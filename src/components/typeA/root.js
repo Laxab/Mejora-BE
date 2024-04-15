@@ -23,10 +23,15 @@ const Root = () =>{
     const [lightMode,setlightMode] = useState(false);
 
     useEffect(()=>{
-        setlightMode(state.lightTheme)
+        //setlightMode(state.theme)
+        setlightMode(state.theme)
     },[state.lightTheme])
 
-    return <div className={lightMode ? "lightMode" : "darkMode"} style={cssRoot}>
+    const setTheme = (theme) =>{
+
+    }
+
+    return <div className={state.theme} style={cssRoot}>
         <SnackBar/>
         <RightBar/>
         <SessionValidation/>

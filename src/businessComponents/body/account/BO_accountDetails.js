@@ -70,8 +70,8 @@ const AccountDetails = () =>{
             </div>
         </div>
 
-        <button onClick={()=>signOut()} className='stdButtonRed' style={{display:'flex', width:'500px', height:'50px',marginTop:'20px'}}>
-            <div style={{margin:'auto'}}>Sign Out</div>
+        <button onClick={()=>signOut()} className='stdButton0' style={{display:'flex', width:'500px', height:'50px',marginTop:'20px'}}>
+            <div style={{margin:'auto',color:'#fff'}}>Sign Out</div>
         </button>
 
         <div style={{border:'0px dashed red',height:'100px'}}>

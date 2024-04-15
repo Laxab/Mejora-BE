@@ -45,7 +45,7 @@ const Title = () =>{
             <div className='mainTitle stdBorder' style={{display:'flex',borderTop:'0px',borderLeft:'0px',borderRight:'0px'}}>
                 <div className='mainTitleIcons' style={{fontSize:'24px'}}>
                     <div className='mainTitleIconsHolder'>
-                        <div style={{display:'flex',alignItems:'center',margin:'auto 0px auto'}}>{icon(state.selectedMenu.name)}</div>
+                        <div style={{display:'flex',alignItems:'center',margin:'auto 0px auto',color:'#fff'}}>{icon(state.selectedMenu.icon)}</div>
                     </div>
                 </div>
                 <div className='mainTitleIcons' style={{fontWeight:'bold',marginRight:'20px',paddingTop:'3px',height:'57px'}}>
@@ -54,25 +54,49 @@ const Title = () =>{
 
                 
                 {
-                    state.selectedMenu.menu
-                    &&
-                    state.selectedMenu.menu.map((data,index) => (
-                        <div key={index}>
-                        {
-                            checkSubComponent(state?.sidenav, state?.selectedMenu, state?.bodyContents?.name, data.name)
-                            &&
-                            state.selectedMenu.isMenu
-                            &&
-                            state.selectedMenu.isMenu.name
-                            &&
-                            index <= buttonsLimit
-                            &&
-                            <div className={state.selectedMenu.isMenu.name===data.name ? 'mainTitleButtonsSelected' : 'mainTitleButtons'} onClick={()=>clickButton(data,index)}>
-                                {data.name}
-                            </div>
-                        }
-                        </div>
-                    ))
+                    state?.selectedMenu?.dynamic !== false
+                    ?
+                    state?.bodyContents?.rbac?.map((data,index) => {
+                        if(data.name)
+                            return <div key={index}>
+                                {
+                                    checkSubComponent(state?.sidenav, state?.selectedMenu, state?.bodyContents?.name, data.name)
+                                    &&
+                                    state.selectedMenu.isMenu
+                                    &&
+                                    state.selectedMenu.isMenu.name
+                                    &&
+                                    index <= buttonsLimit
+                                    &&
+                                    <div className={state.selectedMenu.isMenu.name===data.name ? 'mainTitleButtonsSelected' : 'mainTitleButtons'} onClick={()=>clickButton(data,index)}>
+                                        {data.name}
+                                    </div>
+                                }
+                                </div>
+                        else
+                            return <div/>
+                    })
+                    :
+                    state?.selectedMenu?.menu?.map((data,index) => {
+                        if(data.name)
+                            return <div key={index}>
+                                {
+                                    checkSubComponent(state?.sidenav, state?.selectedMenu, state?.bodyContents?.name, data.name)
+                                    &&
+                                    state.selectedMenu.isMenu
+                                    &&
+                                    state.selectedMenu.isMenu.name
+                                    &&
+                                    index <= buttonsLimit
+                                    &&
+                                    <div className={state.selectedMenu.isMenu.name===data.name ? 'mainTitleButtonsSelected' : 'mainTitleButtons'} onClick={()=>clickButton(data,index)}>
+                                        {data.name}
+                                    </div>
+                                }
+                                </div>
+                        else
+                            return <div/>
+                    })
                 }
                 {
                     temp === 1
@@ -89,9 +113,30 @@ const Title = () =>{
 
                 }
                 {
-                    state.selectedMenu.menu
+                    state?.selectedMenu?.dynamic !== false
+                    ?
+                    state?.bodyContents?.rbac?.length >3 
                     &&
-                    state.selectedMenu.menu.length >3 
+                    <div className='mainTitleButtons' style={{borderBottom:'0px solid RED'}} onMouseEnter={()=>setmenuVisible(true)} onMouseLeave={()=>setmenuVisible(false)}>
+                        <LuSettings style={{fontSize:'20px',padding:'0px',margin:'0px'}}/>
+                        <div className={menuVisible ? 'mainTitleExtention' : 'mainTitleExtentionDisable'}>
+                        {
+                            state?.bodyContents?.rbac?.map((data,index) => (
+                                <div key={index}>
+                                {
+                                    index > buttonsLimit
+                                    &&
+                                    <div className='mainTitleExtentionButtons' onClick={()=>clickButton(data,index)}>
+                                        {data.name}
+                                    </div>
+                                }
+                                </div>
+                            ))
+                        }
+                        </div>
+                    </div>
+                    :
+                    state?.selectedMenu?.menu?.length >3 
                     &&
                     <div className='mainTitleButtons' style={{borderBottom:'0px solid RED'}} onMouseEnter={()=>setmenuVisible(true)} onMouseLeave={()=>setmenuVisible(false)}>
                         <LuSettings style={{fontSize:'20px',padding:'0px',margin:'0px'}}/>

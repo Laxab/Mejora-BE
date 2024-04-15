@@ -210,7 +210,7 @@ const BO_mA3_analytics = () =>{
                     </div>
                 }
                 <div style={{display:'flex',flexDirection:'column',margin:'auto auto auto 0px',textAlign:'left'}}>
-                    <div style={{fontSize:'large',color:'#5B6A71'}}><b>{state.bodyContents.dispName}</b></div>
+                    <div style={{fontSize:'large'}}><b>{state.bodyContents.dispName}</b></div>
                     <div style={{fontSize:'small'}}>{state.bodyContents.description}</div>
                 </div>
 
@@ -312,7 +312,7 @@ const BO_mA3_analytics = () =>{
                     <div style={{borderBottom:'0px dashed RED',padding:'0px',fontSize:'25px',textAlign:'center',margin:'30px auto 0px auto'}}>
                         <b>JSON Representation</b>
                     </div>
-                    <pre style={{textAlign:'left',padding:'20px',background:'#222',color:'#aaa',borderRadius:'5px',width:'500px',margin:'20px auto'}}>
+                    <pre style={{textAlign:'left',padding:'20px',background:'#222',borderRadius:'5px',width:'500px',margin:'20px auto'}}>
                         {JSON.stringify(pieChartData(res?.data?.dbData),2,2)}
                     </pre>
                     {*/}
@@ -330,7 +330,7 @@ const BO_mA3_analytics = () =>{
             {
                 header()
             }      
-            <div style={{display:'flex',height:'0px',borderBottom:'1px solid #ddd'}}></div>
+            <div className={'stdBorder'} style={{display:'flex',height:'0px',borderTop:'0px',borderLeft:'0px',borderRight:'0px'}}></div>
             {
                 res?.data?.dbData?.length>0
                 ?

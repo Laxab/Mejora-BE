@@ -1,8 +1,8 @@
 // customer.repo.js
 const customerRepo = {
-    businessUnit: 'GreyInsights',
-    businessName: 'Business Exp.',
-    businessNameShort:'be'
+    businessUnit: 'Capita TSS',
+    businessName: 'ntrak',
+    businessNameShort:'nt'
   };
   
   export default customerRepo;

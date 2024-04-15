@@ -23,6 +23,7 @@ import {ValidateSQLInjection} from "../../others/validations"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import fetchData from "../../others/fetchData"
+import MonacoEditor from 'react-monaco-editor';
 
 const RB_mA3_add = () =>{
 
@@ -92,6 +93,12 @@ const RB_mA3_add = () =>{
             dispatch({type:'BACKDROP_ON'})
             putData(input,state.rightBar.contents)
         }
+    }
+
+    const [monaco, setMonaco] = useState("")
+    const handleMonacoChange = (e,itemName) =>{
+        setMonaco(e)
+        setinput(prev => ({...prev, [itemName]:e}))
     }
 
     const handlechange = async (e,type,datatype)  =>{
@@ -175,6 +182,13 @@ const RB_mA3_add = () =>{
         else return false
     }
 
+    const vscodetheme = () =>{
+        if(state.theme==="lightMode")
+            return "vs-light"
+        else
+            return "vs-dark"
+    }
+
     const renderForm = (struct) =>{
         /**
          * This method crafts the INPUT form elements based on the configured state.struct
@@ -209,12 +223,13 @@ const RB_mA3_add = () =>{
                                 {errors[item.name] && <div style={{color:'#F37512'}}>{errors[item.name].message}</div>}
                             </div>
                         }
-                        else if(item.input_type==="textarea"){
+                        else if(item.input_type==="vscode"){
                             /**
                              * INPUT filed as textarea
                              */
                             return <div style={stdDiv}> 
                                 <div>{item.input_title}</div>
+                                {/*}
                                 <textarea 
                                     name={item.name} rows={4}
                                     {
@@ -229,6 +244,19 @@ const RB_mA3_add = () =>{
                                     onKeyUp={(e)=>handlechange(e,item.name,item.input_datatype)} placeholder="Enter Form Name" style={stdDiv2}
                                     defaultValue={input.form}
                                 />
+                                {*/}
+
+
+                                    <MonacoEditor
+                                        name={item.name}
+                                        width="760"
+                                        height={item.input_vscode_height ? item.input_vscode_height : "380"}
+                                        language="json"
+                                        className={"stdBorder"}
+                                        value={input[item?.name]}
+                                        theme={vscodetheme()}
+                                        onChange={(e)=>handleMonacoChange(e,item.name)}
+                                    />
                                 {errors[item.name] && <div style={{color:'#F37512'}}>{errors[item.name].message}</div>}
                             </div>
                         }

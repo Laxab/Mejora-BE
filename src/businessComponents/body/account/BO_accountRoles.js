@@ -9,7 +9,7 @@ const AccountDetails = () =>{
         <div style={{margin:'10px'}}>
             {
                 state?.sidenav?.map((data,i)=>(
-                    <div className="std_box" style={{padding:'0px',margin:'0px'}}>
+                    <div className="stdbox" style={{padding:'0px',margin:'0px'}}>
                         <div 
                             className="backgroundShaded1" 
                             style={{

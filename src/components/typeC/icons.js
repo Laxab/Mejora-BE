@@ -1,28 +1,34 @@
 import React from 'react';
-import { MdDashboard, MdOutlineInventory, MdInventory, MdAccountCircle, MdDiscount, MdAdminPanelSettings } from 'react-icons/md';
+import { MdDashboard, MdAssessment, MdInventory, MdAccountCircle, MdAdminPanelSettings } from 'react-icons/md';
 import { LuSettings } from 'react-icons/lu';
 import { FaBusinessTime } from 'react-icons/fa';
-import { RiBillFill } from 'react-icons/ri';
+import { RiBillFill, RiBook2Fill, RiMoneyPoundCircleFill, RiMoneyDollarCircleFill } from 'react-icons/ri';
+import { BsFillPeopleFill } from "react-icons/bs";
+import { IoIosPeople, IoIosChatbubbles, IoMdSettings, IoIosSpeedometer } from "react-icons/io";
+import { PiShareNetworkFill } from "react-icons/pi";
+import { TbReportSearch } from "react-icons/tb";
 
-export const icon = (data) => {
-  switch (data) {
-    case "Dashboard":
-      return <MdDashboard />;
-    case "Assessments":
-      return <MdOutlineInventory />;
-    case "Settings":
-      return <LuSettings />;
-    case "Account":
-      return <MdAccountCircle />;
-    case "Business Logic":
-      return <FaBusinessTime />;
-    case "Business Codes":
-      return <RiBillFill />;
-    case "Discounts":
-      return <MdDiscount />;
-    case "Super User":
-      return <MdAdminPanelSettings />;
-    default:
-      return <MdInventory />;
-  }
+
+
+const icons = {
+  other: <MdDashboard />,
+  TbReportSearch: <TbReportSearch />,
+  MdDashboard: <MdDashboard />,
+  LuSettings: <LuSettings />,
+  MdAccountCircle: <MdAccountCircle />,
+  FaBusinessTime: <FaBusinessTime />,
+  RiBillFill: <RiBillFill />,
+  RiBook2Fill: <RiBook2Fill />,
+  RiMoneyPoundCircleFill: <RiMoneyPoundCircleFill />,
+  RiMoneyDollarCircleFill: <RiMoneyDollarCircleFill />,
+  MdAssessment: <MdAssessment />,
+  MdAdminPanelSettings: <MdAdminPanelSettings />,
+  BsFillPeopleFill: <BsFillPeopleFill />,
+  IoIosPeople: <IoIosPeople />,
+  IoIosChatbubbles: <IoIosChatbubbles />,
+  IoMdSettings: <IoMdSettings />,
+  IoIosSpeedometer: <IoIosSpeedometer />,
+  PiShareNetworkFill: <PiShareNetworkFill />
 };
+
+export const icon = (data) => icons[data] || <MdInventory />;

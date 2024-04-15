@@ -1,16 +1,3 @@
-/*
-        ----- Important Notice -----
-        This code is the intellectual property of Laxab Digital Solutions Pvt Ltd (Regd company in India,
-        hereafter referred as 'company'). If you are not an employee this company, you are not authorized 
-        to copy, save, or transmit this code in any form or medium without prior written permission from 
-        the company.
-
-        For more information, please visit company's website: www.laxab.com/intellectualproperty
-
-        ----->> Pending Display <<-----
-
-        Version 1.0 : 09 Jun 2023, Created      ***Current version***
-*/
 
 // Defaults
 import { useEffect, useState } from "react"

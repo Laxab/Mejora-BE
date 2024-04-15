@@ -34,7 +34,13 @@ const SnackBar = () => {
     {
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity={state.snackBar.severity} sx={{ width: '100%' }}>
-            {state.snackBar.message}
+            {
+              state.snackBar?.message
+              ?
+              state.snackBar?.message
+              :
+              "Backend Connectivity Issue"
+            }
           </Alert>
         </Snackbar>
     }

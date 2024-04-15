@@ -1,19 +1,16 @@
-.darkMode{
+.darkContrast{
     /*
         --- Default style parameters ---
         Visit below URL for choosing color formats:
         https://colorhunt.co/palettes/spring
     */
-    $backgroundColor: #222;
-    $backgroundColor2: #151515;
+    $backgroundColor: #000;
+    $backgroundColor2: #000;
     $sideNavColor: $backgroundColor2;
-    $sideNavColor: #0F0F11;
-    $color1: #140142;
-    $color2: #320142;
-    $color1: #031532;
-    $color2: #043869;
+    $color1: #0D0120;
+    $color2: #180549;
     $borderColor:#222;
-    $borderColor2:#222;
+    $borderColor2:#111;
     $textColor: #aaa;
     $gapStd:15px;
     $delay:0.2s;
@@ -45,7 +42,7 @@
     $listingsWidth: 250px;
     .mainbodyMax {height:100vh;width: calc(100% - 70px);border: 0px dashed RED;transition:$delay;display: flex;align-items: stretch;}
     .mainbodyMin {height:100vh;width: calc(100% - 190px);border: 0px dashed RED;transition:$delay;display: flex;align-items: stretch;}
-    .mainbody {background: $backgroundColor2;width: calc(100% - $listingsWidth);transition: $delay;box-shadow: 0 0px 10px 0 darken($borderColor,15), 0 10px 30px 0 darken($borderColor,15);display:'flex';align-items: 'center';margin:'auto 0px auto'}
+    .mainbody {background: $backgroundColor2;width: calc(100% - $listingsWidth);transition: $delay;border-left:1px solid $borderColor;display:'flex';align-items: 'center';margin:'auto 0px auto'}
     .mainbodyToggle {background: $backgroundColor2;width: calc(100% - 0px);transition: $delay;display:'flex';align-items: 'center';margin:'auto 0px auto'}
     
         /* 
@@ -82,7 +79,7 @@
     .sidenavBodyMax {height:100vh;width: 189px; transition:$delay;color: $backgroundColor}
     .sidenavBodyMin {background: linear-gradient(0deg, $sideNavColor,$sideNavColor); color:$backgroundColor;border-right: 1px solid $borderColor;}
     .sidenavBodyMax {background: linear-gradient(0deg, $sideNavColor, $sideNavColor);border-right: 1px solid $borderColor;}
-    .buttonhighlight {background: #00000080;display:flex; cursor: pointer;border-left: 5px solid lighten($color2,20)}
+    .buttonhighlight {background: #00000045;display:flex; cursor: pointer;border-left: 5px solid lighten($color2,30)}
     .buttonIcon {border:0px dashed WHITE;width:68px;height:53px;display: flex;justify-content: center;align-items: center;font-size:28px;color:$textColor;}
     .buttonName {width:130px;height:50px;display: flex; justify-content: flex-start;align-items: center;position:relative;text-align: left;color:#ffffffc8}
     .sidenavSeparation {margin-top:0px;height:calc(100vh - 100px);overflow-Y:auto;}
@@ -217,5 +214,5 @@
     .backgroundShaded25{background: darken($backgroundColor,25);color:$textColor}
     .backgroundShaded5{background: darken($backgroundColor,5);color:$textColor}
     .stdPadding {padding:10px 20px;}
-    .tableTitle {background: $backgroundColor;  box-shadow:0px 15px 15px -10px #000}
+    .tableTitle {background: $backgroundColor;background: #111;}
 }
