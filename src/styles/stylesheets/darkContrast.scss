@@ -1,0 +1,241 @@
+.darkContrast{
+    /*
+        --- Default style parameters ---
+        Visit below URL for choosing color formats:
+        https://colorhunt.co/palettes/spring
+    */
+    $backgroundColor: #000;
+    $backgroundColor2: #000;
+    $sideNavColor: $backgroundColor2;
+    $color1: #0D0120;
+    $color2: #180549;
+    $borderColor:#222;
+    $borderColor2:#111;
+    $textColor: #aaa;
+    $gapStd:15px;
+    $delay:0.2s;
+    $green:#0FA551;
+    $red:#B83C3C;
+
+    text-align: center;
+    background: $backgroundColor;
+    color: $textColor;
+    font-family: 'default', sans-serif;
+
+    div {color:$textColor;}
+    .whiteDiv div {color:#fff;}
+
+    input {width:200px;border-radius:5px;padding:10px;text-decoration: none; font-size: 15px;outline: none;border:0px solid lighten($borderColor2,0);
+    background: lighten($borderColor2,5);color:$textColor;}
+    input:focus {text-decoration: none;background: darken($borderColor2,0);}
+    
+    textarea {width:200px;border-radius:5px;padding:10px;text-decoration: none; font-size: 15px;outline: none;border:0px solid lighten($borderColor2,5);
+    background: lighten($borderColor2,5);color:$textColor;}
+    textarea:focus {text-decoration: none;background: darken($borderColor2,2);}
+    
+    select {width:220px;border-radius:5px;padding:10px;text-decoration: none; border:0px solid $borderColor2;font-size: 15px;outline: none;background: lighten($borderColor2,5);color:$textColor;}
+    select:focus {text-decoration: none;border:0px solid lighten($color2,30);background: darken($borderColor2,2);}
+        
+    /* 
+        ----- Mainbody -----
+        Components > typeB > root > mainbody.js
+    */
+    $listingsWidth: 250px;
+    .mainbodyMax {height:100vh;width: calc(100% - 70px);border: 0px dashed RED;transition:$delay;display: flex;align-items: stretch;}
+    .mainbodyMin {height:100vh;width: calc(100% - 190px);border: 0px dashed RED;transition:$delay;display: flex;align-items: stretch;}
+    .mainbody {background: $backgroundColor2;width: calc(100% - $listingsWidth);transition: $delay;border-left:1px solid $borderColor;display:'flex';align-items: 'center';margin:'auto 0px auto'}
+    .mainbodyToggle {background: $backgroundColor2;width: calc(100% - 0px);transition: $delay;display:'flex';align-items: 'center';margin:'auto 0px auto'}
+    
+        /* 
+            ----- Mainbody > Listings -----
+            Components > typeB > mainbody > listings.js
+        */
+        .listingBodyOn {width:$listingsWidth;height:100vh;background:$backgroundColor;transition: $delay;}
+        .listingBodyOff {width:0px;height:100vh;background:$backgroundColor;transition: $delay;}
+
+
+        /* 
+            ----- Mainbody > Title -----
+            Components > typeB > mainbody > title.js
+        */
+        .mainTitle {height:60px;background: $backgroundColor;}
+        .mainTitleIcons {border:0px dashed #ccc;width:fit-content;display:flex;align-items:center;margin:auto 0px auto;height:60px;}
+        .mainTitleButtons {border:0px dashed #ccc;border-bottom:5px solid $backgroundColor;width:fit-content;display:flex;align-items:center;margin:auto 0px auto;height:50px;margin-left:0px;transition: $delay;padding:5px 10px 0px;color:lighten($textColor,20)}
+        .mainTitleButtons:hover {border-bottom:5px solid $borderColor;cursor: pointer;transition: $delay;}
+        .mainTitleButtonsSelected {border:0px dashed #ccc;border-bottom:5px solid lighten($color2,20);width:fit-content;display:flex;align-items:center;margin:auto 0px auto;height:50px;margin-left:0px;transition: $delay;padding:5px 10px 0px;cursor: pointer;}
+        .mainTitleIconsHolder {margin: 0px 7px 0px 15px;width:25px;height:25px;border-radius: 5px;
+            background: linear-gradient(195deg, rgb(102, 187, 106), rgb(67, 160, 71));
+            box-shadow: rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem, rgba(76, 175, 79, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem;
+            color:WHITE;padding:6px;display:flex;justify-content: center;}
+        .mainTitleExtention {width:150px; height:auto;background: $backgroundColor;border: 1px solid $borderColor;position:absolute;top:58px;display: block;}
+        .mainTitleExtentionDisable {display: none;}
+        .mainTitleExtentionButtons {padding: $gapStd calc(1*$gapStd) $gapStd;text-align: left;}
+        .mainTitleExtentionButtons:hover {color:$textColor}
+
+    /* 
+        ----- Sidenav -----
+        Components > typeB > root > sidenav.js
+    */
+    .sidenavBodyMin {height:100vh;width: 69px; transition:$delay;color: $backgroundColor}
+    .sidenavBodyMax {height:100vh;width: 189px; transition:$delay;color: $backgroundColor}
+    .sidenavBodyMin {background: linear-gradient(0deg, $sideNavColor,$sideNavColor); color:$backgroundColor;border-right: 1px solid $borderColor;}
+    .sidenavBodyMax {background: linear-gradient(0deg, $sideNavColor, $sideNavColor);border-right: 1px solid $borderColor;}
+    .buttonhighlight {background: #00000045;display:flex; cursor: pointer;border-left: 5px solid lighten($color2,30)}
+    .buttonIcon {border:0px dashed WHITE;width:68px;height:53px;display: flex;justify-content: center;align-items: center;font-size:28px;color:$textColor;}
+    .buttonName {width:130px;height:50px;display: flex; justify-content: flex-start;align-items: center;position:relative;text-align: left;color:#ffffffc8}
+    .sidenavSeparation {margin-top:0px;height:calc(100vh - 100px);overflow-Y:auto;}
+    .button {border:0px dashed WHITE; display:flex; cursor: pointer;border-left: 5px solid #00000000;}
+    .button:hover {background: #0000002a;}
+    
+
+    /*
+        ---- Scrollbar ----
+    */
+    /* Hide the scrollbar by default */
+    .scrollbarType1 {overflow: auto;transition: $delay;}
+    /* Styling for the scrollbar */
+    .scrollbarType1::-webkit-scrollbar { width: 10px; background-color: transparent; transition: $delay;}
+    .scrollbarType1::-webkit-scrollbar-thumb { background-color: #0000002a;border-radius: 4px;transition: $delay;}
+    /* Show the scrollbar on hover */
+    .scrollbarType1:hover::-webkit-scrollbar-thumb {background-color: #0000006f;transition: $delay;}
+    .scrollbarType1:hover {overflow: auto; transition: $delay;}
+
+    .scrollbarTypeDefault {  overflow: auto;scrollbar-width: thin;scrollbar-color: transparent transparent}
+    .scrollbarTypeDefault:hover {  scrollbar-color: #444 transparent;}
+    .scrollbarTypeDefault::-webkit-scrollbar {width: 10px;}
+    .scrollbarTypeDefault::-webkit-scrollbar-track {background: transparent;}
+    .scrollbarTypeDefault::-webkit-scrollbar-thumb {background-color: transparent;}
+    .scrollbarTypeDefault:hover::-webkit-scrollbar-thumb {background-color: #444; }
+
+
+    .logo {font-family: "logo";font-size: 100px;border-radius: 30px;
+        background:linear-gradient(195deg, rgb(248, 248, 248), rgb(255, 255, 255));
+        box-shadow: rgba(81, 1, 73, 0.5) 0rem 0.25rem 1.25rem 0rem, rgba(61, 3, 57, 2) 0rem 0.4375rem 0.625rem -0.3125rem;
+        display: flex;justify-content: center;text-align: center;margin: auto;padding:20px 20px 10px 10px;width:180px;height:150px;
+        font-size: 180px; color:$textColor;
+    }
+    
+    
+    /*
+        ---- All Buttons ----
+    */
+
+    // CLOSE button
+    .stdclose{color:lighten($textColor,30)}
+    .stdclose:hover{color:lighten($textColor,20);cursor: pointer;}
+
+    // GREEN button
+    .stdButton {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
+        padding:8px 25px;background:$green;color:white;cursor:pointer;transition: $delay;
+        text-align:'center';justify-content: 'center';border-radius: 5px;
+    }
+    .stdButton:active {border:0px}
+    .stdButton:hover {border:0px;background: lighten($green, 5);transition: $delay;}
+
+    // REB button
+    .stdButton0 {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
+        padding:8px 25px;background:$red;color:white;cursor:pointer;transition: $delay;
+        text-align:'center';justify-content: 'center';border-radius: 5px;
+    }
+    .stdButton0:active {border:0px}
+    .stdButton0:hover {border:0px;background: lighten($red, 5);transition: $delay;}
+
+    /*
+        ---- Title Buttons ----
+    */
+    .dragOn {-webkit-app-region:drag;}
+    .dragOff {-webkit-app-region:no-drag;}
+    $dimentions: 15px;
+    .topTitleButtonFirst {text-align:'center';background: $backgroundColor;font-size: 16px;text-decoration: none;border:0px;
+        border-color: $borderColor; padding:4px 8px;color:darken($textColor,30);cursor:pointer;transition: $delay; border-left:$borderColor solid 1px;
+        border-top:$borderColor solid 1px;border-bottom:$borderColor solid 1px;border-top-left-radius: 7px;border-bottom-left-radius: 7px;
+    }
+    .topTitleButtonFirst:hover {background: lighten($backgroundColor, 10);color: lightdarkenen($textColor,10);}
+    .topTitleButton {text-align:'center';background: $backgroundColor;font-size: 16px;text-decoration: none;border:0px;
+        padding:4px 8px;color:darken($textColor,30);cursor:pointer;transition: $delay; border-left:$borderColor solid 1px;
+        border-top:$borderColor solid 1px;border-bottom:$borderColor solid 1px;
+    }
+    .topTitleButton:hover {background: lighten($backgroundColor, 10);color: darken($textColor,10);}
+    .topTitleButtonLast {text-align:'center';background: $backgroundColor;font-size: 16px;text-decoration: none;border:0px;border-left:$borderColor solid 1px;
+        border-color: $borderColor; padding:4px 8px;color:darken($textColor,30);cursor:pointer;transition: $delay; border-right:$borderColor solid 1px;
+        border-top:$borderColor solid 1px;border-bottom:$borderColor solid 1px;border-top-right-radius: 7px;border-bottom-right-radius: 7px;
+    }
+    .topTitleButtonLast:hover {
+        background: darken(#EC4C47, 0);color: #fff;
+        border-color: darken(#EC4C47, 0);
+    }
+
+        .titleButtonFirst {text-align:'center';background: darken($backgroundColor, 10);font-size: 16px;text-decoration: none;border:0px;
+            border-color: darken($backgroundColor, 20); padding:4px 8px;color:$textColor;cursor:pointer;transition: $delay; border-left:darken($backgroundColor, 20) solid 1px;
+            border-top:darken($backgroundColor, 20) solid 1px;border-bottom:darken($backgroundColor, 20) solid 1px;border-top-left-radius: 7px;border-bottom-left-radius: 7px;
+        }
+        .titleButtonFirst:hover {background: lighten($backgroundColor, 10);}
+        .titleButtonFirst_disabled {text-align:'center';background: darken($backgroundColor, 10);font-size: 16px;text-decoration: none;border:0px;
+            border-color: darken($backgroundColor, 20); padding:4px 8px;color:$textColor;transition: $delay; border-left:darken($backgroundColor, 20) solid 1px;
+            border-top:darken($backgroundColor, 20) solid 1px;border-bottom:darken($backgroundColor, 20) solid 1px;border-top-left-radius: 7px;border-bottom-left-radius: 7px;
+            color:lighten($textColor, 35);
+        }
+        .titleButton {text-align:'center';background: darken($backgroundColor, 10);font-size: 16px;text-decoration: none;border:0px;
+            padding:4px 8px;color:$textColor;cursor:pointer;transition: $delay; border-left:darken($backgroundColor, 20) solid 1px;
+            border-top:darken($backgroundColor, 20) solid 1px;border-bottom:darken($backgroundColor, 20) solid 1px;
+        }
+        .titleButton:hover {background: lighten($backgroundColor, 10);}
+        .titleButton_disabled {text-align:'center';background: darken($backgroundColor, 10);font-size: 16px;text-decoration: none;border:0px;
+            padding:4px 8px;color:$textColor;transition: $delay; border-left:darken($backgroundColor, 20) solid 1px;color:lighten($textColor, 35);
+            border-top:darken($backgroundColor, 20) solid 1px;border-bottom:darken($backgroundColor, 20) solid 1px;
+        }
+        .titleButtonLast {text-align:'center';background: darken($backgroundColor, 10);font-size: 16px;text-decoration: none;border:0px;border-left:darken($backgroundColor, 20) solid 1px;
+            border-color: darken($backgroundColor, 20); padding:4px 8px;color:$textColor;cursor:pointer;transition: $delay; border-right:darken($backgroundColor, 20) solid 1px;
+            border-top:darken($backgroundColor, 20) solid 1px;border-bottom:darken($backgroundColor, 20) solid 1px;border-top-right-radius: 7px;border-bottom-right-radius: 7px;
+        }
+        .titleButtonLast:hover {background: lighten($backgroundColor, 10);}
+        .titleButtonLast_disabled {text-align:'center';background: darken($backgroundColor, 10);font-size: 16px;text-decoration: none;border:0px;border-left:darken($backgroundColor, 20) solid 1px;
+            border-color: darken($backgroundColor, 20); padding:4px 8px;color:$textColor;transition: $delay; border-right:darken($backgroundColor, 20) solid 1px;color:lighten($textColor, 35);
+            border-top:darken($backgroundColor, 20) solid 1px;border-bottom:darken($backgroundColor, 20) solid 1px;border-top-right-radius: 7px;border-bottom-right-radius: 7px;
+        }
+
+    /*
+        ---- Animation ----
+    */
+    .animationRightBar{position:absolute;right:-300px;animation: moveAnimationRightBar 0.25s ease-in-out forwards;}
+    @keyframes moveAnimationRightBar {
+        0%      { right:-300; }
+        100%    { right: 0px; }
+    }
+    .animateTrial{border: 1px dashed RED;width:100px;position:absolute;left:0;height:100px;animation: moveToRight 0.2s linear forwards;}
+    @keyframes moveToRight {
+        0%      { left:0; }
+        100%    { left: 200px; }
+    }
+
+    /*
+        ---- Other Standards ----
+    */
+    .stdbox {
+        background: linear-gradient(195deg, $backgroundColor, $backgroundColor2); color:$textColor;padding:10px 20px 10px;border-radius: 10px;color:#fff;
+        box-shadow: rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem, rgba(64, 64, 64, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem;}
+    
+    .stdbgHighlight{background: $backgroundColor2; cursor: pointer;}
+    .stdbgList:hover{background: $backgroundColor2; cursor: pointer;}
+    .stdcolorblur{color:lighten($textColor,20)}
+    .stdcolorblurHover{color:lighten($textColor,40);cursor: pointer;}
+    .stdcolorblurHover:hover{color:lighten($textColor,0)}
+    .error {color:RED;margin: 2px 0px 7px;font-size: small;}
+    .stdBackground {background: $backgroundColor;}
+    .stdTextColor {color: $textColor;}
+    .stdBorder {border:1px solid $borderColor;}
+    .stdBorderBottomDashed {border:1px dashed lighten($borderColor,8);border-left: 0px;border-right: 0px;border-top: 0px;}
+    .bg1{background: $green;color:#eee}
+    .bg2{background: $red;color:#eee}
+    .txt1{color:$green}
+    .txt0{color:$red}
+    .greyout{border:1px solid lighten($borderColor,2);color:lighten($textColor,15)}
+    .backgroundShaded1{border:1px solid lighten($borderColor,2);color:$textColor}
+    .backgroundShaded10{border:1px solid lighten($borderColor,2);color:$textColor}
+    .backgroundShaded15{border:1px solid lighten($borderColor,2);color:$textColor}
+    .backgroundShaded20{border:1px solid lighten($borderColor,2);color:$textColor}
+    .backgroundShaded25{border:1px solid lighten($borderColor,2);color:$textColor}
+    .backgroundShaded5{border:1px solid lighten($borderColor,2);color:$textColor}
+    .stdPadding {padding:10px 20px;}
+    .tableTitle {background: $backgroundColor;background: #111;}
+}

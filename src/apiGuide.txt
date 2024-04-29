@@ -1,0 +1,147 @@
+/src/
+App.js
+    useEffect	    fetchData	    api/be/v1.0/a3/getRBAC
+
+/src/components/typeA/
+login.js
+    onSubmit	    fetchData	    api/be/v1.0/a3/authenticate
+
+resetPassword.js
+    onSubmit	    fetchData	    api/be/v1.0/a3/authenticate
+
+/src/businessComponents/
+BO_mD_table.js
+    onSubmit	    LoadContentsAPI	api/be/standard/select	DBA_Select	Database search query to search 'inputValue' from the INPUT searchbox
+    useEffect	    LoadContentsAPI	api/be/standard/select	DBA_Select	This method calls for the lists contents to be rendered in table (with CONDITIONS)
+    useEffect	    fetchData	    api/be/standard/select	DBA_Select	This method gets the structure of the database
+    useEffect	    LoadContentsAPI	api/be/standard/select	DBA_Select	This method calls for the lists contents to be rendered in table
+    handleScroll	LoadContentsAPI	api/be/standard/select	DBA_Select	Detect instance when scrollbar of listings hits bottom
+
+RB_mD_edit.js
+    onSubmit	    fetchData	    api/be/standard/insert	DBA_Insert	Database write request for submitted form
+    onSubmit	    fetchData	    api/be/standard/update	DBA_Update	Database write request for submitted form
+    fetchOptions	fetchData	    api/be/standard/select	DBA_Select	Database read query
+    useEffect	    fetchData	    api/be/standard/delete	DBA_Delete	Database delete request
+
+
+----- Database Structures -----
+
+__struct
+
+    { 		
+        "name":"code", 		
+        "dispName":"Code", 		
+        "description":"Category of Interpretation", 		
+        "s1":"code",
+        "s2":"codedesc",
+        "s3":"codedesc",
+        "search":
+        "edit": false
+    }
+
+__cols
+    [ 		
+        {
+            "name":"code",
+            "dispName":"Code",
+            "dimention":"30%",
+            "visible":true,
+            "input_type":"text",
+            "input_datatype":"string",
+            "input_mandatory":true,
+            "input_title":"Form Name",
+            "input_validations":"ValidateSQLInjection"	
+        }, 		
+        {
+            "name":"codedesc",
+            "dispName":"Description",
+            "dimention":"50%",
+            "visible":true,
+            "input_type":"text",
+            "input_datatype":"string",
+            "input_mandatory":true,
+            "input_title":"Result Description",
+            "input_validations":"ValidateSQLInjection"
+        }, 		
+        {
+            "name":"status",
+            "dispName":"Status",
+            "dimention":"10%",
+            "visible":false,
+            "input_type":"text",
+            "input_datatype":"int",
+            "input_mandatory":true,
+            "input_title":"Status",
+            "input_validations":"ValidateSQLInjection"
+        } 	
+    ]
+
+
+insert into structure (name) values("cols");
+
+
+
+
+
+
+{ 		
+    "name":"code", 		
+    "dispName":"Code", 		
+    "description":"Category of Interpretation", 		
+    "s1":"code","s2":"codedesc","s3":"codedesc",
+    "search":true,
+    "add":false,
+    "columns":true
+}
+
+{
+    "name":"coi",
+    "dispName":"CoI",
+    "description":"Category of Interpretation",
+    "s1":"comments","s2":"description","s3":"description",
+    "search":true,
+    "add":false,
+    "columns":true
+}
+
+
+{
+    "name":"Business Accounts", 
+    "position":"top", 
+    "listing":true,
+    "dynamic":"mejoraDefault",
+    "dynamicListings":[
+        {
+            "dispName":"CoI", 
+            "name":"coi",
+            "description":"Category of Interpretation"
+        },
+        {
+            "dispName":"Code", 
+            "name":"code",
+            "description":"Business Code"
+        }
+    ],
+    "isMenu":{
+        "name":"List",
+        "listing":true,
+        "size":"280px"
+    },
+    "menu":[
+        {
+            "name":"List",
+            "listing":true,
+            "size":"280px"
+        },
+        {
+            "name":"Analytics",
+            "listing":true,
+            "size":"280px"
+        },
+        {
+            "name":"Logging",
+            "listing":true,
+            "size":"280px"
+        }
+    ]
+}
