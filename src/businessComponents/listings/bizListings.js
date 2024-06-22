@@ -27,6 +27,8 @@ import { useSelector } from "react-redux"
 import LIST_MD_ITEMS from "../body/mejoraDefault/LI_mD_items"
 import LIST_MA3_ITEMS from "../body/mejoraA3/LI_mA3_items"
 import LIST_ACCOUNT_SETTING from "../body/account/LI_accountSetting"
+import LIST_MR_REPORTS from "../dynamicModules/mejoraReports/LI_mR_reports"
+import LIST_MA_REPORTS from "../dynamicModules/mejoraAnalytics/LI_mR_reports"
 
 const BizListings = () =>{
 
@@ -40,6 +42,10 @@ const BizListings = () =>{
                 return <LIST_MD_ITEMS/>
             else if(state.selectedMenu.dynamic === "mejoraA3") 
                 return <LIST_MA3_ITEMS/>
+            else if(state.selectedMenu.dynamic === "mejoraReports") 
+                return <LIST_MR_REPORTS/>
+            else if(state.selectedMenu.dynamic === "mejoraAnalytics") 
+                return <LIST_MA_REPORTS/>
         }
         else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")){
             return <LIST_ACCOUNT_SETTING/>

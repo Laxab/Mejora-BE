@@ -43,6 +43,9 @@ const ACCOUNT_ROLES = lazy(()=>import("./account/BO_accountRoles"))
 const ACCOUNT_DETAILS = lazy(()=>import("./account/BO_accountDetails"))
 const BODY_MD_TABLE = lazy(()=>import("./mejoraDefault/BO_mD_table"))
 const HOMEPAGE = lazy(()=>import("../../components/typeA/homepage"))
+const BODY_MR_TABLE = lazy(()=>import("../dynamicModules/mejoraReports/BO_mR_table"))
+const BODY_MA_TABLE = lazy(()=>import("../dynamicModules/mejoraAnalytics/BO_mR_table"))
+const BODY_MDASH_DASHBOARD = lazy(()=>import("../dynamicModules/mejoraDashboard/BO_mDash_dashboard"))
 
 
 const BizBody = () =>{
@@ -68,6 +71,12 @@ const BizBody = () =>{
                 return <Suspense fallback={<div>Loading</div>}><BODY_MA3_ANALYTICS/></Suspense>
             else if ((state.selectedMenu.dynamic==="mejoraA3")&&(state.selectedMenu.isMenu.name==="Logging"))
                 return <Suspense fallback={<div>Loading</div>}><BODY_MA3_LOGGING/></Suspense>
+            else if ((state.selectedMenu.dynamic==="mejoraReports")&&(state.selectedMenu.isMenu.name==="Download"))
+                return <Suspense fallback={<div>Loading</div>}><BODY_MR_TABLE/></Suspense>
+            else if ((state.selectedMenu.dynamic==="mejoraAnalytics")&&(state.selectedMenu.isMenu.name==="Analytics"))
+                return <Suspense fallback={<div>Loading</div>}><BODY_MA_TABLE/></Suspense>
+            else if ((state.selectedMenu.dynamic==="mejoraDashboard")&&(state.selectedMenu.isMenu.name==="Dashboard"))
+                return <Suspense fallback={<div>Loading</div>}><BODY_MDASH_DASHBOARD/></Suspense>
         }
         else{
             if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Account Details"))
@@ -76,11 +85,11 @@ const BizBody = () =>{
                 return <Suspense fallback={<div>Loading</div>}><ACCOUNT_ROLES/></Suspense>
             else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Developer Lookup"))
                 return <Suspense fallback={<div>Loading</div>}><ACCOUNT_THEMES/></Suspense>
-            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")&&(state.bodyContents.dispName==="Roles"))
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")&&(state?.bodyContents?.dispName==="Roles"))
                 return <Suspense fallback={<div>Loading</div>}><ACCOUNT_ROLES/></Suspense>
-            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")&&(state.bodyContents.dispName==="Theme"))
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")&&(state?.bodyContents?.dispName==="Theme"))
                 return <Suspense fallback={<div>Loading</div>}><ACCOUNT_SETTING_THEME/></Suspense>
-            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")&&(state.bodyContents.dispName==="Password"))
+            else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings")&&(state?.bodyContents?.dispName==="Password"))
                 return <Suspense fallback={<div>Loading</div>}><ACCOUNT_SETTING_PASSWORD/></Suspense>
             else if ((state.selectedMenu.name==="Account")&&(state.selectedMenu.isMenu.name==="Settings"))
                 return <Suspense fallback={<div>Loading</div>}><DefaultSelectLeft/></Suspense>
@@ -88,8 +97,6 @@ const BizBody = () =>{
                 return <Suspense fallback={<div>Loading</div>}><BODY_NV_SEARCH/></Suspense>
             else if ((state.selectedMenu.name==="Network Visualization") && (state.selectedMenu.isMenu.name==="History"))
                 return <Suspense fallback={<div>Loading</div>}><BODY_NV_HISTORY/></Suspense>
-            else if ((state.selectedMenu.name==="Home") && (state.selectedMenu.isMenu.name==="About"))
-                return <Suspense fallback={<div>Loading</div>}><HOMEPAGE/></Suspense>
             else return null
         }
     }

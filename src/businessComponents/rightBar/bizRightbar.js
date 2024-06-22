@@ -36,6 +36,10 @@ import RB_MD_ADD from "../body/mejoraDefault/RB_mD_add"
 import RB_MA3_COLS from "../body/mejoraA3/RB_mA3_columns"
 import RB_MA3_EDIT from "../body/mejoraA3/RB_mA3_edit"
 import RB_MA3_ADD from "../body/mejoraA3/RB_mA3_add"
+import RB_MR_ADDREPORT from "../dynamicModules/mejoraReports/RB_mR_addRepAdv"
+import RB_MR_EDITREPORT from "../dynamicModules/mejoraReports/RB_mR_editReport"
+import RB_MA_ADDREPORT from "../dynamicModules/mejoraAnalytics/RB_mR_addRepAdv"
+import RB_MA_EDITREPORT from "../dynamicModules/mejoraAnalytics/RB_mR_editReport"
 
 const BixRightbar = () =>{
     // Primary Definitions
@@ -54,6 +58,14 @@ const BixRightbar = () =>{
             return <div><RB_MA3_EDIT/></div>
         else if(list === "RB_mA3_add")
             return <div><RB_MA3_ADD/></div>
+        else if(list === "RB_mR_addRepAdv")
+            return <div><RB_MR_ADDREPORT/></div>
+        else if(list === "RB_mR_editReport")
+            return <div><RB_MR_EDITREPORT/></div>
+        else if(list === "RB_mA_addRepAdv")
+            return <div><RB_MA_ADDREPORT/></div>
+        else if(list === "RB_mA_editReport")
+            return <div><RB_MA_EDITREPORT/></div>
         else
             return <div style={{zIndex:10}}> Test - {list}</div>
     }

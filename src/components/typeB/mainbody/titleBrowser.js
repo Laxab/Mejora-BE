@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {icon} from '../../typeC/icons'
 import { LuSettings } from 'react-icons/lu';
 import {checkSubComponent} from '../../../businessComponents/others/roleChecks';
+import { FaBullseye } from 'react-icons/fa6';
 
 // Redux definitions
 const { useSelector, useDispatch } = require("react-redux")
@@ -36,6 +37,12 @@ const Title = () =>{
             settemp(0)
     }
 
+    const selectDynamic = (data) =>{
+        const dynamicContents = ["mejoraDefault","mejoraA3"]
+        if(dynamicContents?.includes(data)) {return true;}
+        else return false
+    }
+
 
 
 
@@ -55,7 +62,7 @@ const Title = () =>{
 
                 
                 {
-                    state?.selectedMenu?.dynamic !== false
+                    selectDynamic(state?.selectedMenu?.dynamic)
                     ?
                     state?.bodyContents?.rbac?.map((data,index) => {
                         if(data.name)
@@ -114,7 +121,7 @@ const Title = () =>{
 
                 }
                 {
-                    state?.selectedMenu?.dynamic !== false
+                    selectDynamic(state?.selectedMenu?.dynamic)
                     ?
                     state?.bodyContents?.rbac?.length >3 
                     &&

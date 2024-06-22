@@ -22,6 +22,16 @@ const RightBar = () =>{
         dispatch({type:'RIGHTBAR_OFF'})
     }
 
+    const getTitleInfo = () =>{
+        if(state?.bodyContents?.dispName) return state?.bodyContents?.dispName
+        else return state?.rightBar?.title
+    }
+
+    const getSubTitleInfo = () =>{
+        if(state?.bodyContents?.dispName) return state?.rightBar?.title
+        else return null
+    }
+
     return <div>{ state.rightBar.state &&
 
         <>
@@ -33,10 +43,10 @@ const RightBar = () =>{
             }}>
                 <div className="animationRightBarss" style={{zIndex:'10'}}>
                     <div className="stdBorder_NOT stdPadding tableTitle" style={{width:'calc(100% - 40px)',height:'auto',borderTop:'0px',borderLeft:'0px',borderRight:'0px',display:'flex'}}>
-                        <div style={{margin:'auto 10px auto 0px'}}> <Box dim={'45px'} txt={state.bodyContents.dispName}/></div>
+                        <div style={{margin:'auto 10px auto 0px'}}> <Box dim={'45px'} txt={getTitleInfo()}/></div>
                         <div style={{display:'flex',flexDirection:'column',margin:'auto auto auto 0px',textAlign:'left'}}>
-                            <div style={{fontSize:'large'}}><b>{state.bodyContents.dispName}</b></div>
-                            <div style={{fontSize:'small'}}>{state.rightBar.title}</div>
+                            <div style={{fontSize:'large'}}><b>{getTitleInfo()}</b></div>
+                            <div style={{fontSize:'small'}}>{getSubTitleInfo()}</div>
                         </div>
                         <div style={{display:'flex',margin:'auto 0px',width:'20%',fontSize:'28px',justifyContent:'flex-end',border:'0px dashed red'}}><h2><RiCloseCircleFill onClick={()=>onClose()} className="stdclose" style={{paddingTop:'7px'}}/></h2></div>
                     </div>

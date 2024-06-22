@@ -62,6 +62,9 @@ export const colorBankBravo = ['#D85297','#52D8A1','#9352D8','#3498DB','#D8BA52'
 '#E67E22','#27AE60','#2C3E50', '#F39C12','#C252D8'
   ];
 
+export const colorBankCharlie = ['#9352D8','#1ABC9C','#8E44AD','#2C3E50','#C54062','#526CD8'
+    ];
+
 export const ColorSelection1 = (count) =>{
     if(count+1 >= colorBankAlpha.length){
         return colorBankAlpha[0]
@@ -113,6 +116,29 @@ export const color = (word) => {
   
     return [gradients[Math.floor(scaledHash)], Math.floor(scaledHash)];
   };
+
+
+export const charlieColors = (word) => {
+  const gradients = colorBankCharlie;
+  const max = gradients?.length - 1;
+
+  // Use a more robust hashing method
+  let hash = 0;
+  if (word) {
+    for (let i = 0; i < word.length; i++) {
+      hash = (hash << 5) - hash + word.charCodeAt(i);
+    }
+  }
+
+  // Ensure hash is positive
+  hash = Math.abs(hash);
+
+  // Use a prime number to reduce clustering and scale the hash
+  const scaledHash = (hash * 31) % (max + 1);
+
+  //return [gradients[Math.floor(scaledHash)], Math.floor(scaledHash)];
+  return gradients[scaledHash];
+};
   
 
 
@@ -128,7 +154,7 @@ const Box = (props) =>{
         fontSize:`calc(${dim}/2.5)`
     }
     return <div style={style}>
-        <div style={{display:'flex', margin:'auto', color:'#fff'}}><b>{txt.slice(0,2)}</b></div>
+        <div style={{display:'flex', margin:'auto', color:'#fff'}}><b>{txt?.slice(0,2)}</b></div>
     </div>
 }
 

@@ -10,8 +10,8 @@
     $borderColor2:#C0C3CD;
     $textColor: #333333;
     $gapStd:15px;
-    $color1: #310565;
-    $color2: #310565;
+    $color1: #2A0363;
+    $color2: #2A0363;
     $delay:0.2s;
     $green:#0FA551;
     $red:#B83C3C;
@@ -51,6 +51,12 @@
         */
         .listingBodyOn {width:$listingsWidth;height:100vh;background:$backgroundColor;transition: $delay;}
         .listingBodyOff {width:0px;height:100vh;background:$backgroundColor;transition: $delay;}
+        .listButton {text-align:'center';background: $backgroundColor;font-size: 16px;text-decoration: none;border:0px;
+            padding:4px 8px;color:darken($textColor,30);cursor:pointer;transition: $delay; border-left:1px solid $borderColor;;
+        }
+        .listButton:hover {background: darken($backgroundColor, 10);}
+        .nullInputText {background: $backgroundColor;border-radius: 0px;}
+        .nullInputText:focus {background: $backgroundColor;}
 
 
         /* 
@@ -122,6 +128,10 @@
     // CLOSE button
     .stdclose{color:lighten($textColor,30)}
     .stdclose:hover{color:lighten($textColor,20);cursor: pointer;}
+    .stdcloseRed{color:darken($borderColor,30);}
+    .stdcloseRed:hover{color:lighten($red,00);cursor: pointer;}
+    .stdcloseGreen{color:darken($borderColor,30);}
+    .stdcloseGreen:hover{color:lighten($green,00);cursor: pointer;}
 
     // GREEN button
     .stdButton {display:flex;margin-left: 0px;font-size: 16px;text-decoration: none;border:0px;
@@ -223,6 +233,7 @@
     .stdBackground {background: $backgroundColor;}
     .stdTextColor {color: $textColor;}
     .stdBorder {border:1px solid $borderColor;}
+    .stdBorderDarken1 {border:1px solid darken($borderColor,10);}
     .stdBorderBottomDashed {border:1px dashed darken($borderColor,8);border-left: 0px;border-right: 0px;border-top: 0px;}
     .bg1{background: $green;color:#eee}
     .bg2{background: $red;color:#eee}
@@ -235,6 +246,10 @@
     .backgroundShaded20{background: darken($backgroundColor,20);color:$textColor}
     .backgroundShaded25{background: darken($backgroundColor,25);color:$textColor}
     .backgroundShaded5{background: darken($backgroundColor,5);color:$textColor}
+    .backgroundColor1Shade1{background: lighten($color1,40);color:$backgroundColor}
+    .backgroundColor1Shade2{background: lighten($color1,70);color:lighten($color1,20)}
+    .backgroundColor2Shade1{background: lighten($color2,40);color:$backgroundColor}
+    .backgroundColor2Shade2{background: lighten($color2,70);color:lighten($color2,20)}
     .stdPadding {padding:10px 20px;}
     .tableTitle {background: $backgroundColor;  box-shadow:0px 15px 15px -10px lighten($textColor,60)}
 }

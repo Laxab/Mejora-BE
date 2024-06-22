@@ -5,6 +5,9 @@ const initialState = {
     businessName:customerRepo.businessName,
     businessUnit:customerRepo.businessUnit,
     loginPageFooter:customerRepo.loginPageFooter,
+    shortLogoSize:customerRepo.shortLogoSize,
+    sidenavSmallLogoSize:customerRepo.sidenavSmallLogoSize,
+    sidenavLongLogoSize:customerRepo.sidenavLongLogoSize,
     counter: 0,
     theme:'lightMode', // 'lightMode' 'darkMode' 'darkContrast'
     login:false,

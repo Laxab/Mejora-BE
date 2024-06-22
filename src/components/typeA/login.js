@@ -89,9 +89,9 @@ const Login = () =>{
 
         </div>
         
-        <div className="stdbox" style={{height:'auto',zIndex:'20',display:'flex',margin:'10% 0px auto',padding:'30px 40px 10px'}}>
+        <div className="stdbox" style={{borderRadius:'0px',height:'auto',zIndex:'20',display:'flex',margin:'10% 0px auto',padding:'30px 40px 10px'}}>
             <div style={{display:'flex',flexDirection:'column',color:'#000'}}>
-                <div className='buttonName fabricTextColor' style={{fontFamily:'logo', fontSize:'150px',margin:'0px',
+                <div className='buttonName fabricTextColor' style={{fontFamily:'logo', fontSize:state.shortLogoSize,margin:'0px',
                     padding:'0px 0px 30px',
                     textAlign:'center',lineHeight:'120px'
                 }}>
@@ -202,7 +202,7 @@ const Login = () =>{
 
         <div style={{
             position:'absolute',zIndex:'20',bottom:'0px',width:'100%',background:'#000',color:'#666',textAlign:'center',
-            padding:'10px 0px', fontSize:'12px', letterSpacing:'1px'
+            padding:'10px 0px', fontSize:'15px', letterSpacing:'0.8px'
         }}>
             {state.loginPageFooter}
         </div>

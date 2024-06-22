@@ -50,6 +50,13 @@ const Title = () =>{
         }
     };
 
+    const selectDynamic = (data) =>{
+        alert(data);
+        const dynamicContents = ["mejoraDefault","mejoraA3"]
+        if(dynamicContents?.includes(data)) {return true;}
+        else return false
+    }
+
 
     return <div className='dragOn'>
         {
@@ -67,7 +74,7 @@ const Title = () =>{
 
                 
                 {
-                    state?.selectedMenu?.dynamic !== false
+                    selectDynamic(state?.selectedMenu?.dynamic)
                     ?
                     state?.bodyContents?.rbac?.map((data,index) => {
                         if(data.name)
@@ -126,7 +133,7 @@ const Title = () =>{
 
                 }
                 {
-                    state?.selectedMenu?.dynamic !== false
+                    selectDynamic(state?.selectedMenu?.dynamic)
                     ?
                     state?.bodyContents?.rbac?.length >3 
                     &&
